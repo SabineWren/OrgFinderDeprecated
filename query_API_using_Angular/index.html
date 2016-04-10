@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<!-- Include the AngularJS library -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<!-- -->
+<body ng-app="insertsApp">
+
+	<div class="main" ng-controller="MainController">
+		<div class="card" ng-repeat="member in members.data"> 
+          <app-member-info info="member"></app-member-info>
+        </div>
+	</div>
+
+	<!-- Modules -->
+	<script src="js/inserts.js"></script>
+
+	<!-- Controllers -->
+	<script src="js/controllers/mainController.js"></script>
+
+	<!-- Services -->
+	<script src="js/services/membersObject.js"></script>
+		
+	<!-- Directives -->
+	<script src="js/directives/appMemberInfo.js"></script>
+
+
+</body>
+</html>
+	 		
