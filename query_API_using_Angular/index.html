@@ -10,8 +10,9 @@
 <body ng-app="insertsApp">
 
 	<div class="main" ng-controller="MainController">
-		<p>SID: <input type="text" ng-model="SID"></p>
- 		<p>field is: {{SID}}</p>
+		<p>Enter an SID: <input type="text" ng-model="SID"></p>
+ 		<p>'Go!' will retrieve member list for Org SID {{SID}}</p>
+ 		<p>The current list has {{ members.data.length }} members.<p>
  		<input type="button" ng-click="getMembers()" value="Go!" />
 		<div class="card" ng-repeat="member in members.data"> 
           <app-member-info info="member"></app-member-info>
@@ -29,6 +30,9 @@
 		
 	<!-- Directives -->
 	<script src="js/directives/appMemberInfo.js"></script>
+	
+	<!-- Filters -->
+	<script src="js/filters.js"></script>
 
 
 </body>
