@@ -11,5 +11,6 @@ Cognition Corp. website and database development
 
 ###long term: 
 
-1. add passwords and restrict access to update page
+1. Add passwords and restrict access to update page
 
+2. Add graphs to visualize data
