@@ -1,4 +1,4 @@
-app.directive('appMemberInfo', function() { 
+insertsApp.directive('appMemberInfo', function() { 
   return { 
     restrict: 'E', 
     scope: { 

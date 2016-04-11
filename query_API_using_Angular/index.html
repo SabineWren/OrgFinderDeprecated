@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <!-- Include the AngularJS library -->
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <!-- -->
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
 <body ng-app="insertsApp">
 
 	<div class="main" ng-controller="MainController">
+		<p>SID: <input type="text" ng-model="SID"></p>
+ 		<p>field is: {{SID}}</p>
+ 		<input type="button" ng-click="getMembers()" value="Go!" />
 		<div class="card" ng-repeat="member in members.data"> 
           <app-member-info info="member"></app-member-info>
         </div>
@@ -18,7 +25,7 @@
 	<script src="js/controllers/mainController.js"></script>
 
 	<!-- Services -->
-	<script src="js/services/membersObject.js"></script>
+	<!--script src="js/services/membersFactory.js"></script-->
 		
 	<!-- Directives -->
 	<script src="js/directives/appMemberInfo.js"></script>
