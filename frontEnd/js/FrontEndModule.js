@@ -1,1 +1,1 @@
-var FrontEndApp = angular.module('FrontEndApp', []);
+var FrontEndApp = angular.module('FrontEndApp', ['ngResource']);

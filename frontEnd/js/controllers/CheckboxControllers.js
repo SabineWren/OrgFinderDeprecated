@@ -4,15 +4,11 @@ FrontEndApp.controller('CheckboxOuterController', ['$scope',function($scope) {
 	
 }]);
 
-/* Activities
- * @Dependencies:
- * -- directive checkChanged.js */
-FrontEndApp.controller('CheckboxActiviesController', ['$scope', '$http', 'checkChangedService',function($scope, $http, checkChangedService) {
+/* Activities */
+FrontEndApp.controller('CheckboxActivitiesController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 
 	/* Checkbox Elements */
-	$http.get('frontEnd/data/Activities.json').success(function(data){
-		$scope.checkboxModel = data;
-	});
+	$scope.checkboxModel = checkboxService.query({file: "Activities.json"});
 	
 	$scope.checked = 0;
 	
@@ -22,15 +18,11 @@ FrontEndApp.controller('CheckboxActiviesController', ['$scope', '$http', 'checkC
 	
 }]);
 
-/* Archetype
- * @Dependencies:
- * -- directive checkChanged.js */
-FrontEndApp.controller('CheckboxArchetypeController', ['$scope', '$http', 'checkChangedService',function($scope, $http, checkChangedService) {
+/* Archetype */
+FrontEndApp.controller('CheckboxArchetypeController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 
 	/* Checkbox Elements */
-	$http.get('frontEnd/data/Archetype.json').success(function(data){
-		$scope.checkboxModel = data;
-	});
+	$scope.checkboxModel = checkboxService.query({file: "Archetype.json"});
 	
 	$scope.checked = 0;
 	
@@ -43,12 +35,10 @@ FrontEndApp.controller('CheckboxArchetypeController', ['$scope', '$http', 'check
 /* Commitment
  * @Dependencies:
  * -- directive checkChanged.js */
-FrontEndApp.controller('CheckboxCommitmentController', ['$scope', '$http', 'checkChangedService',function($scope, $http, checkChangedService) {
+FrontEndApp.controller('CheckboxCommitmentController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 	
 	/* Checkbox Elements */
-	$http.get('frontEnd/data/Commitment.json').success(function(data){
-		$scope.checkboxModel = data;
-	});
+	$scope.checkboxModel = checkboxService.query({file: "Commitment.json"});
 	
 	$scope.checked = 0;
 	
@@ -61,12 +51,10 @@ FrontEndApp.controller('CheckboxCommitmentController', ['$scope', '$http', 'chec
 /* Recruiting
  * @Dependencies:
  * -- directive checkChanged.js */
-FrontEndApp.controller('CheckboxRecruitingController', ['$scope', '$http', 'checkChangedService',function($scope, $http, checkChangedService) {
+FrontEndApp.controller('CheckboxRecruitingController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 	
 	/* Checkbox Elements */
-	$http.get('frontEnd/data/Recruiting.json').success(function(data){
-		$scope.checkboxModel = data;
-	});
+	$scope.checkboxModel = checkboxService.query({file: "Recruiting.json"});
 	
 	$scope.checked = 0;
 	
@@ -79,12 +67,10 @@ FrontEndApp.controller('CheckboxRecruitingController', ['$scope', '$http', 'chec
 /* Recruiting
  * @Dependencies:
  * -- directive checkChanged.js */
-FrontEndApp.controller('CheckboxRolePlayController', ['$scope', '$http', 'checkChangedService',function($scope, $http, checkChangedService) {
+FrontEndApp.controller('CheckboxRolePlayController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 	
 	/* Checkbox Elements */
-	$http.get('frontEnd/data/RolePlay.json').success(function(data){
-		$scope.checkboxModel = data;
-	});
+	$scope.checkboxModel = checkboxService.query({file: "RolePlay.json"});
 	
 	$scope.checked = 0;
 	
