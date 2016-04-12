@@ -1,16 +1,19 @@
 # Cognition.corp
-Cognition Corp. website and database development
+Cognition Corp website and database development
 
-## Current Steps aligned
+To host the app locally, add and run dependencies. We provide the required steps for Debian-based GNU distributions:
+1) sudo apt-get install npm
+2) npm intstall angular-resource
+3) npm start
 
-###main priorities: 
+###current agile priorities: 
 
-1. 2-page angularjs app: view DB with drop down filters, and update DB
+1. Dual-view AngularJS front end: view DB with drop down filters, and update DB
 
-2.  PHP server to receive the queries and form them into SQL; same computer as MySQL server
+2.  PHP server to receive queries and transliterate to SQL. One computer hosts PHP server and MySQL server
 
 ###long term: 
 
-1. Add passwords and restrict access to update page
+1. Add passwords and restrict access to update view
 
 2. Add graphs to visualize data
