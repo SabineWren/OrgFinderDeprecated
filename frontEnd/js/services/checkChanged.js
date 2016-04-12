@@ -2,8 +2,14 @@
 FrontEndApp.factory('checkChangedService', function() {
     return {
         checkChanged: function(box, $scope) {
-            if(box) $scope.checked++;
-			else $scope.checked--;
+            if(box){
+            	$scope.checked++;
+            	$scope.$parent.checkedOuter++;
+            }
+			else{
+				$scope.checked--;
+				$scope.$parent.checkedOuter--;
+			}
         }
     };
 });

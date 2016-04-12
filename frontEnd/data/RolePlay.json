@@ -1,0 +1,10 @@
+[
+		{
+			"name": "Yes",
+			"isSelected": false
+		},
+		{
+			"name": "No",
+			"isSelected": false
+		}
+]
