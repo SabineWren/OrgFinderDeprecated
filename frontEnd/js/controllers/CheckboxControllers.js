@@ -7,6 +7,8 @@ FrontEndApp.controller('CheckboxOuterController', ['$scope',function($scope) {
 /* Activities */
 FrontEndApp.controller('CheckboxActivitiesController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 
+	$scope.Category = "Activities";
+
 	/* Checkbox Elements */
 	$scope.checkboxModel = checkboxService.query({file: "Activities.json"});
 	
@@ -20,6 +22,8 @@ FrontEndApp.controller('CheckboxActivitiesController', ['$scope', '$http', 'chec
 
 /* Archetype */
 FrontEndApp.controller('CheckboxArchetypeController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
+
+	$scope.Category = "Archetype";
 
 	/* Checkbox Elements */
 	$scope.checkboxModel = checkboxService.query({file: "Archetype.json"});
@@ -37,6 +41,8 @@ FrontEndApp.controller('CheckboxArchetypeController', ['$scope', '$http', 'check
  * -- directive checkChanged.js */
 FrontEndApp.controller('CheckboxCommitmentController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 	
+	$scope.Category = "Commitment";
+	
 	/* Checkbox Elements */
 	$scope.checkboxModel = checkboxService.query({file: "Commitment.json"});
 	
@@ -53,6 +59,8 @@ FrontEndApp.controller('CheckboxCommitmentController', ['$scope', '$http', 'chec
  * -- directive checkChanged.js */
 FrontEndApp.controller('CheckboxRecruitingController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
 	
+	$scope.Category = "Recruiting";
+	
 	/* Checkbox Elements */
 	$scope.checkboxModel = checkboxService.query({file: "Recruiting.json"});
 	
@@ -68,6 +76,8 @@ FrontEndApp.controller('CheckboxRecruitingController', ['$scope', '$http', 'chec
  * @Dependencies:
  * -- directive checkChanged.js */
 FrontEndApp.controller('CheckboxRolePlayController', ['$scope', '$http', 'checkChangedService', 'checkboxService', function($scope, $http, checkChangedService, checkboxService) {
+	
+	$scope.Category = "Role Play";
 	
 	/* Checkbox Elements */
 	$scope.checkboxModel = checkboxService.query({file: "RolePlay.json"});
