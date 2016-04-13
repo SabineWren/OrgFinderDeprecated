@@ -12,8 +12,7 @@ CREATE TABLE tbl_Countries(
 
 /* Second most important table - many tables FK to it */
 CREATE TABLE tbl_Persons(
-	Name VARCHAR(30) PRIMARY KEY,
-	Country VARCHAR(30)
+	Name VARCHAR(30) PRIMARY KEY)
 );
 
 CREATE TABLE tbl_FromCountry(
@@ -34,40 +33,26 @@ CREATE TABLE tbl_Organizations(
 CREATE TABLE tbl_OrgsInCog(
 	SID VARCHAR(10) UNIQUE NOT NULL,
 	Representative VARCHAR(30) NOT NULL,
-	FOREIGN KEY SID REFERENCES tbl_Organizations(SID),
-	FOREIGN KEY Representative REFERENCES tbl_Persons(Name)
+	FOREIGN KEY FK_SID(SID) REFERENCES tbl_Organizations(SID),
+	FOREIGN KEY FK_Representative(Representative) REFERENCES tbl_Persons(Name)
 );
 
 /* most common use: count number of main members within an org. */
 CREATE TABLE tbl_Main(
 	Organization VARCHAR(10) NOT NULL,
-	Name VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_Organization REFERENCES tbl_Organizations(SID),
-	FOREIGN KEY FK_Person REFERENCES tbl_Persons(Name),
-	CONSTRAINT PK_Main PRIMARY KEY (Organization, Name),/* Set clustered Index */
-	CONSTRAINT UNIQUE(Name)/* Player can only have 1 main; separate constraint for clustering */
+	Person VARCHAR(30) NOT NULL,
+	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
+	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
+	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person),/* Set clustered Index */
+	CONSTRAINT UNIQUE(Person)/* Player can only have 1 main; separate constraint for clustering */
 );
 
 /* most common use: count the number of affliate members within an org */
 CREATE TABLE tbl_Affiliated(
 	Organization VARCHAR(10) NOT NULL,
-	Name VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_Organization REFERENCES tbl_Organizations(SID),
-	FOREIGN KEY FK_Person REFERENCES tbl_Persons(Name),
-	CONSTRAINT PK_Main PRIMARY KEY (Organization, Name)/* Set clustered Index */
+	Person VARCHAR(30) NOT NULL,
+	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
+	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
+	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person)/* Set clustered Index */
 );
-
-/* Inserts */
-INSERT INTO tbl_Countries(Name) VALUES('Canada');
-INSERT INTO tbl_Countries(Name) VALUES('United States');
-INSERT INTO tbl_Countries(Name) VALUES('England');
-INSERT INTO tbl_Countries(Name) VALUES('France');
-INSERT INTO tbl_Countries(Name) VALUES('Germany');
-
-SELECT * FROM tbl_Countries;
-
-/* degragment to cluster on indexes */
-ALTER TABLE tbl_name ENGINE=INNODB
-
-SELECT * FROM tbl_Countries;
 
