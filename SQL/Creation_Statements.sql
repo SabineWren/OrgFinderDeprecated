@@ -1,8 +1,40 @@
+/*
+TO ADD:
 
+OrgsInCog
+RolePlayOrgs
+FullOrganizations
+ExclusiveOrgs
+------
+Commitments
+Commits
+------
+Activities
+Performs
+PrimaryFocus
+SecondaryFocus
+--------
+OrgRegions
+OrgLocated
+------
+Languages
+OrgFluencies ** optionally add PersonFluencies as well??
+-------
+Archetypes
+OrgIsArchetype
+------- 
+OrganizationSize ***** modify diagram to store total, mains, and affiliates separately *********
+OrganizationMemberHistory ***** modify diagram to record total, main, and affiliates separately *****
+
+
+*/
+
+DROP TABLE tbl_Represents
 DROP TABLE tbl_Affiliated
 DROP TABLE tbl_Main;
 DROP TABLE tbl_OrgsInCog;
 DROP TABLE tbl_Organizations;
+DROP TABLE tbl_FromCountry;
 DROP TABLE tbl_Persons;
 DROP TABLE tbl_Countries;
 
@@ -54,5 +86,13 @@ CREATE TABLE tbl_Affiliated(
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
 	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person)/* Set clustered Index */
+);
+
+/* most common use: add representative column to Org when printing Org tuples in a spreadsheet  */
+CREATE TABLE tbl_Represents(
+	Organization VARCHAR(10) UNIQUE NOT NULL,
+	Person VARCHAR(30) NOT NULL,
+	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
+	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name)
 );
 
