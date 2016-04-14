@@ -1,30 +1,31 @@
 FrontEndApp.directive('printCheckbox', function() {
 
-  return { 
-    restrict: 'E',
-    
-    scope: true,
+	return { 
+		restrict: 'E',
+		scope: true,
 	
-	controller: function($scope){
-		$scope.checked = 0;
-		$scope.appliedFilters = [];
+		controller: function($scope){
+			$scope.checked = 0;
 		
-		$scope.callCheckChanged = function(box) {
-			if(box.isSelected){
-				$scope.$parent.checkedOuter.num++;
-				$scope.checked++;
-				$scope.appliedFilters.push(box.name);
-				//$scope.$parent.allAppliedFilters.push(box.name);
-			}
-			else{
-				$scope.$parent.checkedOuter.num--;
-				$scope.checked--;
-				$scope.appliedFilters.splice($scope.appliedFilters.indexOf(box.name), 1);
-				//$scope.$parent.allAppliedFilters.splice($scope.appliedFilters.indexOf(box.name), 1);
-			}
-			console.log($scope.$parent.checkedOuter);
-		};
-	},
+			$scope.callCheckChanged = function(box) {
+		
+				for (var i=0; i < $scope.$parent.checkboxModels.length; i++) {
+					if($scope.$parent.checkboxModels[i].category === $scope.checkboxModel.category) break;
+				}
+			
+				if(box.isSelected){
+					$scope.$parent.checkedOuter.num++;
+					$scope.checked++;
+					$scope.$parent.checkboxModels[i].appliedFilter.push(box.name);
+				}
+				else{
+					$scope.$parent.checkedOuter.num--;
+					$scope.checked--;
+					var index = $scope.$parent.checkboxModels[i].appliedFilter.indexOf(box.name);
+					$scope.$parent.checkboxModels[i].appliedFilter.splice(index, 1)
+				}
+			};
+		},
     
     templateUrl: 'frontEnd/js/directives/printCheckbox.html'
   }; 

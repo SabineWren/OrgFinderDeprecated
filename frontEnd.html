@@ -8,10 +8,16 @@
 		<div ng-controller="CheckboxController">
 			<div ng-repeat="checkboxModel in checkboxModels">
 				<print-checkbox></print-checkbox>
+				<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
 			</div>
-			<tt>{{checkedOuter.num}} boxes are checked (outer).</tt><br>
+			<h3>Total Filters:</h3>
+			<p ng-repeat="checkboxModel in checkboxModels">
+				<a>{{ checkboxModel.category }}: </a>
+				<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
+			</p>
+			<tt>{{checkedOuter.num}} boxes are checked (outer).</tt>
 		</div>
-		<p><a ng-repeat="value in allAppliedFilters">{{ value }}</a></p>
+		
 		
 	<!--/div-->
 	
