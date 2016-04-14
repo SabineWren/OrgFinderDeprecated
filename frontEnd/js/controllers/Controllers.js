@@ -1,10 +1,10 @@
-FrontEndApp.controller('CheckboxOuterController', ['$scope',function($scope) {
+FrontEndApp.controller('MainController', ['$scope',function($scope) {
 	
 	
 	
 }]);
 
-FrontEndApp.controller('CheckboxCommitmentController', ['$scope', '$http', 'checkboxService', function($scope, $http, checkboxService) {
+FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxService', function($scope, $http, checkboxService) {
 	$scope.checkedOuter = 0;
 	$scope.category = "Commitment";
 	$scope.checkboxModels = [

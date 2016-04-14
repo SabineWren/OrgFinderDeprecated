@@ -4,8 +4,8 @@
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 </head>
 <body ng-app="FrontEndApp">
-	<div ng-controller="CheckboxOuterController">
-		<div ng-controller="CheckboxCommitmentController">
+	<div ng-controller="MainController">
+		<div ng-controller="CheckboxController">
 			<div ng-repeat="checkboxModel in checkboxModels">
 				<print-checkbox></print-checkbox>
 			</div>
@@ -30,7 +30,7 @@
 	<script src="frontEnd/js/FrontEndModule.js"></script>
 
 	<!-- Controllers -->
-	<script src="frontEnd/js/controllers/CheckboxControllers.js"></script>
+	<script src="frontEnd/js/controllers/Controllers.js"></script>
 
 	<!-- Services -->
 	<script src="frontEnd/js/services/checkboxService.js"></script>

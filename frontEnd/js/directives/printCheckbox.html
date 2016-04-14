@@ -1,9 +1,8 @@
 <h4>{{ category }}</h4>
 <form name="checkboxForm">
 	<div ng-repeat="box in checkboxModel">
-			<label>{{ box.name }}, {{ box.isSelected }}:
 			<input type="checkbox" ng-model="box.isSelected" ng-change="callCheckChanged(box)"/>
-		</label><br>
+			<label>{{ box.name }}</label><br>
 	</div>
 </form>
 <tt>{{checked}} boxes are checked (inner).</tt><br>
