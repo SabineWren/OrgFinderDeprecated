@@ -4,17 +4,16 @@
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 </head>
 <body ng-app="FrontEndApp">
-	<div ng-controller="MainController">
+	<!--div ng-controller="MainController"-->
 		<div ng-controller="CheckboxController">
 			<div ng-repeat="checkboxModel in checkboxModels">
 				<print-checkbox></print-checkbox>
 			</div>
-			<tt>{{checkedOuter}} boxes are checked (outer).</tt><br>
+			<tt>{{checkedOuter.num}} boxes are checked (outer).</tt><br>
 		</div>
-		
 		<p><a ng-repeat="value in allAppliedFilters">{{ value }}</a></p>
 		
-	</div>
+	<!--/div-->
 	
 <!-- there is much to read about the proper way to build a dynamic, RESTful url for querying a PHP backend -->
 <!--build-where-commitment ng-disabled="checked>0" info="$scope"-->
