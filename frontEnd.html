@@ -5,28 +5,14 @@
 </head>
 <body ng-app="FrontEndApp">
 	<div ng-controller="CheckboxOuterController">
-	
 		<div ng-controller="CheckboxCommitmentController">
-			<print-checkbox></print-checkbox>
+			<div ng-repeat="checkboxModel in checkboxModels">
+				<print-checkbox></print-checkbox>
+			</div>
+			<tt>{{checkedOuter}} boxes are checked (outer).</tt><br>
 		</div>
 		
-		<div ng-controller="CheckboxRolePlayController">
-			<print-checkbox></print-checkbox>
-		</div>
-		
-		<div ng-controller="CheckboxArchetypeController">
-			<print-checkbox></print-checkbox>
-		</div>
-		
-		<div ng-controller="CheckboxActivitiesController">
-			<print-checkbox></print-checkbox>
-		</div>
-		
-		<div ng-controller="CheckboxRecruitingController">
-			<print-checkbox></print-checkbox>
-		</div>
-		
-		<tt>{{checkedOuter}} boxes are checked (outer).</tt><br>
+		<p><a ng-repeat="value in allAppliedFilters">{{ value }}</a></p>
 		
 	</div>
 	
@@ -47,7 +33,6 @@
 	<script src="frontEnd/js/controllers/CheckboxControllers.js"></script>
 
 	<!-- Services -->
-	<script src="frontEnd/js/services/checkChanged.js"></script>
 	<script src="frontEnd/js/services/checkboxService.js"></script>
 		
 	<!-- Directives -->

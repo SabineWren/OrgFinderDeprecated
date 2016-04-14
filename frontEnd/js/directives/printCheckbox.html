@@ -1,13 +1,11 @@
-<h3>{{ Category }}</h3>
+<h4>{{ category }}</h4>
 <form name="checkboxForm">
 	<div ng-repeat="box in checkboxModel">
 			<label>{{ box.name }}, {{ box.isSelected }}:
 			<input type="checkbox" ng-model="box.isSelected" ng-change="callCheckChanged(box)"/>
 		</label><br>
 	</div>
-	<tt>{{checked}} boxes are checked (inner).</tt><br>
 </form>
-<p ng-show="checked===0">Not filtering</p>
-<p>
-	<a ng-repeat="value in appliedFilters">{{ value }}</a>
-</p>
+<tt>{{checked}} boxes are checked (inner).</tt><br>
+<p ng-show="checked === 0">Not filtering</p>
+<p><a ng-repeat="value in appliedFilters">{{ value }}</a></p>
