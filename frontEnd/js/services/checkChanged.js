@@ -2,13 +2,15 @@
 FrontEndApp.factory('checkChangedService', function() {
     return {
         checkChanged: function(box, $scope) {
-            if(box){
+            if(box.isSelected){
             	$scope.checked++;
             	$scope.$parent.checkedOuter++;
+            	$scope.appliedFilters.push(box.name);
             }
 			else{
 				$scope.checked--;
 				$scope.$parent.checkedOuter--;
+				$scope.appliedFilters.splice($scope.appliedFilters.indexOf(box.name), 1);
 			}
         }
     };
