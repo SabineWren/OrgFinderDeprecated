@@ -3,19 +3,11 @@
  * - not allow an affiliate without a main
  * - not allow multiple OrganizationMemberHistory logs for the same day
 
-****************
-update attribute/table names for activities/performs/primary/secondary on diagram
-remove OrgInCog and rename Represents on diagram; fix arrows - many person to 0 to 1 org, not 1 person to many org
-*******************
-
 optionally add PersonFluencies as well??
-------- 
-OrgSize  and OrgMemberHistory -- add affiliates to diagrams
-activies icon should be unique in diagram, and should be saved on php server
-change  model to archetypes on er diagram; change to relation not isa
 
 some of the keys are long (like regions with varchar(30) -- perhaps some surrogate indexing could optimize the relations
 */
+
 
 /*
 DROP TABLE tbl_OrgSize;
@@ -25,8 +17,8 @@ DROP TABLE tbl_Archetypes;
 -- person fluencies?
 DROP TABLE tbl_OrgFluencies;
 DROP TABLE tbl_Fluencies;
-DROP TABLE tbl_OrgRegions;
 DROP TABLE tbl_OrgLocated;
+DROP TABLE tbl_OrgRegions;
 DROP TABLE tbl_SecondaryFocus;
 DROP TABLE tbl_PrimaryFocus;
 DROP TABLE tbl_Performs;
@@ -39,7 +31,7 @@ DROP TABLE tbl_RolePlayOrgs;
 DROP TABLE tbl_Represents;
 DROP TABLE tbl_Affiliated;
 DROP TABLE tbl_Main;
-DROP TABLE tbl_OrgsInCog;
+DROP TABLE tbl_RepresentsCog;
 DROP TABLE tbl_Organizations;
 DROP TABLE tbl_FromCountry;
 DROP TABLE tbl_Persons;
@@ -50,9 +42,9 @@ CREATE TABLE tbl_Countries(
 	Name VARCHAR(30) PRIMARY KEY
 );
 
-/* Second most important table - many tables FK to it */
+-- Second most important table - many tables FK to it
 CREATE TABLE tbl_Persons(
-	Name VARCHAR(30) PRIMARY KEY)
+	Name VARCHAR(30) PRIMARY KEY
 );
 
 CREATE TABLE tbl_FromCountry(
@@ -62,22 +54,22 @@ CREATE TABLE tbl_FromCountry(
 	FOREIGN KEY FK_Country(Country) REFERENCES tbl_Countries(Name)
 );
 
-/* Most important table - most tables FK to it */
+-- Most important table - most tables FK to it
 CREATE TABLE tbl_Organizations(
 	SID VARCHAR(10) PRIMARY KEY,
 	Name VARCHAR(30) NOT NULL,
-	Icon VARCHAR(100)/* can be saved locally or as URL to RSI */
+	Icon VARCHAR(100)-- can be saved locally or as URL to RSI
 );
 
-/* most common use: filter org list to only show orgs in Cognition Corp */
-CREATE TABLE tbl_OrgsInCog(
+-- most common use: filter org list to only show orgs in Cognition Corp
+CREATE TABLE tbl_RepresentsCog(
 	SID VARCHAR(10) UNIQUE NOT NULL,
 	Representative VARCHAR(30) NOT NULL,
 	FOREIGN KEY FK_SID(SID) REFERENCES tbl_Organizations(SID),
 	FOREIGN KEY FK_Representative(Representative) REFERENCES tbl_Persons(Name)
 );
 
-/* most common use: count number of main members within an org. */
+-- most common use: count number of main members within an org.
 CREATE TABLE tbl_Main(
 	Organization VARCHAR(10) NOT NULL,
 	Person VARCHAR(30) NOT NULL,
@@ -87,16 +79,16 @@ CREATE TABLE tbl_Main(
 	CONSTRAINT UNIQUE(Person)/* Player can only have 1 main; separate constraint for clustering */
 );
 
-/* most common use: count the number of affliate members within an org */
+-- most common use: count the number of affliate members within an org
 CREATE TABLE tbl_Affiliated(
 	Organization VARCHAR(10) NOT NULL,
 	Person VARCHAR(30) NOT NULL,
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
-	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person)/* Set clustered Index */
+	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person)-- Set clustered Index
 );
 
-/* most common use: add representative column to Org when printing Org tuples in a spreadsheet  */
+-- most common use: add representative column to Org when printing Org tuples in a spreadsheet
 CREATE TABLE tbl_Represents(
 	Organization VARCHAR(10) UNIQUE NOT NULL,
 	Person VARCHAR(30) NOT NULL,
@@ -206,7 +198,7 @@ CREATE TABLE tbl_OrgArchetypes(
 );
 
 /* need to individually count members to check main and affiliate, which can be an added feature but allow null for now */
-CREATE TABLE OrgMemberHistory(
+CREATE TABLE tbl_OrgMemberHistory(
 	Organization VARCHAR(10) UNIQUE NOT NULL,
 	ScrapeDate DATE NOT NULL,
 	MemberCount INT NOT NULL,
@@ -216,7 +208,7 @@ CREATE TABLE OrgMemberHistory(
 );
 
 /* need to individually count members to check main and affiliate, which can be an added feature but allow null for now */
-CREATE TABLE OrgSize(
+CREATE TABLE tbl_OrgSize(
 	Organization VARCHAR(10) UNIQUE NOT NULL,
 	MemberCount INT NOT NULL,
 	MemberCountMain INT,
