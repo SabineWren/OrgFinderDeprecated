@@ -1,3 +1,4 @@
+-- Views for Selects without Filters
 CREATE OR REPLACE VIEW View_Roleplaying as
 SELECT SID, CASE
 	WHEN rpr.Organization IS NOT NULL then "Yes"
@@ -52,5 +53,27 @@ JOIN View_Recruiting recr ON orgs.SID = recr.SID
 LEFT JOIN View_Performs1 P1 ON orgs.SID = P1.SID
 LEFT JOIN View_Performs2 P2 ON orgs.SID = P2.SID;
 
+-- Views for Filtering
+CREATE OR REPLACE VIEW View_PrimaryFilter as
+SELECT T1.Organization as SID, A1.Icon as PrimaryIcon
+FROM tbl_PrimaryFocus T1 LEFT JOIN tbl_Activities A1
+ON T1.PrimaryFocus = A1.Activity;
 
+CREATE OR REPLACE VIEW View_SecondaryFilter as
+SELECT T2.Organization as SID, A2.Icon as SecondaryIcon
+FROM tbl_SecondaryFocus T2 LEFT JOIN tbl_Activities A2
+ON T2.SecondaryFocus = A2.Activity;
+
+CREATE OR REPLACE VIEW View_OrgsFilterActivity as
+SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Rolplay, Archetype, Recruiting, 
+F1.PrimaryIcon as PrimaryFocus, F2.SecondaryIcon as SecondaryFocus, orgs.Icon
+FROM tbl_Organizations orgs
+LEFT JOIN View_Size ON orgs.SID = View_Size.SID
+LEFT JOIN tbl_Commits cr ON orgs.SID = cr.Organization
+LEFT JOIN tbl_OrgFluencies lang ON orgs.SID = lang.Organization
+JOIN View_Roleplaying ON orgs.SID = View_Roleplaying.SID
+LEFT JOIN tbl_OrgArchetypes arr ON orgs.SID = arr.Organization
+JOIN View_Recruiting recr ON orgs.SID = recr.SID
+LEFT JOIN View_PrimaryFilter F1 ON orgs.SID = F1.SID
+LEFT JOIN View_SecondaryFilter F2 ON orgs.SID = F2.SID;
 

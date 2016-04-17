@@ -49,19 +49,19 @@ INSERT INTO tbl_Fluencies(Language) VALUES ('English'), ('German');
 INSERT INTO tbl_OrgFluencies(Organization, Language) VALUES ('PARADIGM', 'English'), ('PARA', 'German'), ('PARAMC', 'English'), ('PSG', 'English');
 
 INSERT INTO tbl_Activities(Activity, Icon) VALUES 
-('Bounty Hunting', 'https://robertsspaceindustries.com/media/bgdbhpzrkumy2r/icon/Bounty_hunting.png'), 
-('Engineering', 'https://robertsspaceindustries.com/media/wlgjee4z43hhdr/icon/Engineering.png'), 
-('Exploration', 'https://robertsspaceindustries.com/media/i07k1bkmcjnmpr/icon/Exploration.png'), 
-('Freelancing', 'https://robertsspaceindustries.com/media/xhuvehkwn6qsnr/icon/Freelancing.png'), 
-('Infiltration', 'https://robertsspaceindustries.com/media/7ypcg4mjtk6a3r/icon/Infiltration.png'), 
-('Piracy', 'https://robertsspaceindustries.com/media/qvy8iu6s49xcvr/icon/Piracy.png'), 
-('Resources', 'https://robertsspaceindustries.com/media/z2431c754d5yhr/icon/Resources.png'), 
-('Scouting', 'https://robertsspaceindustries.com/media/evjzzb5o9frbkr/icon/Scouting.png'), 
-('Security', 'https://robertsspaceindustries.com/media/7nk9059i8lnfmr/icon/Security.png'), 
-('Smuggling', 'https://robertsspaceindustries.com/media/j2u845ltfuwrjr/icon/Smuggling.png'), 
-('Social', 'https://robertsspaceindustries.com/media/5pcet2tbffqinr/icon/Social.png'), 
-('Trading', 'https://robertsspaceindustries.com/media/svml2z3iniikjr/icon/Trade.png'), 
-('Transport', 'https://robertsspaceindustries.com/media/19dxufo66bma7r/icon/Transport.png');
+('Bounty Hunting', '/images/Bounty_hunting.png'), 
+('Engineering', '/images/Engineering.png'), 
+('Exploration', '/images/Exploration.png'), 
+('Freelancing', '/images/Freelancing.png'), 
+('Infiltration', '/images/Infiltration.png'), 
+('Piracy', '/images/Piracy.png'), 
+('Resources', '/images/Resources.png'), 
+('Scouting', '/images/Scouting.png'), 
+('Security', '/images/Security.png'), 
+('Smuggling', '/images/Smuggling.png'), 
+('Social', '/images/Social.png'), 
+('Trading', '/images/Trade.png'), 
+('Transport', '/images/Transport.png');
 
 
 INSERT INTO tbl_Performs(Organization, PrimaryFocus, SecondaryFocus) VALUES
