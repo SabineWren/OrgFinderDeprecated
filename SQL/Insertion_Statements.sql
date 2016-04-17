@@ -85,6 +85,9 @@ INSERT INTO tbl_SecondaryFocus(SecondaryFocus, Organization) VALUES
 ('Trading', 'PSG'), 
 ('Security', 'TRUST');
 
+INSERT INTO tbl_OrgSize(Organization, MemberCount) VALUES 
+('PARADIGM', 2), ('PARA', 3), ('PARAMC', 21), ('PSG', 1), ('TRUST', 159);
+
 
 
 -- degragment to cluster on indexes
