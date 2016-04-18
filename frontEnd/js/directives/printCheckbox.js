@@ -26,7 +26,6 @@ FrontEndApp.directive('printCheckbox', function() {
 				}
 			};
 		},
-    
     templateUrl: 'frontEnd/js/directives/printCheckbox.html'
   }; 
 });

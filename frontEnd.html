@@ -2,13 +2,14 @@
 <html lang="en-US">
 <head>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<link type="text/css" rel="stylesheet" href="frontEnd/stylesheet.css"/>
+	<title>Cognition Corp</title>
 </head>
 <body ng-app="FrontEndApp">
 	<!--div ng-controller="MainController"-->
 		<div ng-controller="CheckboxController">
 			<div ng-repeat="checkboxModel in checkboxModels">
 				<print-checkbox></print-checkbox>
-				<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
 			</div>
 			<h3>Total Filters:</h3>
 			<p ng-repeat="checkboxModel in checkboxModels">
@@ -25,9 +26,6 @@
 	
 <!-- there is much to read about the proper way to build a dynamic, RESTful url for querying a PHP backend -->
 <!--build-where-commitment ng-disabled="checked>0" info="$scope"-->
-
-	<!-- Include the AngularJS library (no need because bower does it) -->
-	<!--script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script-->
 	
 	<!-- Bower -->
 	<script src="bower_components/angular/angular.js"></script>
