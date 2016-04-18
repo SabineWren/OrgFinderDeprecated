@@ -1,7 +1,3 @@
-/*FrontEndApp.controller('MainController', ['$scope',function($scope) {
-	
-}]);*/
-
 FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxService', function($scope, $http, checkboxService) {
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [
@@ -12,5 +8,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxServic
 		{category: "Recruiting", appliedFilter: [], data: checkboxService.query({file: "Recruiting.json"}) }
 	];
 	
+	$scope.callSelect = function(){
+		console.log("Button Pushed.");
+	};
 	
 }]);

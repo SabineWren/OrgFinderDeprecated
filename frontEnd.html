@@ -16,6 +16,8 @@
 				<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
 			</p>
 			<tt>{{checkedOuter.num}} boxes are checked (outer).</tt>
+			<p class=filter>Enter a Name or SID: <input type="text" ng-model="filter">
+			<input type="button" ng-click="callSelect()" value="TEMPORARY BUTTON" /> {{ filter }}</p>
 		</div>
 		
 		
