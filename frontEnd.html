@@ -7,33 +7,49 @@
 </head>
 <body ng-app="FrontEndApp">
 	<div ng-controller="CheckboxController">
+		<!-- Create Tools filtering -->
 		<div class="checkboxMainBlock">
 			<div class="checkboxCategories" ng-class="checkboxModel.category" ng-repeat="checkboxModel in checkboxModels">
 				<print-checkbox></print-checkbox>
 			</div>
 		<br>
 			<div class="lowerBlock">
-				<h3>Total Filters:</h3>
+				<h2>Total Filters:</h2>
 				<p ng-repeat="checkboxModel in checkboxModels">
 					<a>{{ checkboxModel.category }}: </a>
 					<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
 				</p>
 				<span>{{checkedOuter.num}} boxes are checked (outer).</span>
 				<p class=filter>Enter a Name or SID: <input type="text" ng-model="filter">
-				<input type="button" ng-click="callSelect()" value="TEMPORARY BUTTON" /> {{ filter }}</p>
+				<input type="button" ng-click="callSelect()" value="Apply Filter" /> {{ filter }}</p>
 			</div>
 		</div>
+		<!-- Display Results -->
+		<ul> 
+			<li dir-paginate=”result in results | itemsPerPage: pageSize” current-page="currentPage">
+				{{ result }}
+			</li>
+		</ul>
+			<dir-pagination-controls 
+				boundary-links="true" 
+				on-page-change="getResults(newPageNumber)" 
+				template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html">
+			</dir-pagination-controls>
+		
 	</div>
 	
-	<!-- Bower -->
+	<!-- Include AngularJS -->
 	<script src="bower_components/angular/angular.js"></script>
+	
+	<!-- Third Party Directivies -->
 	<script src="bower_components/angular-resource/angular-resource.js"></script>
+	<script src="node_modules/angular-utils-pagination/dirPagination.js"></script>
 
 	<!-- Modules -->
 	<script src="frontEnd/js/FrontEndModule.js"></script>
 
 	<!-- Controllers -->
-	<script src="frontEnd/js/controllers/Controllers.js"></script>
+	<script src="frontEnd/js/controllers/CheckboxController.js"></script>
 
 	<!-- Services -->
 	<script src="frontEnd/js/services/checkboxService.js"></script>
