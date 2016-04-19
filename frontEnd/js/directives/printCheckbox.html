@@ -1,8 +1,8 @@
 <form name="checkboxForm">
 	<h3>{{ checkboxModel.category }}</h3>
-	<div ng-repeat="box in checkboxModel.data">
+	<div ng-class="{highlight: hover, unhighlight: !hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-repeat="box in checkboxModel.data">
 			<input type="checkbox" ng-model="box.isSelected" ng-change=callCheckChanged(box) />
-			<label class="checkbox">{{ box.name }}</label><br>
+			<label>{{ box.name }}</label><br>
 	</div>
 </form>
 <span class=testerCode>{{checked}} boxes are checked (inner).</span><br>
