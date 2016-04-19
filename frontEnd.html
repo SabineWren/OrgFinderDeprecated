@@ -6,26 +6,24 @@
 	<title>Cognition Corp</title>
 </head>
 <body ng-app="FrontEndApp">
-	<!--div ng-controller="MainController"-->
-		<div ng-controller="CheckboxController">
-			<div ng-repeat="checkboxModel in checkboxModels">
+	<div ng-controller="CheckboxController">
+		<div class="checkboxMainBlock">
+			<div class="checkboxCategories" ng-class="checkboxModel.category" ng-repeat="checkboxModel in checkboxModels">
 				<print-checkbox></print-checkbox>
 			</div>
-			<h3>Total Filters:</h3>
-			<p ng-repeat="checkboxModel in checkboxModels">
-				<a>{{ checkboxModel.category }}: </a>
-				<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
-			</p>
-			<tt>{{checkedOuter.num}} boxes are checked (outer).</tt>
-			<p class=filter>Enter a Name or SID: <input type="text" ng-model="filter">
-			<input type="button" ng-click="callSelect()" value="TEMPORARY BUTTON" /> {{ filter }}</p>
+		<br>
+			<div class="lowerBlock">
+				<h3>Total Filters:</h3>
+				<p ng-repeat="checkboxModel in checkboxModels">
+					<a>{{ checkboxModel.category }}: </a>
+					<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
+				</p>
+				<span>{{checkedOuter.num}} boxes are checked (outer).</span>
+				<p class=filter>Enter a Name or SID: <input type="text" ng-model="filter">
+				<input type="button" ng-click="callSelect()" value="TEMPORARY BUTTON" /> {{ filter }}</p>
+			</div>
 		</div>
-		
-		
-	<!--/div-->
-	
-<!-- there is much to read about the proper way to build a dynamic, RESTful url for querying a PHP backend -->
-<!--build-where-commitment ng-disabled="checked>0" info="$scope"-->
+	</div>
 	
 	<!-- Bower -->
 	<script src="bower_components/angular/angular.js"></script>
@@ -42,9 +40,6 @@
 		
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>
-	
-	<!-- Filters -->
-	<!--script src="frontEnd/js/Filters.js"></script-->
 	
 </body>
 </html>

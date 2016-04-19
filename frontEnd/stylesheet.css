@@ -1,5 +1,32 @@
+
+.checkboxMainBlock {
+	background-color: #AAAAAA;
+	position: relative;
+	display: block;
+	width: 700px;
+	height: 500px;
+}
+
+.lowerBlock {
+	position: absolute;
+	margin-left: 750px;
+	width: 300px;
+}
+
+.checkboxCategories {
+	display: inline-block;
+	position: absolute;
+	width: 30%;
+	border: 1px solid #000000;
+	padding: 1%;
+}
+
+.checkbox {
+	color: blue;
+}
+
 h1, h2, h3, h4 {
-	display: inline;
+	clear: left;
 }
 
 .testerCode {
@@ -9,21 +36,22 @@ h1, h2, h3, h4 {
 
 
 .Commitment {
-	font-weight: bold;
 }
 
 .RolePlay {
-	font-weight: bold;
+	margin-top: 33%;
 }
 
 .Archetype {
-	font-weight: bold;
+	margin-top: 33%;
+	margin-left: 33%;
 }
 
 .Activities {
-	font-weight: bold;
+	margin-left: 67%;
 }
 
 .Recruiting {
-	font-weight: bold;
+	margin-left: 33%;
 }
+
