@@ -13,11 +13,13 @@
 	width: 300px;
 }
 
+/* do not delete! */
 .highlight {
 	color: orange;
 	font-weight: bold;
 }
 
+/* do not delete! */
 .unhighlight {
 	color: blue;
 	font-weight: bold;
@@ -60,5 +62,22 @@ h1, h2, h3, h4 {
 
 .Recruiting {
 	margin-left: 33%;
+}
+
+.loadButton {
+	position: fixed;
+	bottom: 20px;
+	left: 50px;
+	height: 40px;
+	width: 140px;
+	z-index: 0;
+}
+
+.footer {
+	position: absolute;
+	clear: left;
+	width: 100%;
+	height: 50px;
+	z-index: -1;
 }
 
