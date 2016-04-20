@@ -12,22 +12,13 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxServic
 	// Filter by Name or SID
 	$scope.callSelect = function(){
 		console.log("Button Pushed.");
-	};
+		$scope.results = [1];
+	}
 	
 	/*********************
 	 * Display Results */
-	
-	// Init
-	$scope.currentPage = 1;
-	$scope.pageSize = 8;
-	$scope.results = [];
-	for(var i = 1; i < 100; i++){
-		$scope.results.push(i);
-	}
-	$scope.newPageNumber = 5;
-	
-	
-	$scope.loadMore = function(newPageNumber){
+	 
+	 $scope.loadMore = function(newPageNumber){
 		var lastItem = $scope.results[$scope.results.length - 1];
 		//var moreResults = getResultsService.query({file: "Activities.json"});
 		//var moreResults = [];
@@ -35,6 +26,15 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxServic
 			$scope.results.push(lastItem + i);
 		}
 	}
+	
+	// Init
+	$scope.currentPage = 1;
+	$scope.pageSize = 8;
+	$scope.results = [];
+	for(var i = 1; i < 10; i++){
+		$scope.results.push(i);
+	}
+	$scope.newPageNumber = 5;
 	
 	$scope.loadMore($scope.pageSize);
 	

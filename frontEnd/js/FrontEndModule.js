@@ -1,1 +1,1 @@
-var FrontEndApp = angular.module('FrontEndApp', ['ngResource','infinite-scroll']);
+var FrontEndApp = angular.module('FrontEndApp', ['ngResource']);
