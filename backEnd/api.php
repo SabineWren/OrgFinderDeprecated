@@ -1,12 +1,14 @@
 <?php
-$connection = new mysqli('localhost', '<username>', '<password>', 'cognitiondb');
+echo "attempting connection\n";
+$connection = new mysqli('64.71.77.121', 'Sabine', '<pw goes here>', 'cognitiondb', 3306);
+echo "constructor executed\n";
 
 if($connection->connect_error()){
     die("Connection failed: " . $connection->connect_error);
     exit("@Schon: help");
 }
 
-echo "Success: We connected like tetris!"
+echo "Success: We connected like tetris!\n";
 
 $stmt = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Icon) VALUES (?, ?, ?)");
 $stmt->bind_param("sss", $SID, $Name, $Icon);
@@ -17,10 +19,11 @@ $stmt->bind_param("ss", $SID, $Name);
 /* wait for queries */
 
 /* assign values to statement */
+$SID = "%%";
+$Name= "%%";
+$stmt->execute();
 
-$stmt->execute()
-
-/* I don't know how this code works; see the link for info
+/* code copied from stack exchange
   * http://stackoverflow.com/questions/750648/select-from-in-mysqli */
 $meta = $stmt->result_metadata();
 
@@ -36,9 +39,13 @@ while ($stmt->fetch()) {
   }
   $results[] = $x;
 }
+/* end copied code */
 
+foreach($results as result){
+	echo(result);
+}
 
-
+echo "Done - Closing Connection.\n";
 
 mysqli_close($connection);
 ?>

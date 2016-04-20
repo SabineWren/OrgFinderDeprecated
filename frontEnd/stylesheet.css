@@ -13,13 +13,15 @@
 	width: 300px;
 }
 
-/* do not delete! */
+/* do not delete!
+ * - activates on mouseover*/
 .highlight {
 	color: orange;
 	font-weight: bold;
 }
 
-/* do not delete! */
+/* do not delete! 
+ * activates on mouseoff*/
 .unhighlight {
 	color: blue;
 	font-weight: bold;
@@ -64,8 +66,10 @@ h1, h2, h3, h4 {
 	margin-left: 33%;
 }
 
+
+/* do not delete! */
 .loadButton {
-	position: fixed;
+	position: fixed;/* required for button access */
 	bottom: 20px;
 	left: 50px;
 	height: 40px;
@@ -73,6 +77,8 @@ h1, h2, h3, h4 {
 	z-index: 0;
 }
 
+/* do not delete!
+ * - used to buffer the data list to make room for the Load More button*/
 .footer {
 	position: absolute;
 	clear: left;
