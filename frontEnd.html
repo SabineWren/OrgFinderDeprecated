@@ -25,17 +25,13 @@
 			</div>
 		</div>
 		<!-- Display Results -->
-		<ul> 
-			<li dir-paginate=”result in results | itemsPerPage: pageSize” current-page="currentPage">
-				{{ result }}
-			</li>
-		</ul>
-			<dir-pagination-controls 
-				boundary-links="true" 
-				on-page-change="getResults(newPageNumber)" 
-				template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html">
-			</dir-pagination-controls>
-		
+		<div infinite-scroll='loadMore()' infinite-scroll-distance='1'>
+			<ul>
+				<li ng-repeat="result in results">{{ result }}</li>
+			</ul>
+		</div>
+
+
 	</div>
 	
 	<!-- Include AngularJS -->
@@ -43,7 +39,7 @@
 	
 	<!-- Third Party Directivies -->
 	<script src="bower_components/angular-resource/angular-resource.js"></script>
-	<script src="node_modules/angular-utils-pagination/dirPagination.js"></script>
+	<script src='node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js'></script>
 
 	<!-- Modules -->
 	<script src="frontEnd/js/FrontEndModule.js"></script>

@@ -19,27 +19,29 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxServic
 	
 	// Init
 	$scope.currentPage = 1;
-	$scope.pageSize = 5;
+	$scope.pageSize = 8;
 	$scope.results = [];
+	for(var i = 1; i < 100; i++){
+		$scope.results.push(i);
+	}
 	$scope.newPageNumber = 5;
 	
 	
-	$scope.getResults = function(newPageNumber){
-		console.log("test2");
-		var moreResults = getResultsService.query({file: "Activities.json"});
-		for(result in moreResults){
-			$scope.results.push(result.name);
+	$scope.loadMore = function(newPageNumber){
+		var lastItem = $scope.results[$scope.results.length - 1];
+		//var moreResults = getResultsService.query({file: "Activities.json"});
+		//var moreResults = [];
+		for(var i = 1; i < 8; i++){
+			$scope.results.push(lastItem + i);
 		}
-		console.log("test");
 	}
 	
-	$scope.getResults($scope.pageSize);
+	$scope.loadMore($scope.pageSize);
 	
 }]);
 
 
 
 FrontEndApp.factory('getResultsService', function ($resource) {
-	console.log("test3");
     return $resource('frontEnd/data/:file',{file: "@file"});
 });
