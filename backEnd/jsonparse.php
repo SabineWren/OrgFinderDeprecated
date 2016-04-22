@@ -7,7 +7,7 @@
     $lines = file('orgs.txt');
     //foreach ($lines as $org)
     //{
-        $jsondata = file_get_contents('http://sc-api.com/?api_source=cache&start_date=&end_date=&system=organizations&action=single_organization&target_id=COGNITION&format=pretty_json');
+        $jsondata = file_get_contents('http://sc-api.com/?api_source=cache&start_date=&end_date=&system=organizations&action=single_organization&target_id='.$org.'&format=pretty_json');
         //convert json object to php associative array
         $data = json_decode($jsondata, true);
         
