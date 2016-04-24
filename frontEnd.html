@@ -30,8 +30,12 @@
 			<button class="loadButton" ng-click="loadMore(1)">Load Runner</button>
 		</div>
 		<div class="footer"></div>
-
-
+	</div>
+	<div ng-controller="MemberController">
+		<h3>List of SIDs for orgs in Cog</h3>
+		<p class="memberList" ng-repeat="org in orgData">
+			{{ org.SID }}
+		</p>
 	</div>
 	
 	<!-- Include AngularJS -->
@@ -45,9 +49,11 @@
 
 	<!-- Controllers -->
 	<script src="frontEnd/js/controllers/CheckboxController.js"></script>
+	<script src="frontEnd/js/controllers/MemberController.js"></script>
 
 	<!-- Services -->
-	<script src="frontEnd/js/services/checkboxService.js"></script>
+	<script src="frontEnd/js/services/readFileService.js"></script>
+	<script src="frontEnd/js/services/getMembersService.js"></script>
 		
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>

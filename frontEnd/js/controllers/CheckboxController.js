@@ -1,12 +1,12 @@
-FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxService', 'getResultsService', function($scope, $http, checkboxService, getResultsService) {
+FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getResultsService', function($scope, $http, readFileService, getResultsService) {
 	// Init
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [
-		{category: "Commitment", appliedFilter: [], data: checkboxService.query({file: "Commitment.json"}) },
-		{category: "RolePlay", appliedFilter: [], data: checkboxService.query({file: "RolePlay.json"}) },
-		{category: "Archetype", appliedFilter: [], data: checkboxService.query({file: "Archetype.json"}) },
-		{category: "Activities", appliedFilter: [], data: checkboxService.query({file: "Activities.json"}) },
-		{category: "Recruiting", appliedFilter: [], data: checkboxService.query({file: "Recruiting.json"}) }
+		{category: "Commitment", appliedFilter: [], data: readFileService.query({file: "Commitment.json"}) },
+		{category: "RolePlay", appliedFilter: [], data: readFileService.query({file: "RolePlay.json"}) },
+		{category: "Archetype", appliedFilter: [], data: readFileService.query({file: "Archetype.json"}) },
+		{category: "Activities", appliedFilter: [], data: readFileService.query({file: "Activities.json"}) },
+		{category: "Recruiting", appliedFilter: [], data: readFileService.query({file: "Recruiting.json"}) }
 	];
 	
 	// Filter by Name or SID
