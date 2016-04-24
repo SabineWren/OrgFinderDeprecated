@@ -40,8 +40,6 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'checkboxServic
 	
 }]);
 
-
-
 FrontEndApp.factory('getResultsService', function ($resource) {
     return $resource('frontEnd/data/:file',{file: "@file"});
 });

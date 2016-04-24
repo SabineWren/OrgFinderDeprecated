@@ -1,0 +1,995 @@
+[
+	{
+		"SID": "5TH"
+	},
+	{
+		"SID": "9SQD"
+	},
+	{
+		"SID": "A13"
+	},
+	{
+		"SID": "ABEL"
+	},
+	{
+		"SID": "AETHERTECH"
+	},
+	{
+		"SID": "ALIAS"
+	},
+	{
+		"SID": "ADYN"
+	},
+	{
+		"SID": "ANGRYPIXEL"
+	},
+	{
+		"SID": "ANODYNE"
+	},
+	{
+		"SID": "ACOC"
+	},
+	{
+		"SID": "ABK"
+	},
+	{
+		"SID": "AEN"
+	},
+	{
+		"SID": "ARCTOS"
+	},
+	{
+		"SID": "ARKINT"
+	},
+	{
+		"SID": "ARKTOS"
+	},
+	{
+		"SID": "ARIOLIMAX"
+	},
+	{
+		"SID": "AAGROUP"
+	},
+	{
+		"SID": "ACGUILD"
+	},
+	{
+		"SID": "BLUES"
+	},
+	{
+		"SID": "ATLASCORPS"
+	},
+	{
+		"SID": "AURORANFED"
+	},
+	{
+		"SID": "AID"
+	},
+	{
+		"SID": "AVAL"
+	},
+	{
+		"SID": "24A"
+	},
+	{
+		"SID": "NEGAMING"
+	},
+	{
+		"SID": "BAMCORP"
+	},
+	{
+		"SID": "BROTHERS"
+	},
+	{
+		"SID": "BHRESOURCE"
+	},
+	{
+		"SID": "FELD"
+	},
+	{
+		"SID": "SPIKEBEBOP"
+	},
+	{
+		"SID": "BEVERAGES"
+	},
+	{
+		"SID": "BLACKCORPS"
+	},
+	{
+		"SID": "BDSECURITY"
+	},
+	{
+		"SID": "BLACKGORN"
+	},
+	{
+		"SID": "BLSOCEANIA"
+	},
+	{
+		"SID": "BLACKIND"
+	},
+	{
+		"SID": "BWL"
+	},
+	{
+		"SID": "BLADESYND"
+	},
+	{
+		"SID": "BARRACUDAS"
+	},
+	{
+		"SID": "BPG"
+	},
+	{
+		"SID": "BLOQD"
+	},
+	{
+		"SID": "BREECRAFT"
+	},
+	{
+		"SID": "BRODEATH"
+	},
+	{
+		"SID": "BROSTRUST"
+	},
+	{
+		"SID": "BSCI"
+	},
+	{
+		"SID": "CAPITALIST"
+	},
+	{
+		"SID": "CAMO"
+	},
+	{
+		"SID": "CATO"
+	},
+	{
+		"SID": "GUARDIAN"
+	},
+	{
+		"SID": "CLSS"
+	},
+	{
+		"SID": "KHAINE"
+	},
+	{
+		"SID": "POEMANDER"
+	},
+	{
+		"SID": "CWNGS"
+	},
+	{
+		"SID": "CAS"
+	},
+	{
+		"SID": "CGE"
+	},
+	{
+		"SID": "THECOMPANY"
+	},
+	{
+		"SID": "TCSH"
+	},
+	{
+		"SID": "CONSEC"
+	},
+	{
+		"SID": "CTH"
+	},
+	{
+		"SID": "CTRL"
+	},
+	{
+		"SID": "COOKIEINC"
+	},
+	{
+		"SID": "LCM"
+	},
+	{
+		"SID": "TCTS"
+	},
+	{
+		"SID": "COH"
+	},
+	{
+		"SID": "CRAZY"
+	},
+	{
+		"SID": "BMMS"
+	},
+	{
+		"SID": "CROSSBONE"
+	},
+	{
+		"SID": "CILABS"
+	},
+	{
+		"SID": "SPAGHETTI"
+	},
+	{
+		"SID": "DBSYNDICAT"
+	},
+	{
+		"SID": "HAILSITHIS"
+	},
+	{
+		"SID": "DSA"
+	},
+	{
+		"SID": "DJINDUST"
+	},
+	{
+		"SID": "DISCO"
+	},
+	{
+		"SID": "DSINC"
+	},
+	{
+		"SID": "DELPHIINFO"
+	},
+	{
+		"SID": "2STAR"
+	},
+	{
+		"SID": "INFORUNNER"
+	},
+	{
+		"SID": "DRGNINDUST"
+	},
+	{
+		"SID": "DREADLLC"
+	},
+	{
+		"SID": "DREAD"
+	},
+	{
+		"SID": "ETEKI"
+	},
+	{
+		"SID": "EDEN"
+	},
+	{
+		"SID": "ELECTRACON"
+	},
+	{
+		"SID": "ELEVATION"
+	},
+	{
+		"SID": "ECC0"
+	},
+	{
+		"SID": "IMPERIAL1"
+	},
+	{
+		"SID": "402"
+	},
+	{
+		"SID": "EODCORP"
+	},
+	{
+		"SID": "EQNX"
+	},
+	{
+		"SID": "EUSKADI"
+	},
+	{
+		"SID": "ERBS"
+	},
+	{
+		"SID": "EVILINC"
+	},
+	{
+		"SID": "EXCALIBUR"
+	},
+	{
+		"SID": "EXIGO"
+	},
+	{
+		"SID": "XTRO"
+	},
+	{
+		"SID": "EXUN"
+	},
+	{
+		"SID": "FADE"
+	},
+	{
+		"SID": "FALKON"
+	},
+	{
+		"SID": "PANTERA"
+	},
+	{
+		"SID": "F41C"
+	},
+	{
+		"SID": "PARADISE"
+	},
+	{
+		"SID": "FIS"
+	},
+	{
+		"SID": "5AVO"
+	},
+	{
+		"SID": "FIGHTING13"
+	},
+	{
+		"SID": "FCBG"
+	},
+	{
+		"SID": "FLBICO"
+	},
+	{
+		"SID": "YYZ"
+	},
+	{
+		"SID": "FLYCASUAL"
+	},
+	{
+		"SID": "ASHI"
+	},
+	{
+		"SID": "TFFS"
+	},
+	{
+		"SID": "FORTITUDE"
+	},
+	{
+		"SID": "FOUR2ZERO"
+	},
+	{
+		"SID": "FTC"
+	},
+	{
+		"SID": "FUKD"
+	},
+	{
+		"SID": "FC2"
+	},
+	{
+		"SID": "G3S"
+	},
+	{
+		"SID": "THEGAGGLE"
+	},
+	{
+		"SID": "GANJ"
+	},
+	{
+		"SID": "GHO"
+	},
+	{
+		"SID": "GRS"
+	},
+	{
+		"SID": "GASH"
+	},
+	{
+		"SID": "GALSHIPORG"
+	},
+	{
+		"SID": "GXYANG"
+	},
+	{
+		"SID": "GBC"
+	},
+	{
+		"SID": "G13"
+	},
+	{
+		"SID": "GECKO"
+	},
+	{
+		"SID": "GEOEMPOPS"
+	},
+	{
+		"SID": "STGC"
+	},
+	{
+		"SID": "GIRL"
+	},
+	{
+		"SID": "GOAT"
+	},
+	{
+		"SID": "GCERBERUS"
+	},
+	{
+		"SID": "GREYCOM"
+	},
+	{
+		"SID": "BRAVOECHO"
+	},
+	{
+		"SID": "GREX"
+	},
+	{
+		"SID": "GCOSMOS"
+	},
+	{
+		"SID": "COUNCIL13"
+	},
+	{
+		"SID": "HART"
+	},
+	{
+		"SID": "HASTE"
+	},
+	{
+		"SID": "HIT"
+	},
+	{
+		"SID": "THAC"
+	},
+	{
+		"SID": "HGS"
+	},
+	{
+		"SID": "HFICORP"
+	},
+	{
+		"SID": "VIERTE"
+	},
+	{
+		"SID": "HSICORP"
+	},
+	{
+		"SID": "THELIBRARY"
+	},
+	{
+		"SID": "HBH"
+	},
+	{
+		"SID": "HYI"
+	},
+	{
+		"SID": "HYPERSPACE"
+	},
+	{
+		"SID": "ICEC"
+	},
+	{
+		"SID": "IFA"
+	},
+	{
+		"SID": "IAE"
+	},
+	{
+		"SID": "IGS"
+	},
+	{
+		"SID": "IGSC"
+	},
+	{
+		"SID": "INSERC"
+	},
+	{
+		"SID": "CLAD"
+	},
+	{
+		"SID": "JFL"
+	},
+	{
+		"SID": "KAZURA"
+	},
+	{
+		"SID": "COURAGE"
+	},
+	{
+		"SID": "KHASTEL"
+	},
+	{
+		"SID": "KILMAINHAM"
+	},
+	{
+		"SID": "KNIGHTSOFS"
+	},
+	{
+		"SID": "KOTK"
+	},
+	{
+		"SID": "DWO"
+	},
+	{
+		"SID": "PASS"
+	},
+	{
+		"SID": "LAIRD"
+	},
+	{
+		"SID": "ONTHEWIND"
+	},
+	{
+		"SID": "LHP"
+	},
+	{
+		"SID": "LEGIONENT"
+	},
+	{
+		"SID": "LEXO"
+	},
+	{
+		"SID": "LISEC"
+	},
+	{
+		"SID": "LOBOSEARCH"
+	},
+	{
+		"SID": "LONESTARS"
+	},
+	{
+		"SID": "MANTIESRT"
+	},
+	{
+		"SID": "MANTICORPS"
+	},
+	{
+		"SID": "MONARS"
+	},
+	{
+		"SID": "MASTERLS"
+	},
+	{
+		"SID": "THEMAW"
+	},
+	{
+		"SID": "MCPDA"
+	},
+	{
+		"SID": "MLME"
+	},
+	{
+		"SID": "MEKA"
+	},
+	{
+		"SID": "MERRYSERC"
+	},
+	{
+		"SID": "META"
+	},
+	{
+		"SID": "BUYSELL"
+	},
+	{
+		"SID": "MBI"
+	},
+	{
+		"SID": "MLLE"
+	},
+	{
+		"SID": "LINK"
+	},
+	{
+		"SID": "MOBIUS"
+	},
+	{
+		"SID": "MODOP"
+	},
+	{
+		"SID": "ILEE911"
+	},
+	{
+		"SID": "MSEC"
+	},
+	{
+		"SID": "NVC"
+	},
+	{
+		"SID": "NAKARI"
+	},
+	{
+		"SID": "NANOTEC"
+	},
+	{
+		"SID": "NEMRE"
+	},
+	{
+		"SID": "ALPHAOMEGA"
+	},
+	{
+		"SID": "NHS"
+	},
+	{
+		"SID": "NLR"
+	},
+	{
+		"SID": "NEWYORK"
+	},
+	{
+		"SID": "NIGHTCAT"
+	},
+	{
+		"SID": "NIMBIS"
+	},
+	{
+		"SID": "NODELOG"
+	},
+	{
+		"SID": "NKAREAH"
+	},
+	{
+		"SID": "NSAI"
+	},
+	{
+		"SID": "NLA"
+	},
+	{
+		"SID": "NOVEST"
+	},
+	{
+		"SID": "NYXEOS"
+	},
+	{
+		"SID": "OBCS"
+	},
+	{
+		"SID": "ODZKCORP"
+	},
+	{
+		"SID": "OMIN"
+	},
+	{
+		"SID": "OGC"
+	},
+	{
+		"SID": "PROTECTORA"
+	},
+	{
+		"SID": "ONF"
+	},
+	{
+		"SID": "GEASS"
+	},
+	{
+		"SID": "OPR"
+	},
+	{
+		"SID": "OCGAMERS"
+	},
+	{
+		"SID": "ORPEC"
+	},
+	{
+		"SID": "OWN"
+	},
+	{
+		"SID": "PACE"
+	},
+	{
+		"SID": "PAKU"
+	},
+	{
+		"SID": "PARAMC"
+	},
+	{
+		"SID": "PDF"
+	},
+	{
+		"SID": "PHASE"
+	},
+	{
+		"SID": "PHOCOR"
+	},
+	{
+		"SID": "PHOENIXCRP"
+	},
+	{
+		"SID": "NIX"
+	},
+	{
+		"SID": "TORPEDO"
+	},
+	{
+		"SID": "TPJ"
+	},
+	{
+		"SID": "PLANET319"
+	},
+	{
+		"SID": "PLEIADES"
+	},
+	{
+		"SID": "PCD"
+	},
+	{
+		"SID": "POGO"
+	},
+	{
+		"SID": "PTEXPLORE"
+	},
+	{
+		"SID": "PRAETORIAN"
+	},
+	{
+		"SID": "PRIMARCH"
+	},
+	{
+		"SID": "PCS"
+	},
+	{
+		"SID": "CATGIRLS"
+	},
+	{
+		"SID": "PRIND"
+	},
+	{
+		"SID": "PGC"
+	},
+	{
+		"SID": "PRUN"
+	},
+	{
+		"SID": "QED"
+	},
+	{
+		"SID": "QRRIDERS"
+	},
+	{
+		"SID": "TQR"
+	},
+	{
+		"SID": "RBTRADE"
+	},
+	{
+		"SID": "RADIATION"
+	},
+	{
+		"SID": "TYRANTS"
+	},
+	{
+		"SID": "RAGNAR"
+	},
+	{
+		"SID": "ODDWORLD"
+	},
+	{
+		"SID": "RATCO"
+	},
+	{
+		"SID": "RAO"
+	},
+	{
+		"SID": "RFTS"
+	},
+	{
+		"SID": "REAPERSINC"
+	},
+	{
+		"SID": "REBEL"
+	},
+	{
+		"SID": "RDCZ"
+	},
+	{
+		"SID": "REVOG"
+	},
+	{
+		"SID": "SALSEC"
+	},
+	{
+		"SID": "BARACS"
+	},
+	{
+		"SID": "SAAT"
+	},
+	{
+		"SID": "SIS"
+	},
+	{
+		"SID": "SEIDENSTR"
+	},
+	{
+		"SID": "SENTIWATCH"
+	},
+	{
+		"SID": "EPICFAILCO"
+	},
+	{
+		"SID": "SERTCO"
+	},
+	{
+		"SID": "SUNOFGWYN"
+	},
+	{
+		"SID": "EBHG"
+	},
+	{
+		"SID": "SHAMAN"
+	},
+	{
+		"SID": "SFST"
+	},
+	{
+		"SID": "SICH"
+	},
+	{
+		"SID": "SIRNCO"
+	},
+	{
+		"SID": "HUMANCARGO"
+	},
+	{
+		"SID": "SSPACE"
+	},
+	{
+		"SID": "SMUGGLERS"
+	},
+	{
+		"SID": "TSOB"
+	},
+	{
+		"SID": "CITIZENSEC"
+	},
+	{
+		"SID": "SMCDL"
+	},
+	{
+		"SID": "D474"
+	},
+	{
+		"SID": "SPARTAN"
+	},
+	{
+		"SID": "OWSG"
+	},
+	{
+		"SID": "SPIT"
+	},
+	{
+		"SID": "SSRG"
+	},
+	{
+		"SID": "SQ145"
+	},
+	{
+		"SID": "COMPLEX"
+	},
+	{
+		"SID": "PURR"
+	},
+	{
+		"SID": "CITIZENTS"
+	},
+	{
+		"SID": "SULTANS"
+	},
+	{
+		"SID": "ARMORY"
+	},
+	{
+		"SID": "STARGAZING"
+	},
+	{
+		"SID": "STARLORDZ"
+	},
+	{
+		"SID": "STRSHLD"
+	},
+	{
+		"SID": "STEELERS"
+	},
+	{
+		"SID": "REQUIEM"
+	},
+	{
+		"SID": "SURVEYOR"
+	},
+	{
+		"SID": "SFM"
+	},
+	{
+		"SID": "340"
+	},
+	{
+		"SID": "THETEAM"
+	},
+	{
+		"SID": "TMNCORP"
+	},
+	{
+		"SID": "ARCHAEO"
+	},
+	{
+		"SID": "DEFENCE"
+	},
+	{
+		"SID": "THPINC"
+	},
+	{
+		"SID": "772"
+	},
+	{
+		"SID": "TOMAHAWK"
+	},
+	{
+		"SID": "BALHAR"
+	},
+	{
+		"SID": "TAHC"
+	},
+	{
+		"SID": "BATTLEFURS"
+	},
+	{
+		"SID": "TRISKELION"
+	},
+	{
+		"SID": "TRITONSO"
+	},
+	{
+		"SID": "TUSKENRAID"
+	},
+	{
+		"SID": "ULCISCOR"
+	},
+	{
+		"SID": "UMSAEB"
+	},
+	{
+		"SID": "UAV"
+	},
+	{
+		"SID": "UCOI"
+	},
+	{
+		"SID": "UNICORP"
+	},
+	{
+		"SID": "UNOMO"
+	},
+	{
+		"SID": "UKCMC"
+	},
+	{
+		"SID": "UNSC"
+	},
+	{
+		"SID": "UNXP"
+	},
+	{
+		"SID": "UDM"
+	},
+	{
+		"SID": "VALKUNION"
+	},
+	{
+		"SID": "VANGUARDCM"
+	},
+	{
+		"SID": "VEE"
+	},
+	{
+		"SID": "VIGIS"
+	},
+	{
+		"SID": "VINDYNE"
+	},
+	{
+		"SID": "VOIDCON"
+	},
+	{
+		"SID": "ABYSSAL"
+	},
+	{
+		"SID": "VOXMORTEM"
+	},
+	{
+		"SID": "VVAR"
+	},
+	{
+		"SID": "WARPCO"
+	},
+	{
+		"SID": "WHITEPOINT"
+	},
+	{
+		"SID": "WILDTECH"
+	},
+	{
+		"SID": "WLFPK"
+	},
+	{
+		"SID": "TZO"
+	}
+]
