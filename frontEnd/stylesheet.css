@@ -1,4 +1,18 @@
+
+.displayResults{
+	position: absolute;
+	width: 10%;
+}
+
+.SIDList {
+	position: absolute;
+	padding-left: 200px;
+}
+
+
 .memberList {
+	position: absolute;
+	padding-left: 500px;
 }
 
 .checkboxMainBlock {
@@ -76,7 +90,7 @@ h1, h2, h3, h4 {
 	left: 50px;
 	height: 40px;
 	width: 140px;
-	z-index: 0;
+	z-index: 1;
 }
 
 /* do not delete!
@@ -86,6 +100,6 @@ h1, h2, h3, h4 {
 	clear: left;
 	width: 100%;
 	height: 50px;
-	z-index: -1;
+	z-index: 0;
 }
 

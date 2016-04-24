@@ -32,10 +32,16 @@
 		<div class="footer"></div>
 	</div>
 	<div ng-controller="MemberController">
-		<h3>List of SIDs for orgs in Cog</h3>
-		<p class="memberList" ng-repeat="org in orgData">
-			{{ org.SID }}
-		</p>
+		<div class="SIDList">
+			<h3>SIDs for orgs in Cog</h3>
+			<p ng-repeat="org in orgData">{{ org.SID }}</p>
+		</div>
+		<div class="memberList">
+			<h3>Handles for persons in Cog</h3>
+			<div>
+				<p ng-repeat="member in orgDataArray track by $index">{{ member }}</p>
+			</div>
+		</div>
 	</div>
 	
 	<!-- Include AngularJS -->
