@@ -11,15 +11,12 @@
         $data = json_decode($lines, true);
         foreach ($data as $org)
         {
-          foreach($org)
-           {
+          
             //put info into variables
             $sid = $org['sid'];
             $name = $org['title'];
             $icon = $org['logo'];
-           }
             
-        
             echo "$sid \n";
             echo "$name \n";
             echo "$icon \n";
