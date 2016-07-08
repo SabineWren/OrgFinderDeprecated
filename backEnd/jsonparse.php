@@ -29,30 +29,39 @@
     
     //read the json file contents
     $x = 1;
+    $null = 0;
     do
     {
-        $lines = file_get_contents('http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page='.$x.'&end_page='.$x.'&items_per_page=255&sort_method=&sort_direction=ascending&expedite=0&format=pretty_json');
+        $lines = file_get_contents('http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page='.$x.'&end_page='.$x.'&items_per_page=50&sort_method=&sort_direction=ascending&expedite=0&format=pretty_json');
         //convert json object to php associative array
-        $data = json_decode($lines, true);
+        $data = json_decode($lines);
         if ($data != "null")
-            foreach ($data['data'] as $org)
+        {
+            if ( is_array($data) || is_object($data))
             {
-                //put info into variables
-                $sid = $org['sid'];
-                $name = $org['title'];
-                $icon = $org['logo'];
-            
-                //insert into mysql table
-                $sql = "INSERT INTO tbl_Organizations(SID, Name, Icon)
-                VALUES('$sid', '$name', '$icon')";
-                mysqli_query($connect, $sql);
-                $x++;
+                foreach ($data->data as $org)
+                {
+                    //put info into variables
+                    $sid = $org->sid;
+                    $name = $org->title;
+                    $icon = $org->logo;
+                
+                    //insert into mysql table
+                    $sql = "INSERT INTO tbl_Organizations(SID, Name, Icon)
+                    VALUES('$sid', '$name', '$icon')";
+                    mysqli_query($connect, $sql);
+                    $x++;
+                }
             }
+            else {
+                    $null++;
+            }
+        }
         else {
-            echo "data = null";
+            $null++;
         }
        
-    }while($data != "null");
+    }while($null != 3);
     
     /*$SIDstr = "SELECT SID FROM tbl_Organizations";
     $SIDres = mysqli_query($connect, $orgSID);
