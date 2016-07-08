@@ -27,21 +27,19 @@
               mysqli_query($connect, $clear);
     
     
-    //read the json file contents
+    //read json file contents
     $x = 1;
     $null = 0;
-    do
-    {
+    while($null < 3);{
         $lines = file_get_contents('http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page='.$x.'&end_page='.$x.'&items_per_page=50&sort_method=&sort_direction=ascending&expedite=0&format=pretty_json');
-        //convert json object to php associative array
+        $x++;
+        
         $data = json_decode($lines);
-        if ($data != "null")
+        if ( ($data != "null") &&  is_object($data) )
         {
-            if ( is_array($data) || is_object($data))
-            {
                 foreach ($data->data as $org)
                 {
-                    //put info into variables
+                	//aliases
                     $sid = $org->sid;
                     $name = $org->title;
                     $icon = $org->logo;
@@ -50,18 +48,13 @@
                     $sql = "INSERT INTO tbl_Organizations(SID, Name, Icon)
                     VALUES('$sid', '$name', '$icon')";
                     mysqli_query($connect, $sql);
-                    $x++;
                 }
-            }
-            else {
-                    $null++;
-            }
         }
         else {
             $null++;
         }
        
-    }while($null != 3);
+    }
     
     /*$SIDstr = "SELECT SID FROM tbl_Organizations";
     $SIDres = mysqli_query($connect, $orgSID);
