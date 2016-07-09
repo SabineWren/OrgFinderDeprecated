@@ -12,13 +12,19 @@
 FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getResultsService', function($scope, $http, readFileService, getResultsService) {
 	// Init
 	$scope.checkedOuter = {num: 0};
-	$scope.checkboxModels = [
-		{category: "Commitment", appliedFilter: [], data: readFileService.query({file: "Commitment.json"}) },
-		{category: "RolePlay", appliedFilter: [], data: readFileService.query({file: "RolePlay.json"}) },
-		{category: "Archetype", appliedFilter: [], data: readFileService.query({file: "Archetype.json"}) },
-		{category: "Activities", appliedFilter: [], data: readFileService.query({file: "Activities.json"}) },
-		{category: "Recruiting", appliedFilter: [], data: readFileService.query({file: "Recruiting.json"}) }
-	];
+	$scope.checkboxModels = [];
+	
+	// each list of checkboxes is stored as array elements in a single JSON file with its corresponding title
+	var query = readFileService.query( {file: "Checkboxes.json"} );
+	query.$promise.then(function(data){
+		var rawFileData = data;
+		
+		for(var object in rawFileData){
+			if( !isNaN(object) ){
+				$scope.checkboxModels.push( {category: rawFileData[object].category, appliedFilter: [], data: rawFileData[object].data} );
+			}
+		}
+	});
 	
 	// Filter by Name or SID
 	$scope.callSelect = function(){
