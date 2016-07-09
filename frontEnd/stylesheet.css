@@ -1,4 +1,4 @@
-
+/*
 .displayResults{
 	position: absolute;
 	width: 10%;
@@ -13,7 +13,7 @@
 .memberList {
 	position: absolute;
 	padding-left: 500px;
-}
+}*/
 
 .checkboxMainBlock {
 	background-color: #AAAAAA;
@@ -83,23 +83,10 @@ h1, h2, h3, h4 {
 }
 
 
-/* do not delete! */
 .loadButton {
-	position: fixed;/* required for button access */
-	bottom: 20px;
-	left: 50px;
-	height: 40px;
-	width: 140px;
-	z-index: 1;
 }
 
-/* do not delete!
- * - used to buffer the data list to make room for the Load More button*/
+/* used to buffer the data list to make room for the Load More button*/
 .footer {
-	position: absolute;
-	clear: left;
-	width: 100%;
-	height: 50px;
-	z-index: 0;
 }
 

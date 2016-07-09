@@ -4,7 +4,22 @@
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<link type="text/css" rel="stylesheet" href="frontEnd/stylesheet.css"/>
 	<title>Cognition Corp</title>
+	
+	<script>
+	/*
+	@license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt
+	
+	Copyright (C) 2016 LucFauvel and SabineWren
+	
+	human-readable license information linked at the bottom of this page (above the includes)
+	
+	@license-end
+	*/
+	</script>
 </head>
+
+	<!-- *********************************************************************************** -->
+
 <body ng-app="FrontEndApp">
 	<div ng-controller="CheckboxController">
 		<div class="checkboxMainBlock">
@@ -31,7 +46,10 @@
 		</div>
 		<div class="footer"></div>
 	</div>
-	<div ng-controller="MemberController">
+	
+	<!-- *********************************************************************************** -->
+	
+	<!--GET AND DISPLAY MEMBER DATA HERE div ng-controller="MemberController">
 		<div class="SIDList">
 			<h3>SIDs for orgs in Cog</h3>
 			<p ng-repeat="org in orgData">{{ org.SID }}</p>
@@ -42,7 +60,16 @@
 				<p ng-repeat="member in orgDataArray track by $index">{{ member }}</p>
 			</div>
 		</div>
+	</div-->
+	
+	<!-- *********************************************************************************** -->
+	
+	<!-- License Information -->
+	<div>
+		<p><a rel="license" href="jslicense.html">JavaScript license information</a></p>
 	</div>
+	
+	<!-- *********************************************************************************** -->
 	
 	<!-- Include AngularJS -->
 	<script src="bower_components/angular/angular.js"></script>
@@ -55,11 +82,9 @@
 
 	<!-- Controllers -->
 	<script src="frontEnd/js/controllers/CheckboxController.js"></script>
-	<script src="frontEnd/js/controllers/MemberController.js"></script>
 
 	<!-- Services -->
 	<script src="frontEnd/js/services/readFileService.js"></script>
-	<script src="frontEnd/js/services/getMembersService.js"></script>
 		
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>
