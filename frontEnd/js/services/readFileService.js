@@ -4,7 +4,7 @@
 	Copyright (C) 2016 LucFauvel and SabineWren
 	
 	GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
-	https://www.gnu.org/licenses/license-list.en.html#AGPL
+	https://www.gnu.org/licenses/agpl-3.0.html
 	
 	@license-end
 */

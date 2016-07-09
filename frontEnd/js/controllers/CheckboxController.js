@@ -1,15 +1,16 @@
-/*
+/*	
 	@license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt
 	
 	Copyright (C) 2016 LucFauvel and SabineWren
 	
 	GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
-	https://www.gnu.org/licenses/license-list.en.html#AGPL
+	https://www.gnu.org/licenses/agpl-3.0.html
 	
 	@license-end
 */
 
-FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getResultsService', function($scope, $http, readFileService, getResultsService) {
+//FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getResultsService', function($scope, $http, readFileService, getResultsService) {
+FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
 	// Init
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
@@ -35,7 +36,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	/*********************
 	 * Display Results */
 	 
-	 $scope.loadMore = function(newPageNumber){
+	$scope.loadMore = function(newPageNumber){
 		var lastItem = $scope.results[$scope.results.length - 1];
 		//var moreResults = getResultsService.query({file: "Activities.json"});
 		//var moreResults = [];
@@ -57,6 +58,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	
 }]);
 
+/*
 FrontEndApp.factory('getResultsService', function ($resource) {
     return $resource('frontEnd/data/:file',{file: "@file"});
-});
+});*/
