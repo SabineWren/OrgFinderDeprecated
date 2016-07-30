@@ -42,6 +42,9 @@ DROP TABLE tbl_Persons;
 DROP TABLE tbl_Countries;
 */
 
+
+-- Database uses latin1 instead of utf8 because some org names have special characters (ascii)
+
 CREATE TABLE tbl_Countries(
 	Name VARCHAR(30) PRIMARY KEY
 );

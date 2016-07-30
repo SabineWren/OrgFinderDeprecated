@@ -9,7 +9,7 @@
 	@license-end
 */
 
-//FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getResultsService', function($scope, $http, readFileService, getResultsService) {
+//FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getOrgsService', function($scope, $http, readFileService, getOrgsService) {
 FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
 	// Init
 	$scope.checkedOuter = {num: 0};
@@ -29,33 +29,44 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	
 	// Filter by Name or SID
 	$scope.callSelect = function(){
-		console.log("Button Pushed.");
-		$scope.results = [1];
+		console.log("Apply Filter Button Pushed.");
+		$scope.nextPage = 0;
+		$scope.results = [];
+		$scope.loadMore();
 	}
 	
 	/*********************
 	 * Display Results */
 	 
-	$scope.loadMore = function(newPageNumber){
-		var lastItem = $scope.results[$scope.results.length - 1];
-		//var moreResults = getResultsService.query({file: "Activities.json"});
-		//var moreResults = [];
-		for(var i = 1; i < 8; i++){
-			$scope.results.push(lastItem + i);
-		}
+	$scope.loadMore = function(){
+		
+		
+		//var moreResults = getOrgsService.query();
+		/*moreResults.$promise.then(function(data){
+			for(var object in data){
+				$scope.results.push(object);
+			}
+		});*/
+		var value = 0;
+		$http.get('/backEnd/selects.php/?pagenum=' + $scope.nextPage).success(function(data){//localhost:8000
+			if(data == "null"){
+				alert("No more orgs found!\n");
+				return;
+			}
+			for(obj in data){
+				var $field = data[obj]["SID"];
+				$scope.results.push($field);
+			}
+		});
+		$scope.nextPage++;
+		
 	}
 	
 	// Init
-	$scope.currentPage = 1;
-	$scope.pageSize = 8;
+	$scope.nextPage = 0;
+	$scope.pageSize = 10;
 	$scope.results = [];
-	for(var i = 1; i < 10; i++){
-		$scope.results.push(i);
-	}
-	$scope.newPageNumber = 5;
-	
-	$scope.loadMore($scope.pageSize);
-	
+	$scope.loadMore();
 }]);
 
 /*

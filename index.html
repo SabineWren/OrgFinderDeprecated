@@ -39,12 +39,15 @@
 				<input type="button" ng-click="callSelect()" value="Apply Filter" /> {{ filter }}</p>
 			</div>
 		</div>
+		
+		<!-- *********************************************************************************** -->
+		
 		<div class="displayResults">
 			<ul>
 				<li ng-repeat="result in results">{{ result }}</li>
 			</ul>
-			<button class="loadButton" ng-click="loadMore(1)">Load Runner</button>
 		</div>
+		<button class="loadButton" ng-click="loadMore()">Load Results</button>
 		<div class="footer"></div>
 	</div>
 	
