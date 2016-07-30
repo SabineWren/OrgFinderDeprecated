@@ -44,9 +44,16 @@
 		
 		<div class="displayResults">
 			<table>
+				<thead align="left"><tr>
+					<th>SID</th>
+					<th>Name</th>
+					<th>Size</th>
+					<th>Icon</th>
+				</tr></thead>
 				<tr ng-repeat="result in results">
 					<td>{{ result.SID }}</td>
 					<td>{{ result.Name }}</td>
+					<td>{{ result.Members }}</td>
 					<td><img class=icon ng-src="{{ result.Icon }}"></td>
 				</tr>
 			</table>

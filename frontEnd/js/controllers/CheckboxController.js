@@ -12,9 +12,19 @@
 //FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getOrgsService', function($scope, $http, readFileService, getOrgsService) {
 FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
 	var orgData = function(SID, Name, Icon){
-		this.SID  = SID;
-		this.Name = Name;
-		this.Icon  = Icon;
+		this.SID        = SID;
+		this.Name       = Name;
+		this.Icon       = Icon;
+		this.Members    = null;
+		this.Mains      = null;
+		this.Affiliates = null;
+		this.Commitment = null;
+		this.Language   = null;
+		this.Roleplay   = null;
+		this.Archetype  = null;
+		this.Recruiting = null;
+		this.PrimaryFocus   = null;
+		this.SecondaryFocus = null;
 	}
 
 	// Init
@@ -61,6 +71,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			}
 			for(obj in data){
 				var $field = new orgData(data[obj]["SID"], data[obj]["Name"], data[obj]["Icon"])
+				$field.Members = data[obj]["Members"];
 				$scope.results.push($field);
 			}
 		});
