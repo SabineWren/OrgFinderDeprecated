@@ -11,6 +11,12 @@
 
 //FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getOrgsService', function($scope, $http, readFileService, getOrgsService) {
 FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
+	var orgData = function(SID, Name, Icon){
+		this.SID  = SID;
+		this.Name = Name;
+		this.Icon  = Icon;
+	}
+
 	// Init
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
@@ -54,7 +60,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 				return;
 			}
 			for(obj in data){
-				var $field = data[obj]["SID"];
+				var $field = new orgData(data[obj]["SID"], data[obj]["Name"], data[obj]["Icon"])
 				$scope.results.push($field);
 			}
 		});

@@ -15,6 +15,11 @@
 	padding-left: 500px;
 }*/
 
+.icon {
+	max-width:  50px;
+	max-height: 50px;
+}
+
 .checkboxMainBlock {
 	background-color: #AAAAAA;
 	position: relative;

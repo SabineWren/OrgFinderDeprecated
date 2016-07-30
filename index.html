@@ -43,9 +43,13 @@
 		<!-- *********************************************************************************** -->
 		
 		<div class="displayResults">
-			<ul>
-				<li ng-repeat="result in results">{{ result }}</li>
-			</ul>
+			<table>
+				<tr ng-repeat="result in results">
+					<td>{{ result.SID }}</td>
+					<td>{{ result.Name }}</td>
+					<td><img class=icon ng-src="{{ result.Icon }}"></td>
+				</tr>
+			</table>
 		</div>
 		<button class="loadButton" ng-click="loadMore()">Load Results</button>
 		<div class="footer"></div>
