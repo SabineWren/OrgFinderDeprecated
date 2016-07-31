@@ -25,19 +25,19 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		for(obj in data){
 			var $field = new orgData(data[obj]["SID"], data[obj]["Name"], data[obj]["Icon"]);
 			
-			$field.Members    = data[obj]["Members"];
-			//$field.Mains =
-			//$field.Affiliates =
+			$field.Members        = data[obj]["Members"];
+			//$field.Mains        = data[obj][""];
+			//$field.Affiliates   = data[obj][""];
 			
-			$field.Commitment = data[obj]["Commitment"];
+			$field.Commitment     = data[obj]["Commitment"];
 			
-			$field.Recruiting = data[obj]["Recruiting"];
+			$field.Recruiting     = data[obj]["Recruiting"];
 			
-			//$field.Language =
+			$field.Language       = data[obj]["Language"];
 			
-			//$field.Roleplay =
+			$field.Roleplay       = data[obj]["Roleplay"];
 			
-			//$field.Archetype =
+			$field.Archetype      = data[obj]["Archetype"];
 			
 			$field.PrimaryFocus   = data[obj]["PrimaryFocus"];
 			$field.SecondaryFocus = data[obj]["SecondaryFocus"];

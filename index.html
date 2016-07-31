@@ -50,11 +50,15 @@
 					<th>Icon</th>
 					<th>Size</th>
 					<th>Commitment</th>
-					<th>Recruiting</th>
+					<th>Archetype</th>
 					<th>Primary</th>
 					<th></th>
 					<th>Secondary</th>
 					<th></th>
+					<th>Recruiting</th>
+					<th>Language</th>
+					<th>Roleplay</th>
+					
 				</tr></thead>
 				<tr ng-repeat="result in results">
 					<td>{{ result.SID }}</td>
@@ -62,11 +66,14 @@
 					<td><img class=icon ng-src="{{ result.Icon }}"></td>
 					<td>{{ result.Members }}</td>
 					<td>{{ result.Commitment }}</td>
-					<td>{{ result.Recruiting }}</td>
+					<td>{{ result.Archetype }}</td>
 					<td>{{ result.PrimaryFocus }}</td>
 					<td><img class=icon ng-src="{{ result.PrimaryIcon }}"></td>
 					<td>{{ result.SecondaryFocus }}</td>
 					<td><img class=icon ng-src="{{ result.SecondaryIcon }}"></td>
+					<td>{{ result.Recruiting }}</td>
+					<td>{{ result.Language }}</td>
+					<td>{{ result.Roleplay }}</td>
 				</tr>
 			</table>
 		</div>
