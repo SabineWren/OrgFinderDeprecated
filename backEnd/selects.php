@@ -29,18 +29,6 @@
 	$pagenum = $pagenum * 10;
 	$prepared_select->execute();
 	
-	/*
-	//output plain text
-	$sid = "";
-	$name = "";
-	$icon = "";
-	$prepared_select->bind_result($sid, $name, $icon);
-	while ($prepared_select->fetch()) {
-		echo $sid  . "\n";
-		echo $name . "\n";
-		echo $icon . "\n";
-	}*/
-	
 	//parse data and create json using metadata
 	$meta = $prepared_select->result_metadata();
 

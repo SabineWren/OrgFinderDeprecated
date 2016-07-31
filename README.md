@@ -1,9 +1,17 @@
 # Cognition.corp
 Cognition Corp website and database development (pre-alpha)
-MySQL database with utf8-bin tables
-PHP back-end
-AngularJS front-end
-we interface with sc-api
+
+Technology stack:
+
+- GNU+Linux server
+
+- MySQL database with utf8-bin tables
+
+- PHP back-end
+
+- AngularJS front-end
+
+- we interface with sc-api
 
 Hosting instrunctions:
 

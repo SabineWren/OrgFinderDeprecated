@@ -24,7 +24,9 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		this.Archetype  = null;
 		this.Recruiting = null;
 		this.PrimaryFocus   = null;
+		this.PrimaryIcon    = null;
 		this.SecondaryFocus = null;
+		this.SecondaryIcon  = null;
 	}
 
 	// Init
@@ -73,6 +75,14 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 				var $field = new orgData(data[obj]["SID"], data[obj]["Name"], data[obj]["Icon"])
 				$field.Members    = data[obj]["Members"];
 				$field.Commitment = data[obj]["Commitment"];
+				$field.Recruiting = data[obj]["Recruiting"];
+				$field.PrimaryFocus   = data[obj]["PrimaryFocus"];
+				$field.PrimaryIcon    = data[obj]["PrimaryIcon"];
+				$field.SecondaryFocus = data[obj]["SecondaryFocus"];
+				$field.SecondaryIcon  = data[obj]["SecondaryIcon"];
+				
+				console.log($field.PrimaryFocus);
+				
 				$scope.results.push($field);
 			}
 		});

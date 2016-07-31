@@ -17,13 +17,14 @@
 	*		INNER LOOP:
 	*			4) Sub-query Org (more data)
 	*			5) Bind data to statement
-	*			6) Execute replaceion
+	*			6) Execute Database Transactions
 	* 7) Sort Tuples
 	* 8) Close connection
 	*/
 	
-	/* Known problems:
+	/* tofix:
 	 * The public account currently has insert and update access to the db
+	 * change ER diagram FullOrganizations to FullOrgs
 	 */
 	 
 	ini_set('default_charset', 'UTF-8');
@@ -37,13 +38,28 @@
 	
 	//2) Prepare statements
 	$prepared_replace_org = $connection->prepare("REPLACE INTO tbl_Organizations (SID, Name, Icon) VALUES (?, ?, ?)");
-	$prepared_replace_org->bind_param("sss", $SID, $Name, $Icon);
+	$prepared_replace_org ->bind_param("sss", $SID, $Name, $Icon);
 	
 	$prepared_replace_size = $connection->prepare("REPLACE INTO tbl_OrgSize (Organization, MemberCount) VALUES (?, ?)");
-	$prepared_replace_size->bind_param("sd", $SID, $MemberCount);
+	$prepared_replace_size ->bind_param("sd", $SID, $MemberCount);
 	
-	$prepared_replace_commits = $connection->prepare("INSERT INTO tbl_Commits(Organization, Commitment) VALUES (?, ?)");
-	$prepared_replace_commits->bind_param("ss", $SID, $Commitment);
+	$prepared_replace_commits = $connection->prepare("REPLACE INTO tbl_Commits(Organization, Commitment) VALUES (?, ?)");
+	$prepared_replace_commits ->bind_param("ss", $SID, $Commitment);
+	
+	$prepared_insert_full = $connection->prepare("INSERT INTO tbl_FullOrgs(Organization) VALUES (?)");
+	$prepared_delete_full = $connection->prepare("DELETE from tbl_FullOrgs WHERE Organization = ?");
+	$prepared_insert_full ->bind_param("s", $SID);
+	$prepared_delete_full ->bind_param("s", $SID);
+	
+	$prepared_replace_primary = $connection->prepare("REPLACE INTO tbl_PrimaryFocus(PrimaryFocus, Organization) VALUES (?, ?)");
+	$prepared_replace_secondary = $connection->prepare("REPLACE INTO tbl_SecondaryFocus(SecondaryFocus, Organization) VALUES (?, ?)");
+	$prepared_replace_performs = $connection->prepare("REPLACE INTO tbl_Performs(PrimaryFocus, SecondaryFocus, Organization) VALUES (?, ?, ?)");
+	$prepared_replace_primary->bind_param("ss", $PrimaryFocus, $SID);
+	$prepared_replace_secondary->bind_param("ss", $SecondaryFocus, $SID);
+	$prepared_replace_performs->bind_param("sss", $PrimaryFocus, $SecondaryFocus, $SID);
+	
+	//$prepared_replace_?? = $connection->prepare("REPLACE INTO tbl_");
+	//$prepared_replace_??->bind_param
 
 	for($x = 1; $x <= 1; $x++){
 		//3) Query SC-API (all orgs)
@@ -70,13 +86,13 @@
 			$Name        = html_entity_decode(  $orgArray['data']['title']  );
 			$Icon        = $orgArray['data']['logo'];
 			$MemberCount = intval( $orgArray['data']['member_count'] );
-//			$recruiting
+			$recruiting  = $orgArray['data']['recruiting'];
 			//archetype
-			$Commitment = $orgArray['data']['commitment'];
+			$Commitment  = $orgArray['data']['commitment'];
 			//roleplay
 			//lang
-			//primary_focus
-			//secondary_focus
+			$PrimaryFocus   = $orgArray['data']['primary_focus'];
+			$SecondaryFocus = $orgArray['data']['secondary_focus'];
 			//banner
 			//headline
 			//history
@@ -90,12 +106,18 @@
 			//echo "$Icon \n";
 			echo "Members: " . $MemberCount . "\n";
 			echo "Commitment: " . $Commitment . "\n";
+			echo "Primary: " . $PrimaryFocus . "\n";
 			echo "\n";
 
-			//6) Execute replaceion
+			//6) Execute Database Transactions
 			$prepared_replace_org->execute();
 			$prepared_replace_size->execute();
 			$prepared_replace_commits->execute();
+			if( $recruiting === "no" )$prepared_insert_full->execute();
+			else $prepared_delete_full->execute();
+			$prepared_replace_primary->execute();
+			$prepared_replace_secondary->execute();
+			$prepared_replace_performs->execute();
 		}
 	}
 	//7) Sort Tuples
@@ -117,5 +139,11 @@
 	$prepared_replace_org->close();
 	$prepared_replace_size->close();
 	$prepared_replace_commits->close();
+	$prepared_insert_full->close();
+	$prepared_delete_full->close();
+	$prepared_replace_primary->close();
+	$prepared_replace_secondary->close();
+	$prepared_replace_performs->close();
+	
 	$connection->close();
 ?>
