@@ -3,7 +3,7 @@ CREATE OR REPLACE VIEW View_Roleplaying as
 SELECT SID, CASE
 	WHEN rpr.Organization IS NOT NULL then "Yes"
 	ELSE "No"
-	END AS Rolplay
+	END AS Roleplay
 FROM tbl_Organizations orgs
 LEFT JOIN tbl_RolePlayOrgs rpr
 ON orgs.SID = rpr.Organization;
@@ -43,7 +43,7 @@ SELECT Organization as SID, MemberCount as Members, CASE
 FROM tbl_OrgSize OrgSize;
 
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
-SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Rolplay, Archetype, Recruiting, 
+SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Roleplay, Archetype, Recruiting, 
 performs.PrimaryFocus as PrimaryFocus, performs.SecondaryFocus as SecondaryFocus, orgs.Icon
 FROM tbl_Organizations orgs
 LEFT JOIN View_Size ON orgs.SID = View_Size.SID
