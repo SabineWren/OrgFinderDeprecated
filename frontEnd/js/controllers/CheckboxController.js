@@ -70,12 +70,17 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 
 
 	// Init **********************************************************************************************************
+	$scope.nextPage = 0;
+	$scope.pageSize = 10;
+	$scope.results = [];
+	
 	//the database saved the server location of each activity icon;
 	//we GET that location and store it in an array that organizations can map to later...
 	//...therefore, we never GET more images than there are icons
 	$scope.icons = null;
 	$http.get('/backEnd/icons.php').success(function(data){
 		$scope.icons = data;
+		$scope.loadMoreOrgs();
 	});
 	
 	$scope.checkedOuter = {num: 0};
@@ -95,10 +100,5 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			}
 		}
 	});
-	
-	$scope.nextPage = 0;
-	$scope.pageSize = 10;
-	$scope.results = [];
-	$scope.loadMoreOrgs();
 }]);
 

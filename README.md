@@ -15,20 +15,18 @@ Technology stack:
 
 Hosting instrunctions:
 
-Use npm to install the required library files (run it once). Then switch to PHP5 for local hosting, as npm does not run php scripts. You may also need Bower for installation.
+Use PHP5 for local testing and Apache for hosting, as npm does not run php scripts.
 
-To host the app locally, add and run dependencies. Debian-based GNU distributions have six required steps:
+To host the app locally, add and run dependencies. Debian-based GNU distributions keep it simple:
 
-1) $ sudo apt-get install npm
+1) git clone <repository url>
 
-2) $ npm intstall angular-resource
+//for local testing:
 
-3) $ npm start
+2) php -S localhost:8000
 
-4) close npm
+//navigate to localhost:8000/frontEnd.html
 
-5) $ php -S localhost:8000
+3) clone into /var/www/html (for LAMP server)
 
-6) using a web browser, navigate to localhost:8000/frontEnd.html
-
-Once you've configured the website once, you can skip steps 1-5. Host the MySQL database using MySQL-server, Apache2, and PhpMyAdmin.
+//Our test hosting uses Raspian GNU+Linux, Apache2, MySQL-server, and PHP5 administered thru PhpMyAdmin.
