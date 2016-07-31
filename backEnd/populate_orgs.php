@@ -13,17 +13,18 @@
 	* 1) Connect to DB
 	* 2) Prepare statement
 	* OUTER LOOP:
-	*		3) Query SC-API
+	*		3) Query SC-API (all orgs)
 	*		INNER LOOP:
-	*			4) Bind data to statement
-	*			5) Execute replaceion
-	* 6) Close connection
+	*			5) Bind data to statement
+	*			6) Execute replaceion
+	* 7) Close connection
 	*/
 	
 	/* Known problems:
-	 * The sc-api does not store special characters correctly; a possibly fix is to create our own scraper
 	 * The public account currently has insert and update access to the db
 	 */
+	 
+	ini_set('default_charset', 'UTF-8');
 
 	//1) Connect to DB
 	//password convenient because some security settings by default require a password
@@ -40,35 +41,34 @@
 	$prepared_replace_size->bind_param("sd", $SID, $MemberCount);
 
 	for($x = 1; $x <= 2; $x++){
-		//3) Query SC-API
+		//3) Query SC-API (all orgs)
 		$lines = file_get_contents(
 			'http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page='
 			. $x . '&end_page=' . $x . 
-			'&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=pretty_json'
+			'&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=json'
 		);    
 		$dataArray = json_decode($lines, true);//convert json object to php associative array
 		if($dataArray == false)exit("failed to decode\n");
-
+		unset($lines);
+		
 		foreach ($dataArray["data"] as $org){
 			//4) Bind data to statement
-			$SID = strtoupper( $org['sid'] );
+			$SID         = strtoupper( $org['sid'] );
 			$MemberCount = intval( $org['member_count'] );
-			$Name = $org['title'];
-			$Icon = $org['logo'];
+			$Name        = html_entity_decode(  $org['title']  );
+			$Icon        = $org['logo'];
 
-			/* test code*/
+			//test code
 			echo "SID: " . $SID . "\n";
 			echo "Members: " . $MemberCount . "\n";
 			echo "Name: " . $Name . "\n";
-			echo "$Icon \n";
+			//echo "$Icon \n";
 			echo "\n";
 
 			//5) Execute replaceion
 			$prepared_replace_org->execute();
 			$prepared_replace_size->execute();
 		}
-		
-		//unset($lines);
 	}
 	
 	//6) Close Connection
