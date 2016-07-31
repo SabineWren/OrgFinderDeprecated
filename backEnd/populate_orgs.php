@@ -99,10 +99,10 @@
 			$Icon        = $orgArray['data']['logo'];
 			$MemberCount = intval( $orgArray['data']['member_count'] );
 			$recruiting  = $orgArray['data']['recruiting'];
-			$Archetype = $orgArray['data']['archetype'];
+			$Archetype   = $orgArray['data']['archetype'];
 			$Commitment  = $orgArray['data']['commitment'];
-			$Roleplay = $orgArray['data']['roleplay'];
-			$Language = $orgArray['data']['lang'];
+			$Roleplay    = $orgArray['data']['roleplay'];
+			$Language    = html_entity_decode(  $orgArray['data']['lang']  );
 			$PrimaryFocus   = $orgArray['data']['primary_focus'];
 			$SecondaryFocus = $orgArray['data']['secondary_focus'];
 			//banner
@@ -125,13 +125,13 @@
 			$prepared_replace_org->execute();
 			$prepared_replace_size->execute();
 			$prepared_replace_commits->execute();
-			if( $recruiting === "no" )$prepared_insert_full->execute();
+			if( $recruiting === "No" )$prepared_insert_full->execute();
 			else $prepared_delete_full->execute();
 			$prepared_replace_primary->execute();
 			$prepared_replace_secondary->execute();
 			$prepared_replace_performs->execute();
 			$prepared_replace_archetype->execute();
-			if( $Roleplay === "yes" )$prepared_insert_roleplay->execute();
+			if( $Roleplay === "Yes" )$prepared_insert_roleplay->execute();
 			else $prepared_delete_roleplay->execute();
 			$prepared_replace_language->execute();
 		}
