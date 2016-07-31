@@ -71,7 +71,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			}
 			for(obj in data){
 				var $field = new orgData(data[obj]["SID"], data[obj]["Name"], data[obj]["Icon"])
-				$field.Members = data[obj]["Members"];
+				$field.Members    = data[obj]["Members"];
+				$field.Commitment = data[obj]["Commitment"];
 				$scope.results.push($field);
 			}
 		});
