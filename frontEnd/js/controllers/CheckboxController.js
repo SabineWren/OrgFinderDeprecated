@@ -26,27 +26,28 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			var url = "/org_icons/" + data[obj]["SID"];
 			var field = new orgData( data[obj]["SID"], data[obj]["Name"], url );
 			
-			$field.Members        = data[obj]["Members"];
-			//$field.Mains        = data[obj][""];
-			//$field.Affiliates   = data[obj][""];
+			field.Members        = data[obj]["Members"];
+			//field.Mains        = data[obj][""];
+			//field.Affiliates   = data[obj][""];
 			
-			$field.Commitment     = data[obj]["Commitment"];
+			field.Commitment     = data[obj]["Commitment"];
 			
-			$field.Recruiting     = data[obj]["Recruiting"];
+			field.Recruiting     = data[obj]["Recruiting"];
 			
-			$field.Language       = data[obj]["Language"];
+			field.Language       = data[obj]["Language"];
 			
-			$field.Roleplay       = data[obj]["Roleplay"];
+			field.Roleplay       = data[obj]["Roleplay"];
 			
-			$field.Archetype      = data[obj]["Archetype"];
+			field.Archetype      = data[obj]["Archetype"];
 			
-			$field.PrimaryFocus   = data[obj]["PrimaryFocus"];
-			$field.SecondaryFocus = data[obj]["SecondaryFocus"];
-			$field.PrimaryIcon    = $scope.icons[  data[obj]["PrimaryFocus"]  ];
-			$field.SecondaryIcon  = $scope.icons[  data[obj]["SecondaryFocus"]  ];
+			field.PrimaryFocus   = data[obj]["PrimaryFocus"];
+			field.SecondaryFocus = data[obj]["SecondaryFocus"];
+			field.PrimaryIcon    = $scope.icons[  data[obj]["PrimaryFocus"]  ];
+			field.SecondaryIcon  = $scope.icons[  data[obj]["SecondaryFocus"]  ];
 			
 			$scope.results.push(field);
 		}
+		$scope.isLoading = false;
 	}
 	
 	$scope.loadMoreOrgs = function(){
@@ -57,6 +58,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			}
 		});*/
 		var value = 0;
+		$scope.isLoading = true;
 		$http.get('/backEnd/selects.php/?pagenum=' + $scope.nextPage).success(callbackParseSelection);
 		$scope.nextPage++;
 		
@@ -73,6 +75,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.nextPage = 0;
 	$scope.pageSize = 10;
 	$scope.results = [];
+	$scope.isLoading = false;
 	
 	//the database stores the back-end location of each activity icon
 	//we GET that location via SELECT and store it in an array

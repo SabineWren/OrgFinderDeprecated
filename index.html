@@ -76,7 +76,10 @@
 				</tr>
 			</table>
 		</div>
-		<button class="loadButton" ng-click="loadMoreOrgs()">Load Results</button>
+		<div class="loadButton">
+			<button ng-click="loadMoreOrgs()">Load Results</button>
+			<div ng-show="isLoading = false"> loading... </div>
+		</div>
 		<div class="footer"></div>
 	</div>
 	
