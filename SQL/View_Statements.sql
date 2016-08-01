@@ -1,12 +1,13 @@
 -- Views for Selects without Filters
 CREATE OR REPLACE VIEW View_Roleplaying as
-SELECT SID, CASE
+SELECT orgs.SID, CASE
 	WHEN rpr.Organization IS NOT NULL then "Yes"
 	ELSE "No"
 	END AS Roleplay
 FROM tbl_Organizations orgs
 LEFT JOIN tbl_RolePlayOrgs rpr
-ON orgs.SID = rpr.Organization;
+ON orgs.SID = rpr.Organization
+LIMIT 1000000 OFFSET 1;-- case statement generates first row as null
 
 CREATE OR REPLACE VIEW View_Recruiting as
 SELECT SID, CASE
@@ -18,7 +19,8 @@ FROM tbl_Organizations orgs
 LEFT JOIN tbl_FullOrgs FullOrgs
 ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs XOrgs
-ON orgs.SID = XOrgs.Organization;
+ON orgs.SID = XOrgs.Organization
+LIMIT 1000000 OFFSET 1;-- case statement generates first row as null
 
 /*
 -- deprecated
