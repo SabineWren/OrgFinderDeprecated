@@ -40,7 +40,7 @@
 		//echo $URL . "\n\n";
 		
 		$image = file_get_contents($x['Icon']);
-		$fp = fopen( ('../icons/' . $x['SID']), 'w' );
+		$fp = fopen( ('../org_icons/' . $x['SID']), 'w' );
 		fwrite($fp, $image);
 		fclose($fp);
 	}

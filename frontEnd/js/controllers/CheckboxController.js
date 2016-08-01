@@ -17,13 +17,13 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		this.Icon       = Icon;
 	}
 	
-	function callbackParseSelection(data){//localhost:8000
+	function callbackParseSelection(data){
 		if(data == "null"){
 			alert("No more orgs found!\n");
 			return;
 		}
 		for(obj in data){
-			var url = "/icons/" + data[obj]["SID"];
+			var url = "/org_icons/" + data[obj]["SID"];
 			var $field = new orgData( data[obj]["SID"], data[obj]["Name"], url );
 			
 			$field.Members        = data[obj]["Members"];
@@ -79,7 +79,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	//we GET that location and store it in an array that organizations can map to later...
 	//...therefore, we never GET more images than there are icons
 	$scope.icons = null;
-	$http.get('/backEnd/icons.php').success(function(data){
+	$http.get('/backEnd/activity_icons.php').success(function(data){
 		$scope.icons = data;
 		$scope.loadMoreOrgs();
 	});
