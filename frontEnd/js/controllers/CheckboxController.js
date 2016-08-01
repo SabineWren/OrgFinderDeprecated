@@ -23,7 +23,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			return;
 		}
 		for(obj in data){
-			var $field = new orgData(data[obj]["SID"], data[obj]["Name"], data[obj]["Icon"]);
+			var url = "/icons/" + data[obj]["SID"];
+			var $field = new orgData( data[obj]["SID"], data[obj]["Name"], url );
 			
 			$field.Members        = data[obj]["Members"];
 			//$field.Mains        = data[obj][""];

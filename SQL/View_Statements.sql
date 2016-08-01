@@ -44,7 +44,7 @@ FROM tbl_OrgSize OrgSize;
 
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
 SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Roleplay, Archetype, Recruiting, 
-performs.PrimaryFocus as PrimaryFocus, performs.SecondaryFocus as SecondaryFocus, orgs.Icon
+performs.PrimaryFocus as PrimaryFocus, performs.SecondaryFocus as SecondaryFocus
 FROM tbl_Organizations orgs
 LEFT JOIN View_Size ON orgs.SID = View_Size.SID
 LEFT JOIN tbl_Commits cr ON orgs.SID = cr.Organization
