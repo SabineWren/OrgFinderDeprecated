@@ -23,7 +23,6 @@
 	*/
 	
 	/* TODO:
-	 * The public account currently has insert and update access to the db (security fix needed... maybe enter password as argument to script?)
 	 * change ER diagram -- FullOrganizations to FullOrgs
 	 * occasionally a query fails:
 	 *	- for all orgs, this is a critical failure, as the script thinks it's done and terminates;
@@ -36,10 +35,13 @@
 	 */
 	 
 	ini_set('default_charset', 'UTF-8');
+	if( sizeof($argv) < 3){
+		echo "Correct usage: php <scriptname> <db username> <db password> \n";
+		exit();
+	}
 
 	//1) Connect to DB
-	//password convenient because some security settings by default require a password
-	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb");
+	$connection = new mysqli("192.168.0.105",$argv[1],$argv[2], "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
