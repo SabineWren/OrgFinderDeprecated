@@ -19,7 +19,7 @@
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
 	
-	$prepared_select = $connection->prepare("SELECT SID, Icon FROM tbl_Organizations");
+	$prepared_select = $connection->prepare("SELECT SID, Icon FROM tbl_Organizations LIMIT 3670, 40000");//remove offset after next update
 	$prepared_select->execute();
 	
 	//parse data and create json using metadata
@@ -40,7 +40,7 @@
 		//echo $URL . "\n\n";
 		
 		$image = file_get_contents($x['Icon']);
-		$fp = fopen( ('../org_icons/' . $x['SID']), 'w' );
+		$fp = fopen( ('/media/usb_mysql/org_icons/' . $x['SID']), 'w' );
 		fwrite($fp, $image);
 		fclose($fp);
 	}

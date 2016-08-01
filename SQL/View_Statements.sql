@@ -20,6 +20,7 @@ ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs XOrgs
 ON orgs.SID = XOrgs.Organization;
 
+/*
 -- deprecated
 CREATE OR REPLACE VIEW View_Performs1 as
 SELECT A.Icon as PrimaryIcon, P1.Organization as SID
@@ -41,6 +42,7 @@ SELECT Organization as SID, MemberCount as Members, CASE
 		ELSE OrgSize.MemberCountAffiliate
 		END AS Affiliates
 FROM tbl_OrgSize OrgSize;
+*/
 
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
 SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Roleplay, Archetype, Recruiting, 
@@ -55,6 +57,7 @@ JOIN View_Recruiting recr ON orgs.SID = recr.SID
 LEFT JOIN tbl_Performs performs ON orgs.SID = performs.Organization;
 
 -- Views for Filtering
+/* THESE NEED TO BE FIXED
 CREATE OR REPLACE VIEW View_PrimaryFilter as
 SELECT T1.Organization as SID, A1.Icon as PrimaryIcon
 FROM tbl_PrimaryFocus T1 LEFT JOIN tbl_Activities A1
@@ -66,8 +69,8 @@ FROM tbl_SecondaryFocus T2 LEFT JOIN tbl_Activities A2
 ON T2.SecondaryFocus = A2.Activity;
 
 CREATE OR REPLACE VIEW View_OrgsFilterActivity as
-SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Rolplay, Archetype, Recruiting, 
-F1.PrimaryIcon as PrimaryFocus, F2.SecondaryIcon, orgs.Icon, SecondaryFocus
+SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Roleplay, Archetype, Recruiting, 
+F1.PrimaryIcon as PrimaryFocus, F2.SecondaryIcon as SecondaryFocus, orgs.Icon
 FROM tbl_Organizations orgs
 LEFT JOIN View_Size ON orgs.SID = View_Size.SID
 LEFT JOIN tbl_Commits cr ON orgs.SID = cr.Organization
@@ -77,4 +80,5 @@ LEFT JOIN tbl_OrgArchetypes arr ON orgs.SID = arr.Organization
 JOIN View_Recruiting recr ON orgs.SID = recr.SID
 LEFT JOIN View_PrimaryFilter F1 ON orgs.SID = F1.SID
 LEFT JOIN View_SecondaryFilter F2 ON orgs.SID = F2.SID;
+*/
 
