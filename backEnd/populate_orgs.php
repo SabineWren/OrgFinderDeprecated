@@ -112,14 +112,14 @@
 			//charter
 
 			//test code
-			echo "SID: " . $SID . "\n";
+			//echo "SID: " . $SID . "\n";
 			//echo "Name: " . $Name . "\n";
 			//echo "$Icon \n";
 			//echo "Members: " . $MemberCount . "\n";
 			//echo "Commitment: " . $Commitment . "\n";
 			//echo "Primary: " . $PrimaryFocus . "\n";
-			echo "Language: " . $Language . "\n";
-			echo "\n";
+			//echo "Language: " . $Language . "\n";
+			//echo "\n";
 
 			//6) Execute Database Transactions
 			$prepared_replace_org->execute();

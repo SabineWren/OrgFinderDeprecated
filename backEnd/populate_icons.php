@@ -19,7 +19,7 @@
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
 	
-	$prepared_select = $connection->prepare("SELECT SID, Icon FROM tbl_Organizations LIMIT 10");
+	$prepared_select = $connection->prepare("SELECT SID, Icon FROM tbl_Organizations");
 	$prepared_select->execute();
 	
 	//parse data and create json using metadata
@@ -34,13 +34,13 @@
 		foreach($row as $key => $val) {
 			$x[$key] = $val;
 		}
-		$SID = $x['SID'];
-		$URL = $x['Icon'];
-		echo $SID . "\n";
-		echo $URL . "\n\n";
+		//$SID = $x['SID'];
+		//$URL = $x['Icon'];
+		//echo $SID . "\n";
+		//echo $URL . "\n\n";
 		
-		$image = file_get_contents($URL);
-		$fp = fopen( ('../icons/' . $SID), 'w' );
+		$image = file_get_contents($x['Icon']);
+		$fp = fopen( ('../icons/' . $x['SID']), 'w' );
 		fwrite($fp, $image);
 		fclose($fp);
 	}
