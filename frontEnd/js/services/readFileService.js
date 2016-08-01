@@ -14,5 +14,5 @@ FrontEndApp.factory('readFileService', function ($resource) {
 });
 
 FrontEndApp.factory('getOrgsService', function ($resource) {
-    return $resource('data/:file',{file: "@file"});
+    return $resource('/backEnd/selects.php/?pagenum=:pagenum',{pagenum: "@pagenum"});
 });

@@ -15,6 +15,10 @@
 	padding-left: 500px;
 }*/
 
+.filterSmall {
+	max-width: 50px;
+}
+
 .icon {
 	max-width:  50px;
 	max-height: 50px;
@@ -68,6 +72,7 @@ h1, h2, h3, h4 {
 }
 
 .Commitment {
+	margin-top: 33%;
 }
 
 .RolePlay {

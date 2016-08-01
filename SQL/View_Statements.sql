@@ -69,8 +69,6 @@ LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
 -- select * from View_OrgsFilterPrimary WHERE PrimaryFocus = "Exploration" LIMIT 300;
 
---UNION ALL
-
 CREATE OR REPLACE VIEW View_OrgsFilterSecondary as
 SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains, 
 	OrgSize.Affiliates as Affiliates, SecondaryFocus as Focus, Commitment, Language, Archetype,

@@ -35,8 +35,12 @@
 					<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
 				</p>
 				<span>{{checkedOuter.num}} boxes are checked (outer).</span>
-				<p class=filter>Enter a Name or SID: <input type="text" ng-model="filter">
-				<input type="button" ng-click="callSelect()" value="Apply Filter" /> {{ filter }}</p>
+				<p>
+					Enter a Name or SID: <input class=filter type="text" ng-model="filterName"> {{ filterName }}<br>
+					Min Size: <input class=filterSmall type="text" ng-model="filterMinSize"> {{ filterMinSize }}<br>
+					Max Size: <input class=filterSmall type="text" ng-model="filterMaxSize"> {{ filterMaxSize }}
+				</p>
+				<input type="button" ng-click="reapplyFilters()" value="Apply Filters" />
 			</div>
 		</div>
 		

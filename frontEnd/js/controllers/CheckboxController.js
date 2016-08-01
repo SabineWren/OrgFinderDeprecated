@@ -23,8 +23,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			return;
 		}
 		for(obj in data){
-			var url = "/org_icons/" + data[obj]["SID"];
-			var field = new orgData( data[obj]["SID"], data[obj]["Name"], url );
+			var icon = "/org_icons/" + data[obj]["SID"];
+			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon );
 			
 			field.Members        = data[obj]["Members"];
 			//field.Mains        = data[obj][""];
@@ -51,21 +51,27 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	}
 	
 	$scope.loadMoreOrgs = function(){
-		//var moreResults = getOrgsService.query();
-		/*moreResults.$promise.then(function(data){
-			for(var object in data){
-				$scope.results.push(object);
-			}
-		});*/
-		var value = 0;
-		$scope.isLoading = true;
-		$http.get('/backEnd/selects.php/?pagenum=' + $scope.nextPage).success(callbackParseSelection);
-		$scope.nextPage++;
+		$scope.isLoading = true;//callback sets to false
 		
+		//var selectURL = '/backEnd';
+		//if( $scope.checkboxModels[0].appliedFilter.length > 0 ) selectURL += '/selects.php';
+		//else selectURL += '/selects.php';
+		
+		$http.get('/backEnd/selects.php', { 
+			params:{
+				pagenum: $scope.nextPage,
+				Activity: $scope.checkboxModels[0].appliedFilter.toString(),
+				Archetype: $scope.checkboxModels[1].appliedFilter.toString(),
+				Commitment: $scope.checkboxModels[2].appliedFilter.toString(),
+				Recruiting: $scope.checkboxModels[3].appliedFilter.toString(),
+				Roleplay: $scope.checkboxModels[4].appliedFilter.toString()
+			}
+		} ).success(callbackParseSelection);
+		
+		$scope.nextPage++;
 	}
 	
-	// Filter by Name or SID
-	$scope.callSelect = function(){
+	$scope.reapplyFilters = function(){
 		$scope.nextPage = 0;
 		$scope.results = [];
 		$scope.loadMoreOrgs();
@@ -77,31 +83,34 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.results = [];
 	$scope.isLoading = false;
 	
+	$scope.checkedOuter = {num: 0};
+	$scope.checkboxModels = [];
+	$scope.icons = null;
+	
 	//the database stores the back-end location of each activity icon
 	//we GET that location via SELECT and store it in an array
 	//therefore, we never GET more images than there are icons
-	$scope.icons = null;
-	$http.get('/backEnd/activity_icons.php').success(function(data){
+	var getIcons = $http.get('/backEnd/activity_icons.php').success(function(data){
 		$scope.icons = data;
-		$scope.loadMoreOrgs();
 	});
 	
-	$scope.checkedOuter = {num: 0};
-	
 	// each list of checkboxes is stored as array elements in a single JSON file with its corresponding title
-	$scope.checkboxModels = [];
-	var query = readFileService.query( {file: "Checkboxes.json"} );
-	query.$promise.then(function(data){
-		var rawFileData = data;
-		for(var object in rawFileData){
+	var getCheckboxes = readFileService.query( {file: "Checkboxes.json"} );
+	getCheckboxes.$promise.then(function(data){
+		var jsonData = data;
+		for(var object in jsonData){
 			if( !isNaN(object) ){
 				$scope.checkboxModels.push({
-					category:      rawFileData[object].category, 
+					category:      jsonData[object].category, 
 					appliedFilter: [], 
-					data:          rawFileData[object].data
+					data:          jsonData[object].data
 				});
 			}
 		}
+		getIcons.then(function(){
+			$scope.loadMoreOrgs();//once we have icons and checkboxes, query the database
+		})
 	});
+	
 }]);
 
