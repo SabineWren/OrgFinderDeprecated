@@ -24,6 +24,7 @@
 	
 	/* TODO:
 	 * change ER diagram -- FullOrganizations to FullOrgs
+	 * 				-- fix clustering on diagram for all tables that don't show it as a primary key
 	 * occasionally a query fails:
 	 *	- for all orgs, this is a critical failure, as the script thinks it's done and terminates;
 	 *	we could make it try 2-3 times and then terminate successfully (and print a warning if

@@ -1,6 +1,6 @@
 -- Views for Selects without Filters
 CREATE OR REPLACE VIEW View_Roleplaying as
-SELECT orgs.SID, CASE
+SELECT orgs.SID as Organization, CASE
 	WHEN rpr.Organization IS NOT NULL then "Yes"
 	ELSE "No"
 	END AS Roleplay
@@ -10,7 +10,7 @@ ON orgs.SID = rpr.Organization
 LIMIT 2147483647 OFFSET 1;-- case statement generates first row as null
 
 CREATE OR REPLACE VIEW View_Recruiting as
-SELECT SID, CASE
+SELECT SID as Organization, CASE
 	WHEN FullOrgs.Organization IS NOT NULL then "No"
 	WHEN XOrgs.Organization IS NOT NULL then "Excl."
 	ELSE "Yes"
@@ -22,21 +22,8 @@ LEFT JOIN tbl_ExclusiveOrgs XOrgs
 ON orgs.SID = XOrgs.Organization
 LIMIT 2147483647 OFFSET 1;-- case statement generates first row as null
 
-/*
--- deprecated
-CREATE OR REPLACE VIEW View_Performs1 as
-SELECT A.Icon as PrimaryIcon, P1.Organization as SID
-FROM tbl_Activities A JOIN tbl_Performs P1 
-ON A.Activity = P1.PrimaryFocus;
-
--- deprecated
-CREATE OR REPLACE VIEW View_Performs2 as
-SELECT A.Icon as SecondaryIcon, P2.Organization as SID
-FROM tbl_Activities A JOIN tbl_Performs P2 
-ON A.Activity = P2.SecondaryFocus;
-
 CREATE OR REPLACE VIEW View_Size as
-SELECT Organization as SID, MemberCount as Members, CASE
+SELECT Organization, MemberCount as Members, CASE
 	WHEN OrgSize.MemberCountMain IS NULL then "NA"
 	ELSE OrgSize.MemberCountMain
 	END AS Mains, CASE
@@ -44,43 +31,80 @@ SELECT Organization as SID, MemberCount as Members, CASE
 		ELSE OrgSize.MemberCountAffiliate
 		END AS Affiliates
 FROM tbl_OrgSize OrgSize;
-*/
 
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
 SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Roleplay, Archetype, Recruiting, 
-performs.PrimaryFocus as PrimaryFocus, performs.SecondaryFocus as SecondaryFocus
+Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus
 FROM tbl_Organizations orgs
-LEFT JOIN View_Size ON orgs.SID = View_Size.SID
-LEFT JOIN tbl_Commits cr ON orgs.SID = cr.Organization
-LEFT JOIN tbl_OrgFluencies lang ON orgs.SID = lang.Organization
-JOIN View_Roleplaying ON orgs.SID = View_Roleplaying.SID
-LEFT JOIN tbl_OrgArchetypes arr ON orgs.SID = arr.Organization
-JOIN View_Recruiting recr ON orgs.SID = recr.SID
-LEFT JOIN tbl_Performs performs ON orgs.SID = performs.Organization;
+LEFT JOIN View_Size         OrgSize   ON orgs.SID = OrgSize.Organization
+LEFT JOIN tbl_Commits       Commits   ON orgs.SID = Commits.Organization
+LEFT JOIN tbl_OrgFluencies  Language  ON orgs.SID = Language.Organization
+     JOIN View_Roleplaying  Roleplay  ON orgs.SID = Roleplay.Organization
+LEFT JOIN tbl_OrgArchetypes Archetype ON orgs.SID = Archetype.Organization
+     JOIN View_Recruiting   Recruit   ON orgs.SID = Recruit.Organization
+LEFT JOIN tbl_Performs      Performs  ON orgs.SID = Performs.Organization;
 
 -- Views for Filtering
-/* THESE NEED TO BE FIXED
-CREATE OR REPLACE VIEW View_PrimaryFilter as
-SELECT T1.Organization as SID, A1.Icon as PrimaryIcon
-FROM tbl_PrimaryFocus T1 LEFT JOIN tbl_Activities A1
-ON T1.PrimaryFocus = A1.Activity;
 
-CREATE OR REPLACE VIEW View_SecondaryFilter as
-SELECT T2.Organization as SID, A2.Icon as SecondaryIcon
-FROM tbl_SecondaryFocus T2 LEFT JOIN tbl_Activities A2
-ON T2.SecondaryFocus = A2.Activity;
+CREATE OR REPLACE VIEW View_OrgsFilterPrimary as
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains, 
+	OrgSize.Affiliates as Affiliates, PrimaryFocus as Focus, Commitment, Language, Archetype,
+	CASE
+		WHEN Roleplay.Organization IS NOT NULL then "Yes"
+		ELSE "No"
+		END AS Roleplay,
+	CASE
+		WHEN FullOrgs.Organization IS NOT NULL then "No"
+		WHEN ExclOrgs.Organization IS NOT NULL then "Excl."
+		ELSE "Yes"
+		END AS Recruiting
+FROM tbl_PrimaryFocus Prim
+     JOIN tbl_Organizations  orgs      ON orgs.SID = Prim.Organization
+LEFT JOIN View_Size          OrgSize   ON orgs.SID = OrgSize.Organization
+LEFT JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
+LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
+LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
+LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
+LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
+LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
+-- select * from View_OrgsFilterPrimary WHERE PrimaryFocus = "Exploration" LIMIT 300;
 
-CREATE OR REPLACE VIEW View_OrgsFilterActivity as
-SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Roleplay, Archetype, Recruiting, 
-F1.PrimaryIcon as PrimaryFocus, F2.SecondaryIcon as SecondaryFocus, orgs.Icon
-FROM tbl_Organizations orgs
-LEFT JOIN View_Size ON orgs.SID = View_Size.SID
-LEFT JOIN tbl_Commits cr ON orgs.SID = cr.Organization
-LEFT JOIN tbl_OrgFluencies lang ON orgs.SID = lang.Organization
-JOIN View_Roleplaying ON orgs.SID = View_Roleplaying.SID
-LEFT JOIN tbl_OrgArchetypes arr ON orgs.SID = arr.Organization
-JOIN View_Recruiting recr ON orgs.SID = recr.SID
-LEFT JOIN View_PrimaryFilter F1 ON orgs.SID = F1.SID
-LEFT JOIN View_SecondaryFilter F2 ON orgs.SID = F2.SID;
-*/
+--UNION ALL
+
+CREATE OR REPLACE VIEW View_OrgsFilterSecondary as
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains, 
+	OrgSize.Affiliates as Affiliates, SecondaryFocus as Focus, Commitment, Language, Archetype,
+	CASE
+		WHEN Roleplay.Organization IS NOT NULL then "Yes"
+		ELSE "No"
+		END AS Roleplay,
+	CASE
+		WHEN FullOrgs.Organization IS NOT NULL then "No"
+		WHEN ExclOrgs.Organization IS NOT NULL then "Excl."
+		ELSE "Yes"
+		END AS Recruiting
+FROM tbl_SecondaryFocus Second
+     JOIN tbl_Organizations  orgs      ON orgs.SID = Second.Organization
+LEFT JOIN View_Size          OrgSize   ON orgs.SID = OrgSize.Organization
+LEFT JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
+LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
+LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
+LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
+LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
+LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
+-- select * from View_OrgsFilterSecondary WHERE SecondaryFocus = "Exploration" LIMIT 300;
+
+select * from tbl_Organizations
+
+/*
+WHERE SID IN (
+		SELECT SID FROM View_OrgsFilterPrimary
+		WHERE Focus = "Exploration"
+	)
+	OR SID IN (
+		SELECT SID from View_OrgsFilterSecondary
+		WHERE Focus = "Exploration"
+	)
+LIMIT 100;
+ */
 

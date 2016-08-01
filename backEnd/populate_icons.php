@@ -40,6 +40,10 @@
 		//echo $URL . "\n\n";
 		
 		$image = file_get_contents($x['Icon']);
+		//TODO add proper error control and error logging for when the URL is dead
+		//may need a way to re-query and re-insert URLs for orgs that have changed their URL since last scrape
+		//the complication is INSERT and REPLACE require a password, but this script does not because it only uses SELECT
+		//example dead link:	http://robertsspaceindustries.com/media/t713kgg9mniiar/logo/PHG-Logo.jpg
 		$fp = fopen( ('/media/usb_mysql/org_icons/' . $x['SID']), 'w' );
 		fwrite($fp, $image);
 		fclose($fp);
