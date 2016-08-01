@@ -77,8 +77,8 @@
 			</table>
 		</div>
 		<div class="loadButton">
-			<button ng-click="loadMoreOrgs()">Load Results</button>
-			<div ng-show="isLoading = false"> loading... </div>
+			<button ng-hide="isLoading" ng-click="loadMoreOrgs()">Load Results</button>
+			<button ng-show="isLoading"> loading... </button>
 		</div>
 		<div class="footer"></div>
 	</div>
