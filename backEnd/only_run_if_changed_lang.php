@@ -1,5 +1,6 @@
 <?php
 //this file outputs a file full of languages that are copied and pasted into an insert statement
+//only run this script if you change the language list; you then need to manually insert the result into the database
 $bigString = "Abkhazian
 Amharic
 Afar

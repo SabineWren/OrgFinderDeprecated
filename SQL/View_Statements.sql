@@ -7,7 +7,7 @@ SELECT orgs.SID, CASE
 FROM tbl_Organizations orgs
 LEFT JOIN tbl_RolePlayOrgs rpr
 ON orgs.SID = rpr.Organization
-LIMIT 1000000 OFFSET 1;-- case statement generates first row as null
+LIMIT 2147483647 OFFSET 1;-- case statement generates first row as null
 
 CREATE OR REPLACE VIEW View_Recruiting as
 SELECT SID, CASE
@@ -20,7 +20,7 @@ LEFT JOIN tbl_FullOrgs FullOrgs
 ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs XOrgs
 ON orgs.SID = XOrgs.Organization
-LIMIT 1000000 OFFSET 1;-- case statement generates first row as null
+LIMIT 2147483647 OFFSET 1;-- case statement generates first row as null
 
 /*
 -- deprecated

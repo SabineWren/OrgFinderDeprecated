@@ -24,7 +24,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		}
 		for(obj in data){
 			var url = "/org_icons/" + data[obj]["SID"];
-			var $field = new orgData( data[obj]["SID"], data[obj]["Name"], url );
+			var field = new orgData( data[obj]["SID"], data[obj]["Name"], url );
 			
 			$field.Members        = data[obj]["Members"];
 			//$field.Mains        = data[obj][""];
@@ -45,7 +45,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			$field.PrimaryIcon    = $scope.icons[  data[obj]["PrimaryFocus"]  ];
 			$field.SecondaryIcon  = $scope.icons[  data[obj]["SecondaryFocus"]  ];
 			
-			$scope.results.push($field);
+			$scope.results.push(field);
 		}
 	}
 	
@@ -69,15 +69,14 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		$scope.loadMoreOrgs();
 	}
 
-
 	// Init **********************************************************************************************************
 	$scope.nextPage = 0;
 	$scope.pageSize = 10;
 	$scope.results = [];
 	
-	//the database saved the server location of each activity icon;
-	//we GET that location and store it in an array that organizations can map to later...
-	//...therefore, we never GET more images than there are icons
+	//the database stores the back-end location of each activity icon
+	//we GET that location via SELECT and store it in an array
+	//therefore, we never GET more images than there are icons
 	$scope.icons = null;
 	$http.get('/backEnd/activity_icons.php').success(function(data){
 		$scope.icons = data;

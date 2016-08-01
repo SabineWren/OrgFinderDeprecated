@@ -3,7 +3,7 @@ Cognition Corp website and database development (pre-alpha)
 
 Technology stack:
 
-- GNU+Linux server
+- Raspian GNU+Linux server (USB stick stores database and pictures)
 
 - MySQL database with utf8-bin tables
 
@@ -13,11 +13,11 @@ Technology stack:
 
 - we interface with sc-api
 
-Hosting instrunctions:
+Hosting instructions:
 
 Use PHP5 for local testing and Apache for hosting, as npm does not run php scripts.
 
-To host the app locally, add and run dependencies. Debian-based GNU distributions keep it simple:
+To host the app, add and run dependencies. Debian-based GNU distributions keep it simple:
 
 1) git clone <repository url>
 
@@ -27,6 +27,8 @@ To host the app locally, add and run dependencies. Debian-based GNU distribution
 
 //navigate to localhost:8000/frontEnd.html
 
-3) clone into /var/www/html (for LAMP server)
+//for LAMP server:
+
+3) clone into /var/www/html
 
 //Our test hosting uses Raspian GNU+Linux, Apache2, MySQL-server, and PHP5 administered thru PhpMyAdmin.
