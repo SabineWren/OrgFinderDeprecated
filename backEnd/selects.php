@@ -46,6 +46,7 @@ SELECTION Query Types:
 	if($pagenum < 0){
 		exit("invalid page offset"); 
 	}
+	$pagenum = $pagenum * 10;//number of results to skip
 	
 	$UseActivityFilter = false;
 	$Activities = explode( ',', $_GET['Activity'] );
@@ -115,7 +116,6 @@ SELECTION Query Types:
 	//var_dump($sql, $types, $bindParams, $connection->error);
 	//var_dump($prepared_select);
 	
-	$pagenum = $pagenum * 10;//number of results to skip
 	$prepared_select->execute();
 	
 	//parse data and create json using metadata

@@ -50,10 +50,6 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.loadMoreOrgs = function(){
 		$scope.isLoading = true;//callback sets to false
 		
-		//var selectURL = '/backEnd';
-		//if( $scope.checkboxModels[0].appliedFilter.length > 0 ) selectURL += '/selects.php';
-		//else selectURL += '/selects.php';
-		
 		$http.get('/backEnd/selects.php', { 
 			params:{
 				pagenum: $scope.nextPage,

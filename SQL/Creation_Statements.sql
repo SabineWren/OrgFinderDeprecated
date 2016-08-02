@@ -32,7 +32,6 @@ DROP TABLE tbl_Commitments;
 DROP TABLE tbl_ExclusiveOrgs;
 DROP TABLE tbl_FullOrgs;
 DROP TABLE tbl_RolePlayOrgs;
-DROP TABLE tbl_Represents;
 DROP TABLE tbl_Affiliated;
 DROP TABLE tbl_Main;
 DROP TABLE tbl_RepresentsCog;
@@ -41,9 +40,6 @@ DROP TABLE tbl_FromCountry;
 DROP TABLE tbl_Persons;
 DROP TABLE tbl_Countries;
 */
-
-
--- Database uses latin1 instead of utf8 because some org names have special characters (ascii)
 
 CREATE TABLE tbl_Countries(
 	Name VARCHAR(30) PRIMARY KEY-- Clustered Index
@@ -68,7 +64,6 @@ CREATE TABLE tbl_Organizations(
 	Icon VARCHAR(100)-- can be saved locally or as URL to RSI
 );
 
--- most common use: filter org list to only show orgs in Cognition Corp
 CREATE TABLE tbl_RepresentsCog(
 	SID VARCHAR(10) UNIQUE NOT NULL,-- Clustered Index
 	Representative VARCHAR(30) NOT NULL,
@@ -93,14 +88,6 @@ CREATE TABLE tbl_Affiliated(
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
 	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person)-- Clustered Index
-);
-
--- most common use: add representative column to Org when printing Org tuples in a spreadsheet
-CREATE TABLE tbl_Represents(
-	Organization VARCHAR(10) UNIQUE NOT NULL,-- Clustered Index
-	Person VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
-	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name)
 );
 
 CREATE TABLE tbl_RolePlayOrgs(
