@@ -57,7 +57,7 @@ SELECTION Query Types:
 	$sql = "SELECT * FROM View_OrganizationsEverything";
 	$parameters = array();
 	$types = '';
-	$conjunction = ' WHERE ';
+	$conjunction = ' WHERE (';
 	
 	function addParamsToQuery($Attribute, $Values, &$types, &$sql, &$conjunction, &$parameters){
 		foreach($Values as $Value){
@@ -73,14 +73,14 @@ SELECTION Query Types:
 	foreach($Attributes as $Attribute){
 		$Values = explode( ',', $_GET[$Attribute] );
 		addParamsToQuery($Attribute, $Values, $types, $sql, $conjunction, $parameters);
-		$conjunction = ' AND ';
+		$conjunction = ') AND (';
 	}
 	
 	
 	if($UseActivityFilter){
 		//there could be other query restrictions
 		if( sizeof($parameters) === 0)$sql .= ' WHERE ';
-		else $sql .= ' AND ';
+		else $sql .= ') AND ';
 		
 		$sql .= '( ';
 			//add filter and join for primary focus (activity1)

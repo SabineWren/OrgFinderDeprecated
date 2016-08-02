@@ -48,7 +48,7 @@ SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as
 FROM tbl_Organizations orgs
 LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
 LEFT JOIN View_Size          OrgSize   ON orgs.SID = OrgSize.Organization
-LEFT JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
+     JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
 LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
 LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
 LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
@@ -57,6 +57,7 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
 
 -- Views for Filtering
 
+-- select * from View_OrgsFilterPrimary WHERE PrimaryFocus = "Exploration" LIMIT 300;
 CREATE OR REPLACE VIEW View_OrgsFilterPrimary as
 SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains, 
 	OrgSize.Affiliates as Affiliates, PrimaryFocus as Focus, Commitment, Language, Archetype,
@@ -70,7 +71,7 @@ SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as
 		ELSE "Yes"
 		END AS Recruiting
 FROM tbl_PrimaryFocus Prim
-     JOIN tbl_Organizations  orgs      ON orgs.SID = Prim.Organization
+     JOIN tbl_Organizations  orgs      ON orgs.SID = Prim.Organization-- Join prevents NULL first row
 LEFT JOIN View_Size          OrgSize   ON orgs.SID = OrgSize.Organization
 LEFT JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
 LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
@@ -78,8 +79,8 @@ LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
 LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
 LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
--- select * from View_OrgsFilterPrimary WHERE PrimaryFocus = "Exploration" LIMIT 300;
 
+-- select * from View_OrgsFilterSecondary WHERE SecondaryFocus = "Exploration" LIMIT 300;
 CREATE OR REPLACE VIEW View_OrgsFilterSecondary as
 SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains, 
 	OrgSize.Affiliates as Affiliates, SecondaryFocus as Focus, Commitment, Language, Archetype,
@@ -101,18 +102,5 @@ LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
 LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
 LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
--- select * from View_OrgsFilterSecondary WHERE SecondaryFocus = "Exploration" LIMIT 300;
-/*
-select * from tbl_Organizations
 
-WHERE SID IN (
-		SELECT SID FROM View_OrgsFilterPrimary
-		WHERE Focus = "Exploration"
-	)
-	OR SID IN (
-		SELECT SID from View_OrgsFilterSecondary
-		WHERE Focus = "Exploration"
-	)
-LIMIT 100;
- */
 

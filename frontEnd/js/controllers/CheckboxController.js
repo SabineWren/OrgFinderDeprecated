@@ -18,9 +18,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	function callbackParseSelection(data){
 		if(data == "null"){
 			alert("No more orgs found!\n");
-			return;
 		}
-		for(obj in data){
+		else for(obj in data){
 			var icon = "/org_icons/" + data[obj]["SID"];
 			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon );
 			
