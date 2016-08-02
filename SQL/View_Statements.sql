@@ -33,16 +33,27 @@ SELECT Organization, MemberCount as Members, CASE
 FROM tbl_OrgSize OrgSize;
 
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
-SELECT orgs.SID, orgs.Name, Members, Mains, Affiliates, Commitment, Language, Roleplay, Archetype, Recruiting, 
-Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains,
+	OrgSize.Affiliates as Affiliates, Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,
+	Commitment, Language, Archetype,
+	CASE
+		WHEN Roleplay.Organization IS NOT NULL then "Yes"
+		ELSE "No"
+		END AS Roleplay,
+	CASE
+		WHEN FullOrgs.Organization IS NOT NULL then "No"
+		WHEN ExclOrgs.Organization IS NOT NULL then "Excl."
+		ELSE "Yes"
+		END AS Recruiting
 FROM tbl_Organizations orgs
-LEFT JOIN View_Size         OrgSize   ON orgs.SID = OrgSize.Organization
-LEFT JOIN tbl_Commits       Commits   ON orgs.SID = Commits.Organization
-LEFT JOIN tbl_OrgFluencies  Language  ON orgs.SID = Language.Organization
-     JOIN View_Roleplaying  Roleplay  ON orgs.SID = Roleplay.Organization
-LEFT JOIN tbl_OrgArchetypes Archetype ON orgs.SID = Archetype.Organization
-     JOIN View_Recruiting   Recruit   ON orgs.SID = Recruit.Organization
-LEFT JOIN tbl_Performs      Performs  ON orgs.SID = Performs.Organization;
+LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
+LEFT JOIN View_Size          OrgSize   ON orgs.SID = OrgSize.Organization
+LEFT JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
+LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
+LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
+LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
+LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
+LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
 
 -- Views for Filtering
 
@@ -91,10 +102,9 @@ LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
 LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
 -- select * from View_OrgsFilterSecondary WHERE SecondaryFocus = "Exploration" LIMIT 300;
-
+/*
 select * from tbl_Organizations
 
-/*
 WHERE SID IN (
 		SELECT SID FROM View_OrgsFilterPrimary
 		WHERE Focus = "Exploration"
