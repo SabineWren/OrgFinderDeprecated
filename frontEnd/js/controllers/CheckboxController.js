@@ -8,9 +8,7 @@
 	
 	@license-end
 */
-
-FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'getOrgsService', function($scope, $http, readFileService, getOrgsService) {
-//FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
+FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
 	var orgData = function(SID, Name, Icon){
 		this.SID        = SID;
 		this.Name       = Name;
