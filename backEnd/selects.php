@@ -68,13 +68,13 @@ SELECTION Query Types:
 			$types .= 's';
 			$conjunction = ' OR ';
 		}
+		if($conjunction === ' OR ')$conjunction = ') AND (';
 	}
 	
 	//dynamically add query restrictions	
 	foreach($Attributes as $Attribute){
 		$Values = explode( ',', $_GET[$Attribute] );
-		addParamsToQuery($Attribute, $Values, $types, $sql, $conjunction, $parameters);
-		$conjunction = ') AND (';
+		addParamsToQuery($Attribute, $Values, $types, $sql, $conjunction, $parameters);	
 	}
 	
 	
