@@ -20,6 +20,7 @@ DROP TABLE tbl_RolePlayOrgs;
 DROP TABLE tbl_Affiliated;
 DROP TABLE tbl_Main;
 DROP TABLE tbl_RepresentsCog;
+DROP TABLE tbl_OrgNames;
 DROP TABLE tbl_Organizations;
 DROP TABLE tbl_FromCountry;
 DROP TABLE tbl_Persons;
