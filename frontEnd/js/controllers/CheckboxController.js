@@ -52,12 +52,14 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		
 		$http.get('/backEnd/selects.php', { 
 			params:{
-				pagenum: $scope.nextPage,
-				Activity: $scope.checkboxModels[0].appliedFilter.toString(),
-				Archetype: $scope.checkboxModels[1].appliedFilter.toString(),
+				pagenum:   $scope.nextPage,
+				NameOrSID: $scope.filterName,
+				
+				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
+				Archetype:  $scope.checkboxModels[1].appliedFilter.toString(),
 				Commitment: $scope.checkboxModels[2].appliedFilter.toString(),
 				Recruiting: $scope.checkboxModels[3].appliedFilter.toString(),
-				Roleplay: $scope.checkboxModels[4].appliedFilter.toString()
+				Roleplay:   $scope.checkboxModels[4].appliedFilter.toString()
 			}
 		} ).success(callbackParseSelection);
 		
@@ -79,6 +81,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
 	$scope.icons = null;
+	$scope.filterName = "";
 	
 	//the database stores the back-end location of each activity icon
 	//we GET that location via SELECT and store it in an array

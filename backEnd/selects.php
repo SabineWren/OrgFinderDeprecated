@@ -48,10 +48,6 @@ SELECTION Query Types:
 	}
 	$pagenum = $pagenum * 10;//number of results to skip
 	
-	$UseActivityFilter = false;
-	$Activities = explode( ',', $_GET['Activity'] );
-	if(strlen($Activities[0]) > 0)$UseActivityFilter = true;
-	
 	$Attributes = ['Archetype', 'Commitment', 'Recruiting', 'Roleplay'];
 	
 	//init loop
@@ -64,21 +60,35 @@ SELECTION Query Types:
 		foreach($Values as $Value){
 			if($Value == '')continue;//We might have 0 Params to add
 			$sql .= $conjunction . $Attribute . ' = ?';
-			array_push($parameters, $Value);//need array of references
+			array_push($parameters, $Value);
 			$types .= 's';
 			$conjunction = ' OR ';
 		}
 		if($conjunction === ' OR ')$conjunction = ') AND (';
 	}
 	
-	//dynamically add query restrictions	
+	//WHERE Attribute = Value
 	foreach($Attributes as $Attribute){
 		$Values = explode( ',', $_GET[$Attribute] );
 		addParamsToQuery($Attribute, $Values, $types, $sql, $conjunction, $parameters);	
 	}
 	
+	//WHERE SID LIKE Value and subselect using Name
+	$Values = explode( ',', $_GET['NameOrSID'] );
+	if( strlen($Values[0]) > 0 ){
+		$Value = '%' . $Values[0] . '%';
+		$sql .= $conjunction . "SID LIKE ? OR SID IN (
+			SELECT SID FROM tbl_OrgNames WHERE Name LIKE ?
+		)";
+		array_push($parameters, $Value);
+		array_push($parameters, $Value);
+		$types .= 'ss';
+		$conjunction = ' AND (';
+	}
 	
-	if($UseActivityFilter){
+	//subselect to filter using Activity
+	$Activities = explode( ',', $_GET['Activity'] );
+	if(strlen($Activities[0]) > 0){
 		//there could be other query restrictions
 		if( sizeof($parameters) === 0)$sql .= ' WHERE ';
 		else $sql .= ') AND ';
@@ -113,7 +123,7 @@ SELECTION Query Types:
 	array_unshift($bindParams, $types);
 	$prepared_select = $connection->prepare($sql);
 	call_user_func_array( array($prepared_select, "bind_param"), $bindParams );
-	//var_dump($sql, $types, $bindParams, $connection->error);
+	//var_dump($sql, $bindParams, $connection->error);
 	//var_dump($prepared_select);
 	
 	$prepared_select->execute();

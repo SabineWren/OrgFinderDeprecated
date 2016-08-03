@@ -51,17 +51,26 @@ CREATE TABLE tbl_Persons(
 );
 
 CREATE TABLE tbl_FromCountry(
-	Person VARCHAR(30) UNIQUE NOT NULL,-- Clustered Index
-	Country VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
+	Person  VARCHAR(30) UNIQUE NOT NULL,-- Clustered Index
+	Country VARCHAR(30)        NOT NULL,
+	FOREIGN KEY FK_Person(Person)   REFERENCES tbl_Persons(Name),
 	FOREIGN KEY FK_Country(Country) REFERENCES tbl_Countries(Name)
 );
 
 -- Most important table - most tables FK to it
 CREATE TABLE tbl_Organizations(
-	SID VARCHAR(10) PRIMARY KEY,-- Clustered Index
+	SID  VARCHAR(10) PRIMARY KEY,-- Clustered Index
 	Name VARCHAR(30) NOT NULL,
 	Icon VARCHAR(100)-- can be saved locally or as URL to RSI
+);
+
+-- Used exclusively for selecting orgs based on Name
+CREATE TABLE tbl_OrgNames(
+	SID  VARCHAR(10) NOT NULL,
+	Name VARCHAR(30) NOT NULL,
+	FOREIGN KEY FK_OrgName(SID) REFERENCES tbl_Organizations(SID),
+	CONSTRAINT PK_OrgNames PRIMARY KEY (Name, SID),-- Clustered Index
+	CONSTRAINT UNIQUE(SID)
 );
 
 CREATE TABLE tbl_RepresentsCog(
@@ -74,7 +83,7 @@ CREATE TABLE tbl_RepresentsCog(
 -- most common use: count number of main members within an org.
 CREATE TABLE tbl_Main(
 	Organization VARCHAR(10) NOT NULL,
-	Person VARCHAR(30) NOT NULL,
+	Person       VARCHAR(30) NOT NULL,
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
 	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person),-- Clustered Index
