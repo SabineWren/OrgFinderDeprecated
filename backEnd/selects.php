@@ -93,9 +93,9 @@ SELECTION Query Types:
 			$sql .= ' ) OR SID IN (SELECT SID from View_OrgsFilterSecondary';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('Focus', $Activities, $types, $sql, $conjunction, $parameters);
-			$sql .= ') ';
-		$sql .= ')';
+		$sql .= ') ';
 	}
+	if( strlen($types) > 0)$sql .= ')';
 	
 	//add offset
 	$sql .= ' LIMIT 10 OFFSET ?';
