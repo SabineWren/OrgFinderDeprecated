@@ -1,13 +1,15 @@
 # Cognition.corp
-Cognition Corp website and database development (pre-alpha)
+Cognition Corp website and database (live Alpha)
 
-Technology stack:
+Technology stack (LAMP):
 
 - Raspian GNU+Linux server (USB stick stores database and pictures)
 
-- MySQL database with utf8-bin tables
+- Apache2
 
-- PHP back-end
+- MySQL-server database (administered thru PhpMyAdmin)
+
+- PHP5 back-end
 
 - AngularJS front-end
 
@@ -21,14 +23,12 @@ To host the app, add and run dependencies. Debian-based GNU distributions keep i
 
 1) git clone <repository url>
 
-//for local testing:
+//for local testing,
 
 2) php -S localhost:8000
 
 //navigate to localhost:8000/frontEnd.html
 
-//for LAMP server:
+//for LAMP server,
 
 3) clone into /var/www/html
-
-//Our test hosting uses Raspian GNU+Linux, Apache2, MySQL-server, and PHP5 administered thru PhpMyAdmin.

@@ -23,7 +23,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			var icon = "/org_icons/" + data[obj]["SID"];
 			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon );
 			
-			field.Members        = data[obj]["Members"];
+			field.Members        = data[obj]["Size"];
 			//field.Mains        = data[obj][""];
 			//field.Affiliates   = data[obj][""];
 			

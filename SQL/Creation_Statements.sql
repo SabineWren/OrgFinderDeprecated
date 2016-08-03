@@ -1,18 +1,3 @@
-/* Future view conflict views:
- * - not allow more than 9 affiliates
- * - not allow an affiliate without a main
- * - not allow multiple OrganizationMemberHistory logs for the same day
-
-optionally add PersonFluencies as well??
-
-the SC-API does not seem to scrape exclusive status; in the future,
-we should modify diagram+DB to have a one to many relation from RecruitmentType to Organizations defining 'Yes', 'No', 'Exclusive', just like we have with
-archetypes and commitment
-
-some of the keys are long (like regions with varchar(30) -- perhaps some surrogate indexing could optimize the relations
-*/
-
-
 /*
 DROP TABLE tbl_OrgSize;
 DROP TABLE tbl_OrgMemberHistory;

@@ -21,19 +21,6 @@
 	* 7) Sort Tuples
 	* 8) Close connection
 	*/
-	
-	/* TODO:
-	 * change ER diagram -- FullOrganizations to FullOrgs
-	 * 				-- fix clustering on diagram for all tables that don't show it as a primary key
-	 * occasionally a query fails:
-	 *	- for all orgs, this is a critical failure, as the script thinks it's done and terminates;
-	 *	we could make it try 2-3 times and then terminate successfully (and print a warning if
-	 *	it didn't loop many times; that would indicate a connection problem and we should rerun the script later)
-	 *	- for individual orgs, we should just have it try again 2-3 times and print a warning if it fails
-	 * complete step (7) -- recluster tuples on index
-	 * read and interpret timestamp info from API
-	 * break language into a separate script so we can use live queries
-	 */
 	 
 	ini_set('default_charset', 'UTF-8');
 	if( sizeof($argv) < 3){

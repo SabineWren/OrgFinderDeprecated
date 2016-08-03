@@ -11,6 +11,7 @@
 
 CAVEATS:
 Activity (front end) == Focus (database)
+Members  (front end) == Size  (database)
 
 SELECTION Query Types:
 
