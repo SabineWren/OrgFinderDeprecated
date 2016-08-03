@@ -76,8 +76,8 @@ SELECTION Query Types:
 	//WHERE SID LIKE Value and subselect using Name
 	$Values = explode( ',', $_GET['NameOrSID'] );
 	if( strlen($Values[0]) > 0 ){
-		$Value = '%' . $Values[0] . '%';
-		$sql .= $conjunction . "SID LIKE ? OR SID IN (
+		$Value = '%' . html_entity_decode( $Values[0] ) . '%';
+		$sql .= $conjunction . "SID LIKE UPPER(?) OR SID IN (
 			SELECT SID FROM tbl_OrgNames WHERE Name LIKE ?
 		)";
 		array_push($parameters, $Value);

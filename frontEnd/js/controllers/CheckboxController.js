@@ -53,7 +53,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		$http.get('/backEnd/selects.php', { 
 			params:{
 				pagenum:   $scope.nextPage,
-				NameOrSID: $scope.filterName,
+				NameOrSID: encodeURI( $scope.filterName ),
 				
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
 				Archetype:  $scope.checkboxModels[1].appliedFilter.toString(),
