@@ -9,46 +9,70 @@
 	
 	@license-end
 	*/
-	 
-	ini_set('default_charset', 'UTF-8');
-
-	//1) Connect to DB
-	//password convenient because some security settings by default require a password
-	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb");
+	
+	//Connect to DB
+	if( sizeof($argv) < 3){
+		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
+		exit();
+	}
+	
+	$connection = new mysqli("192.168.0.105",$argv[1],$argv[2], "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
 	
-	$prepared_select = $connection->prepare("SELECT SID, Icon FROM tbl_Organizations LIMIT 3670, 40000");//remove offset after next update
-	$prepared_select->execute();
+	$prepared_update = $connection->prepare("UPDATE tbl_Organizations SET Icon = ? WHERE SID = ?");
+	$prepared_update->bind_param("ss", $Icon, $SID);
 	
-	//parse data and create json using metadata
-	$meta = $prepared_select->result_metadata();
-
-	while ($field = $meta->fetch_field()) {
-		$parameters[] = &$row[$field->name];
-	}
-
-	call_user_func_array(array($prepared_select, 'bind_result'), $parameters);
-	while ($prepared_select->fetch()) {
-		foreach($row as $key => $val) {
-			$x[$key] = $val;
-		}
-		//$SID = $x['SID'];
-		//$URL = $x['Icon'];
-		//echo $SID . "\n";
-		//echo $URL . "\n\n";
+	//get images
+	$rows = $connection->query("SELECT SID, Icon FROM tbl_Organizations");
+	if(!$rows)die('Failed to SELECT from database');
+	
+	//parse data as an associative array
+	while ($row = $rows->fetch_assoc()) {
+		$SID = $row['SID'];
+		$Icon = $row['Icon'];
 		
-		$image = file_get_contents($x['Icon']);
-		//TODO add proper error control and error logging for when the URL is dead
-		//may need a way to re-query and re-insert URLs for orgs that have changed their URL since last scrape
-		//the complication is INSERT and REPLACE require a password, but this script does not because it only uses SELECT
-		//example dead link:	http://robertsspaceindustries.com/media/t713kgg9mniiar/logo/PHG-Logo.jpg
-		$fp = fopen( ('/media/usb_mysql/org_icons/' . $x['SID']), 'w' );
+		//download image
+		$image = file_get_contents($Icon);
+		if($image === FALSE){
+			//Our URL may be out of date, so let's get a new one
+			$apiQuery = file_get_contents("http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=$SID&expedite=0&format=raw");
+			if(!$apiQuery){
+				echo "Failed to query API for SID = $SID\n";
+				unset($apiQuery);
+				continue;
+			}
+			$orgArray = json_decode($apiQuery, true);
+			unset($apiQuery);
+			if($orgArray['data'] == null){
+				echo "API returned null for SID = $SID (org may no longer exist)\n";
+				unset($orgArray);
+				continue;
+			}
+			$Icon = $orgArray['Icon'];
+			unset($orgArray);
+			//update database URL
+			if( $Icon == null || !$prepared_update->execute() ){
+				echo "Failed to UPDATE database for SID = $SID\n";
+				continue;
+			}
+			//try again
+			$image = file_get_contents($Icon);
+			if($image === FALSE){
+				echo "Unable to retrieve Icon for SID = $SID\n";
+				continue;
+			}
+			//example of dead link:
+			//http://robertsspaceindustries.com/media/t713kgg9mniiar/logo/PHG-Logo.jpg
+		}
+		
+		$fp = fopen( "/media/usb_mysql/org_icons/$SID", 'w' );
+		//$fp = fopen( "./org_icons/$SID", 'w' );
 		fwrite($fp, $image);
 		fclose($fp);
 	}
 	
-	$prepared_select->close();
+	$prepared_update->close();
 	$connection->close();
 ?>
