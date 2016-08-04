@@ -50,12 +50,12 @@ CREATE TABLE tbl_Organizations(
 	Icon VARCHAR(100)-- can be saved locally or as URL to RSI
 );
 
--- Used exclusively for selecting orgs based on Name
+-- Used exclusively for selecting orgs based on Name (case insensitive)
 CREATE TABLE tbl_OrgNames(
 	SID  VARCHAR(10) NOT NULL,
-	Name VARCHAR(30) NOT NULL,
+	NameUpper VARCHAR(30) NOT NULL,
 	FOREIGN KEY FK_OrgName(SID) REFERENCES tbl_Organizations(SID),
-	CONSTRAINT PK_OrgNames PRIMARY KEY (Name, SID),-- Clustered Index
+	CONSTRAINT PK_OrgNames PRIMARY KEY (NameUpper, SID),-- Clustered Index
 	CONSTRAINT UNIQUE(SID)
 );
 

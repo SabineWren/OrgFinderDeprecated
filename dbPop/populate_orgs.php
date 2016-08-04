@@ -22,8 +22,6 @@
 	* 8) Force reclustering
 	* 9) Close connection
 	*/
-	 
-	//ini_set('default_charset', 'UTF-8');
 	
 	//1) Connect to DB
 	if( sizeof($argv) < 3){
@@ -41,7 +39,7 @@
 	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Icon) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Icon = ?");
 	$prepared_insert_name = $connection->prepare("INSERT INTO tbl_OrgNames      (SID, Name)       VALUES (?, ?)    ON DUPLICATE KEY UPDATE Name = ?");
 	$prepared_insert_org ->bind_param("sssss", $SID, $Name, $Icon, $Name, $Icon);
-	$prepared_insert_name->bind_param("sss",  $SID, $Name, $Name);
+	$prepared_insert_name->bind_param("sss",  $SID, $NameUpper , $NameUpper );
 	
 	$prepared_insert_size = $connection->prepare("INSERT INTO tbl_OrgSize (Organization, MemberCount) VALUES (?, ?) ON DUPLICATE KEY UPDATE MemberCount = ?");
 	$prepared_insert_size->bind_param("sdd", $SID, $MemberCount, $MemberCount);
@@ -108,6 +106,7 @@
 			//5) Bind data to statement
 			$SID         = strtoupper( $orgArray['data']['sid'] );
 			$Name        = html_entity_decode(  $orgArray['data']['title']  );
+			$NameUpper   = strtoupper($Name);
 			$Icon        = $orgArray['data']['logo'];
 			$MemberCount = intval( $orgArray['data']['member_count'] );
 			$Recruiting  = $orgArray['data']['recruiting'];

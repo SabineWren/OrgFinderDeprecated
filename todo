@@ -1,8 +1,6 @@
 Database:
-	change collation to UTF8-CI (case insensitive),
-	and encode/decode text on only the front end
-	
 	Future conflict-views:
+	***not allow NameUpper that doesnt have a match in Name, and vice versa; also prevent two distinct names from both matching the same NameUpper
 	not allow more than 9 affiliates
 	not allow an affiliate without a main
 	not allow multiple OrganizationMemberHistory logs for the same day
@@ -10,17 +8,8 @@ Database:
 	optionally add PersonFluencies??
 
 PopulateOrgs.php:
-	occasionally a query fails:
-		for all orgs, this is a critical failure, as the script thinks it's done and terminates;
-		we could make it try 2-3 times and then terminate successfully (and print a warning if
-		it didn't loop many times; that would indicate a connection problem and we should rerun the script later)
-		for individual orgs, we should just have it try again 2-3 times and print a warning if it fails
-		
-	complete step 7 (recluster tuples on index)
-	
+	delete orgs that no longer exist
 	read and interpret timestamp info from API
-	
-	break language into a separate script so we can use live queries
 	
 Controllers:
 	improve readability of checkbox-related code

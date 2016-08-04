@@ -36,11 +36,13 @@ SELECTION Query Types:
 	"s^{M+2*z}d", $value1, $value2, ..., $valueM, $valuea ... $valuez, $valuea ... $valuez, $pagenum
 	//M+2*z 's's and 1 d
 	*/
+	
 	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
-	//echo("database host info: %s\n" . $connection->host_info);
+	
+	//ini_set('default_charset', 'UTF-8'); php5 uses utf-8 by default
 	
 	//get parameters from query string
 	$pagenum = $_GET['pagenum'];
@@ -77,9 +79,10 @@ SELECTION Query Types:
 	//WHERE SID LIKE Value and subselect using Name
 	$Values = explode( ',', $_GET['NameOrSID'] );
 	if( strlen($Values[0]) > 0 ){
-		$Value = '%' . html_entity_decode( $Values[0] ) . '%';
+		$Value = '%' . rawurldecode( $Values[0]) . '%';//mysql->real_escape_string and html_entity_decode do not decode %20 (space)
+		$temp = $Value . "\n" . $Values[0];
 		$sql .= $conjunction . "SID LIKE UPPER(?) OR SID IN (
-			SELECT SID FROM tbl_OrgNames WHERE Name LIKE ?
+			SELECT SID FROM tbl_OrgNames WHERE NameUpper LIKE UPPER(?)
 		)";
 		array_push($parameters, $Value);
 		array_push($parameters, $Value);
@@ -124,8 +127,11 @@ SELECTION Query Types:
 	array_unshift($bindParams, $types);
 	$prepared_select = $connection->prepare($sql);
 	call_user_func_array( array($prepared_select, "bind_param"), $bindParams );
-	//var_dump($sql, $bindParams, $connection->error);
-	//var_dump($prepared_select);
+	/*$fp = fopen('debug', 'a');
+	fwrite($fp, $connection->error . "\n\n" . $sql . "\n\n" . implode(' ', $bindParams));
+	fclose($fp);*/
+	//var_dump($sql, $bindParams);
+	//var_dump($connection->error);
 	
 	$prepared_select->execute();
 	
@@ -144,10 +150,8 @@ SELECTION Query Types:
 		}
 		$results[] = $x;
 	}
-
-	echo json_encode($results);
 	
 	$prepared_select->close();
 	$connection->close();
-
+	echo json_encode($results);
 ?>
