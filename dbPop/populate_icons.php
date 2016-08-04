@@ -67,6 +67,7 @@
 			//http://robertsspaceindustries.com/media/t713kgg9mniiar/logo/PHG-Logo.jpg
 		}
 		
+
 		$fp = fopen( "/media/usb_mysql/org_icons/$SID", 'w' );
 		//$fp = fopen( "./org_icons/$SID", 'w' );
 		fwrite($fp, $image);
