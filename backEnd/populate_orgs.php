@@ -18,23 +18,24 @@
 	*			4) Sub-query Org (more data)
 	*			5) Bind data to statement
 	*			6) Execute Database Transactions
-	* 7) Sort Tuples
-	* 8) Close connection
+	* 7) Close Statements
+	* 8) Force reclustering
+	* 9) Close connection
 	*/
 	 
-	ini_set('default_charset', 'UTF-8');
+	//ini_set('default_charset', 'UTF-8');
 	
+	//1) Connect to DB
 	if( sizeof($argv) < 3){
-		echo "Correct usage: php $argv[0] <db username> <db password>\n";
+		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
 		exit();
 	}
-
-	//1) Connect to DB
+	
 	$connection = new mysqli("192.168.0.105",$argv[1],$argv[2], "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
-	$connection->autocommit(FALSE);
+	$connection->autocommit(FALSE);//accelerate inserts
 	
 	//2) Prepare statements
 	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Icon) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Icon = ?");
@@ -69,14 +70,14 @@
 	$prepared_delete_roleplay->bind_param("s", $SID);
 	
 	$numberInserted = 0;
-	for($x = 1; ; $x++){
+	for($x = 1; ; $x++){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
 		for($failCounter = 0;;++$failCounter){
 			$lines = file_get_contents(
 				"http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x&end_page=$x&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw"
 			);
 			if($lines)break;
-			sleep(1);
+			sleep(1);//try a few more times if request fails
 			if($failCounter > 3)break 2;
 		}
 		$dataArray = json_decode($lines, true);//json to php associated array
@@ -89,7 +90,7 @@
 			//4) Sub-query Org (more data)
 			for($failCounterSingleOrg = 0;;++$failCounterSingleOrg){//loop in case request fails due to poor connection
 				$subquery = file_get_contents(
-				//we use cached because the sc-api does not provide language information on live queries
+					//note sc-api does not provide language information on live results
 					'http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id='
 					. $org['sid'] . '&expedite=0&format=raw'
 				);
@@ -132,7 +133,7 @@
 			//echo "\n";
 
 			//6) Execute Database Queries		
-			($connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
+			$connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
 			if(!$prepared_insert_org->execute())echo "Error inserting Org $SID $Name\n";
 			$connection->query('SET foreign_key_checks = 1');
 			
@@ -154,20 +155,11 @@
 			++$numberInserted;
 		}
 		$connection->commit();
-		if($x % 2 == 1)echo "Inserted $numberInserted Orgs\n";
+		if($x % 8 == 1)echo "Inserted $numberInserted Orgs\n";
 	}
-	//7) Sort Tuples
-	/*
-	ALTER TABLE tbl_Organizations ENGINE=INNODB;
-	ALTER TABLE tbl_OrgNames ENGINE=INNODB;
-	ALTER TABLE tbl_Commits ENGINE=INNODB;
-	ALTER TABLE tbl_RolePlayOrgs ENGINE=INNODB;
-	ALTER TABLE tbl_OrgArchetypes ENGINE=INNODB;
-	ALTER TABLE tbl_FullOrgs ENGINE=INNODB;
-	ALTER TABLE tbl_ExclusiveOrgs ENGINE=INNODB;
-	*/
 	
-	//8) Close Connection
+	//7) Close Connection
+	$connection->autocommit(TRUE);
 	$prepared_insert_org->close();
 	$prepared_insert_name->close();
 	$prepared_insert_size->close();
@@ -181,6 +173,16 @@
 	$prepared_insert_roleplay->close();
 	$prepared_delete_roleplay->close();
 	
+	//8) Sort Tuples
+	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_OrgNames ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_RolePlayOrgs ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_OrgArchetypes ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_FullOrgs ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_ExclusiveOrgs ENGINE=INNODB');
+	
+	//9) Close Connection
 	$connection->close();
 	echo "All insertions complete (total: $numberInserted)\n";
 ?>
