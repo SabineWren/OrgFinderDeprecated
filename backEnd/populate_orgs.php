@@ -132,8 +132,10 @@
 			//echo "\n";
 
 			//6) Execute Database Queries		
-			//echo "Inserting Org: $SID $Name\n";
+			($connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
 			if(!$prepared_insert_org->execute())echo "Error inserting Org $SID $Name\n";
+			$connection->query('SET foreign_key_checks = 1');
+			
 			if(!$prepared_insert_name->execute())echo "Error inserting Name $SID $Name\n";
 			if(!$prepared_insert_size->execute())echo "Error inserting Size $SID $MemberCount\n";
 			if(!$prepared_insert_commits->execute())echo "Error inserting Commits $SID $Commitment\n";
