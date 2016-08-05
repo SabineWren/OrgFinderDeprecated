@@ -52,8 +52,8 @@ CREATE TABLE tbl_Organizations(
 
 -- Used exclusively for selecting orgs based on Name (case insensitive)
 CREATE TABLE tbl_OrgNames(
-	SID  VARCHAR(10) NOT NULL,
 	NameUpper VARCHAR(30) NOT NULL,
+	SID  VARCHAR(10) NOT NULL,
 	FOREIGN KEY FK_OrgName(SID) REFERENCES tbl_Organizations(SID),
 	CONSTRAINT PK_OrgNames PRIMARY KEY (NameUpper, SID),-- Clustered Index
 	CONSTRAINT UNIQUE(SID)

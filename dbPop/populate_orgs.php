@@ -37,7 +37,7 @@
 	
 	//2) Prepare statements
 	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Icon) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Icon = ?");
-	$prepared_insert_name = $connection->prepare("INSERT INTO tbl_OrgNames      (SID, Name)       VALUES (?, ?)    ON DUPLICATE KEY UPDATE Name = ?");
+	$prepared_insert_name = $connection->prepare("INSERT INTO tbl_OrgNames      (SID, NameUpper)       VALUES (?, ?)    ON DUPLICATE KEY UPDATE NameUpper = ?");
 	$prepared_insert_org ->bind_param("sssss", $SID, $Name, $Icon, $Name, $Icon);
 	$prepared_insert_name->bind_param("sss",  $SID, $NameUpper , $NameUpper );
 	
@@ -62,7 +62,7 @@
 	$prepared_insert_archetype  = $connection->prepare("INSERT INTO tbl_OrgArchetypes(Organization, Archetype) VALUES (?, ?) ON DUPLICATE KEY UPDATE Archetype = ?");
 	$prepared_insert_filterarch = $connection->prepare("INSERT INTO tbl_FilterArchetypes(Archetype, Organization) VALUES (?, ?) ON DUPLICATE KEY UPDATE Archetype = ?");
 	$prepared_insert_archetype  ->bind_param("sss", $SID, $Archetype, $Archetype);
-	$prepared_insert_filterarch ->bind_param("sss", $SID, $Archetype, $Archetype);
+	$prepared_insert_filterarch ->bind_param("sss", $Archetype, $SID, $Archetype);
 	
 	$prepared_insert_roleplay = $connection->prepare("INSERT INTO tbl_RolePlayOrgs(Organization) VALUES (?) ON DUPLICATE KEY UPDATE Organization = ?");
 	$prepared_delete_roleplay = $connection->prepare("DELETE from tbl_RolePlayOrgs WHERE Organization = ?");
@@ -144,7 +144,7 @@
 			if( $Recruiting === "No" ){
 					if(!$prepared_insert_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
 			}
-			else if(!$prepared_delete_full->execute())echo "Error inserting recruiting $SID $Recruiting\n"
+			else if(!$prepared_delete_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
 			if(!$prepared_insert_primary->execute())echo "Error inserting primary $SID $PrimaryFocus\n";
 			if(!$prepared_insert_secondary->execute())echo "Error inserting secondary $SID $SecondaryFocus\n";
 			if(!$prepared_insert_performs->execute())echo "Error inserting performs $SID\n";
