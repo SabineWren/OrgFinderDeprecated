@@ -143,8 +143,8 @@
 			if(!$prepared_insert_commits->execute())echo "Error inserting Commits $SID $Commitment\n";
 			if( $Recruiting === "No" ){
 					if(!$prepared_insert_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
-				else if(!$prepared_delete_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
 			}
+			else if(!$prepared_delete_full->execute())echo "Error inserting recruiting $SID $Recruiting\n"
 			if(!$prepared_insert_primary->execute())echo "Error inserting primary $SID $PrimaryFocus\n";
 			if(!$prepared_insert_secondary->execute())echo "Error inserting secondary $SID $SecondaryFocus\n";
 			if(!$prepared_insert_performs->execute())echo "Error inserting performs $SID\n";
@@ -152,8 +152,8 @@
 			if(!$prepared_insert_filterarch->execute())echo "Error inserting filter archetype $SID $Archetype\n";
 			if( $Roleplay === "Yes" ){
 					if(!$prepared_insert_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
-				else if(!$prepared_delete_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
 			}
+			else if(!$prepared_delete_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
 			++$numberInserted;
 		}
 		$connection->commit();
