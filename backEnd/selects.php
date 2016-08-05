@@ -45,7 +45,7 @@ SELECTION Query Types:
 	//ini_set('default_charset', 'UTF-8'); php5 uses utf-8 by default
 	
 	//get parameters from query string
-	$pagenum = $_GET['pagenum'];
+	$pagenum = (int)$_GET['pagenum'];
 	if($pagenum < 0){
 		exit("invalid page offset"); 
 	}
@@ -83,6 +83,24 @@ SELECTION Query Types:
 	if(strlen($Values[0]) > 0)$sql .= ')';
 	unset($Values);
 	
+	$min = (int)$_GET['Min'];
+	if($min){
+		$sql .= " $conjunction Size >= ?)";
+		$conjunction = ' AND(';
+		$types .= 'd';
+		array_push($parameters, $min);
+	}
+	unset($min);
+	
+	$max = (int)$_GET['Max'];
+	if($max){
+		$sql .= " $conjunction Size <= ?)";
+		$conjunction = ' AND(';
+		$types .= 'd';
+		array_push($parameters, $max);
+	}
+	unset($max);
+	
 	//WHERE SID LIKE Value and subselect using Name
 	$Values = explode( ',', $_GET['NameOrSID'] );
 	if( strlen($Values[0]) > 0 ){
@@ -90,7 +108,7 @@ SELECTION Query Types:
 		$temp = $Value . "\n" . $Values[0];
 		$sql .= $conjunction . "SID LIKE UPPER(?) OR SID IN (
 			SELECT SID FROM tbl_OrgNames WHERE NameUpper LIKE UPPER(?)
-		)";
+		))";
 		array_push($parameters, $Value);
 		array_push($parameters, $Value);
 		$types .= 'ss';

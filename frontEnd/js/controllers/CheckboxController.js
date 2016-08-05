@@ -58,7 +58,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 			params:{
 				pagenum:   $scope.nextPage,
 				NameOrSID: encodeURI( $scope.filterName ),
-				
+				Min:        $scope.filterSizeMin,
+				Max:        $scope.filterSizeMax,
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
 				Archetype:  $scope.checkboxModels[1].appliedFilter.toString(),
 				Commitment: $scope.checkboxModels[2].appliedFilter.toString(),

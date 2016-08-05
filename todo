@@ -7,7 +7,6 @@ Database:
 	optionally add PersonFluencies??
 
 PopulateOrgs.php:
-	*****PRIORITY fix Roleplay and Recruiting (usually seems to insert the wrong value)
 	delete orgs that no longer exist
 	read and interpret timestamp info from API
 	
@@ -17,6 +16,7 @@ Controllers:
 ER diagram:
 	change FullOrganizations to FullOrgs
 	fix clustering on diagram for all tables that don't show it as a primary key
+	add new table OrgNames
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
