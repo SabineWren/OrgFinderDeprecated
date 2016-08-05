@@ -16,14 +16,11 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	}
 	
 	function callbackParseSelection(data){
-		console.log(data);
 		if(data == "null"){
 			console.log("No more orgs found!\n");
 			alert("No more orgs found!\n");
 		}
 		else for(obj in data){
-		console.log(data[obj]["SID"]);
-		console.log(data[obj]["Name"]);
 			var icon = "/org_icons/" + data[obj]["SID"];
 			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon );
 			
@@ -51,6 +48,11 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		$scope.isLoading = false;
 	}
 	
+	function btoi(theBool){
+		if(theBool)return 1;
+		else return 0;
+	}
+	
 	$scope.loadMoreOrgs = function(){
 		$scope.isLoading = true;//callback sets to false
 		
@@ -60,6 +62,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 				NameOrSID: encodeURI( $scope.filterName ),
 				Min:        $scope.filterSizeMin,
 				Max:        $scope.filterSizeMax,
+				Cog:        btoi($scope.Cog),
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
 				Archetype:  $scope.checkboxModels[1].appliedFilter.toString(),
 				Commitment: $scope.checkboxModels[2].appliedFilter.toString(),
@@ -82,6 +85,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.pageSize = 10;
 	$scope.results = [];
 	$scope.isLoading = false;
+	$scope.Cog = false;//default to all orgs
 	
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];

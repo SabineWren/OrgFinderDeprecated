@@ -64,32 +64,36 @@ h1, h2, h3, h4 {
 	size: 10px;
 }
 
-.checkboxCategories {
+.checkboxCategories /*.Commitment .Roleplay .Archetype .Activities .Recruiting*/{
 	display: inline-block;
 	position: absolute;
 	width: 32%;
 	padding: 1%;
 }
 
-.Commitment {
+#Commitment {
 	margin-top: 33%;
 }
 
-.RolePlay {
+#RolePlay {
 	margin-top: 33%;
 }
 
-.Archetype {
+#Archetype {
 	margin-top: 33%;
 	margin-left: 33%;
 }
 
-.Activities {
+#Activities {
 	margin-left: 67%;
 }
 
-.Recruiting {
+#Recruiting {
 	margin-left: 33%;
+}
+
+#Cog{
+	margin-top: 20%;
 }
 
 

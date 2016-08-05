@@ -24,10 +24,13 @@
 <body ng-app="FrontEndApp">
 	<div ng-controller="CheckboxController">
 		<div class="checkboxMainBlock">
-			<div class="checkboxCategories" ng-class="checkboxModel.category" ng-repeat="checkboxModel in checkboxModels">
+			<div class="checkboxCategories" ng-repeat="checkboxModel in checkboxModels" ng-attr-id="{{checkboxModel.category}}">
 				<print-checkbox></print-checkbox>
 			</div>
-		<br>
+			<label class="checkboxCategories" id="Cog" ng-class="{highlight: ch, unhighlight: !ch}" ng-mouseenter="ch=true" ng-mouseleave="ch=false">
+				<input type="checkbox" ng-model="Cog" />Cognition Corp Member
+			</label>
+			<br>
 			<div class="lowerBlock">
 				<h2>Total Filters:</h2>
 				<p ng-repeat="checkboxModel in checkboxModels">

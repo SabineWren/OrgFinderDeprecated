@@ -85,7 +85,7 @@ SELECTION Query Types:
 	
 	$min = (int)$_GET['Min'];
 	if($min){
-		$sql .= " $conjunction Size >= ?)";
+		$sql .= "$conjunction Size >= ?)";
 		$conjunction = ' AND(';
 		$types .= 'd';
 		array_push($parameters, $min);
@@ -94,12 +94,18 @@ SELECTION Query Types:
 	
 	$max = (int)$_GET['Max'];
 	if($max){
-		$sql .= " $conjunction Size <= ?)";
+		$sql .= "$conjunction Size <= ?)";
 		$conjunction = ' AND(';
 		$types .= 'd';
 		array_push($parameters, $max);
 	}
 	unset($max);
+	
+	//if org in Cognition Corp
+	if((int)$_GET['Cog']){
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_RepresentsCog))";
+		$conjunction = ' AND(';
+	}
 	
 	//WHERE SID LIKE Value and subselect using Name
 	$Values = explode( ',', $_GET['NameOrSID'] );
@@ -125,12 +131,12 @@ SELECTION Query Types:
 		
 		$sql .= '(';
 			//add filter and join for primary focus (activity1)
-			$sql .= 'SID IN (SELECT SID FROM tbl_PrimaryFocus';
+			$sql .= 'SID IN (SELECT Organization FROM tbl_PrimaryFocus';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('PrimaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
 		
 			//add filter and join for secondary focus (activity2)
-			$sql .= ') OR SID IN (SELECT SID from tbl_SecondaryFocus';
+			$sql .= ') OR SID IN (SELECT Organization from tbl_SecondaryFocus';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('SecondaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
 		$sql .= ')) ';
@@ -146,7 +152,7 @@ SELECTION Query Types:
 		
 		//add filter and join for primary focus (activity1)
 		$sql .= 'SID IN (
-			SELECT SID FROM tbl_FilterArchetypes';
+			SELECT Organization FROM tbl_FilterArchetypes';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('Archetype', $Archetypes, $types, $sql, $conjunction, $parameters);
 		$sql .= ')';
