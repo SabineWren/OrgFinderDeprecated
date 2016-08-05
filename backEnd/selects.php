@@ -124,12 +124,8 @@ SELECTION Query Types:
 	
 	//subselect to filter using Activity
 	$Activities = explode( ',', $_GET['Activity'] );
-	if(strlen($Activities[0]) > 0){
-		//there could be other query restrictions
-		if( sizeof($parameters) === 0)$sql .= ' WHERE ';
-		else $sql .= ' AND ';
-		
-		$sql .= '(';
+	if(strlen($Activities[0]) > 0){		
+		$sql .= $conjunction;
 			//add filter and join for primary focus (activity1)
 			$sql .= 'SID IN (SELECT Organization FROM tbl_PrimaryFocus';
 			$conjunction = ' WHERE ';
@@ -146,16 +142,14 @@ SELECTION Query Types:
 	//subselect to filter using Archetype
 	$Archetypes = explode( ',', $_GET['Archetype'] );
 	if(strlen($Archetypes[0]) > 0){
-		//there could be other query restrictions
-		if( sizeof($parameters) === 0)$sql .= ' WHERE ';
-		else $sql .= ' AND ';
+		$sql .= $conjunction;
 		
 		//add filter and join for primary focus (activity1)
 		$sql .= 'SID IN (
 			SELECT Organization FROM tbl_FilterArchetypes';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('Archetype', $Archetypes, $types, $sql, $conjunction, $parameters);
-		$sql .= ')';
+		$sql .= '))';
 	}
 	unset($Archetypes);
 	
