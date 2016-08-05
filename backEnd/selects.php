@@ -51,8 +51,6 @@ SELECTION Query Types:
 	}
 	$pagenum = $pagenum * 10;//number of results to skip
 	
-	$Attributes = ['Archetype', 'Commitment', 'Recruiting', 'Roleplay'];
-	
 	//init loop
 	$sql = "SELECT * FROM View_OrganizationsEverything";
 	$parameters = array();
@@ -67,14 +65,23 @@ SELECTION Query Types:
 			$types .= 's';
 			$conjunction = ' OR ';
 		}
-		if($conjunction === ' OR ')$conjunction = ') AND (';
+		if($conjunction === ' OR ')$conjunction = ' AND (';
 	}
 	
-	//WHERE Attribute = Value
-	foreach($Attributes as $Attribute){
-		$Values = explode( ',', $_GET[$Attribute] );
-		addParamsToQuery($Attribute, $Values, $types, $sql, $conjunction, $parameters);	
-	}
+	$Values = explode( ',', $_GET['Commitment'] );
+	addParamsToQuery('Commitment', $Values, $types, $sql, $conjunction, $parameters);
+	if(strlen($Values[0]) > 0)$sql .= ')';
+	unset($Values);
+	
+	$Values = explode( ',', $_GET['Recruiting'] );
+	addParamsToQuery('Recruiting', $Values, $types, $sql, $conjunction, $parameters);
+	if(strlen($Values[0]) > 0)$sql .= ')';
+	unset($Values);
+	
+	$Values = explode( ',', $_GET['Roleplay'] );
+	addParamsToQuery('Roleplay', $Values, $types, $sql, $conjunction, $parameters);
+	if(strlen($Values[0]) > 0)$sql .= ')';
+	unset($Values);
 	
 	//WHERE SID LIKE Value and subselect using Name
 	$Values = explode( ',', $_GET['NameOrSID'] );
@@ -89,27 +96,44 @@ SELECTION Query Types:
 		$types .= 'ss';
 		$conjunction = ' AND (';
 	}
+	unset($Values);
 	
 	//subselect to filter using Activity
 	$Activities = explode( ',', $_GET['Activity'] );
 	if(strlen($Activities[0]) > 0){
 		//there could be other query restrictions
 		if( sizeof($parameters) === 0)$sql .= ' WHERE ';
-		else $sql .= ') AND ';
+		else $sql .= ' AND ';
 		
-		$sql .= '( ';
+		$sql .= '(';
 			//add filter and join for primary focus (activity1)
-			$sql .= 'SID IN (SELECT SID FROM View_OrgsFilterPrimary';
+			$sql .= 'SID IN (SELECT SID FROM tbl_PrimaryFocus';
 			$conjunction = ' WHERE ';
-			addParamsToQuery('Focus', $Activities, $types, $sql, $conjunction, $parameters);
+			addParamsToQuery('PrimaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
 		
 			//add filter and join for secondary focus (activity2)
-			$sql .= ' ) OR SID IN (SELECT SID from View_OrgsFilterSecondary';
+			$sql .= ') OR SID IN (SELECT SID from tbl_SecondaryFocus';
 			$conjunction = ' WHERE ';
-			addParamsToQuery('Focus', $Activities, $types, $sql, $conjunction, $parameters);
-		$sql .= ') ';
+			addParamsToQuery('SecondaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
+		$sql .= ')) ';
 	}
-	if( strlen($types) > 0)$sql .= ')';
+	unset($Activities);
+	
+	//subselect to filter using Archetype
+	$Archetypes = explode( ',', $_GET['Archetype'] );
+	if(strlen($Archetypes[0]) > 0){
+		//there could be other query restrictions
+		if( sizeof($parameters) === 0)$sql .= ' WHERE ';
+		else $sql .= ' AND ';
+		
+		//add filter and join for primary focus (activity1)
+		$sql .= 'SID IN (
+			SELECT SID FROM tbl_FilterArchetypes';
+			$conjunction = ' WHERE ';
+			addParamsToQuery('Archetype', $Archetypes, $types, $sql, $conjunction, $parameters);
+		$sql .= ')';
+	}
+	unset($Archetypes);
 	
 	//add offset
 	$sql .= ' LIMIT 10 OFFSET ?';

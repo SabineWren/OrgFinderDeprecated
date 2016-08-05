@@ -185,6 +185,16 @@ CREATE TABLE tbl_OrgArchetypes(
 	FOREIGN KEY FK_Archetype(Archetype) REFERENCES tbl_Archetypes(Archetype)
 );
 
+-- meant for fast filtering
+CREATE TABLE tbl_FilterArchetypes(
+	Archetype VARCHAR(12) NOT NULL,
+	Organization VARCHAR(10) NOT NULL,
+	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
+	FOREIGN KEY FK_Archetype(Archetype) REFERENCES tbl_Archetypes(Archetype),
+	CONSTRAINT PK_FilterArchetypes PRIMARY KEY(Archetype, Organization),-- Clustered Index
+	CONSTRAINT UNIQUE(Organization)-- only one archetype per org
+);
+
 -- need to individually count members to check main and affiliate, which can be an added feature but allow null for now
 CREATE TABLE tbl_OrgMemberHistory(
 	Organization VARCHAR(10) UNIQUE NOT NULL,-- Clustered Index

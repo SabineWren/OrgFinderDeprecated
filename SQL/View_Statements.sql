@@ -9,6 +9,7 @@ LEFT JOIN tbl_RolePlayOrgs rpr
 ON orgs.SID = rpr.Organization
 LIMIT 2147483647 OFFSET 1;-- case statement generates first row as null
 
+-- Needed for displays Yes/No/Excl under recruiting
 CREATE OR REPLACE VIEW View_Recruiting as
 SELECT SID as Organization, CASE
 	WHEN FullOrgs.Organization IS NOT NULL then "No"
@@ -22,6 +23,7 @@ LEFT JOIN tbl_ExclusiveOrgs XOrgs
 ON orgs.SID = XOrgs.Organization
 LIMIT 2147483647 OFFSET 1;-- case statement generates first row as null
 
+-- ***May not need
 CREATE OR REPLACE VIEW View_Size as
 SELECT Organization, MemberCount as Members, CASE
 	WHEN OrgSize.MemberCountMain IS NULL then "NA"
@@ -32,6 +34,7 @@ SELECT Organization, MemberCount as Members, CASE
 		END AS Affiliates
 FROM tbl_OrgSize OrgSize;
 
+-- Default View (no filtering)
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
 SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains,
 	OrgSize.Affiliates as Affiliates, Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,

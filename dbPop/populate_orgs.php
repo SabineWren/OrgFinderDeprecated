@@ -59,8 +59,10 @@
 	$prepared_insert_secondary->bind_param("sss",  $SecondaryFocus, $SID, $SecondaryFocus);
 	$prepared_insert_performs ->bind_param("sssss", $PrimaryFocus, $SecondaryFocus, $SID, $PrimaryFocus, $SecondaryFocus);
 	
-	$prepared_insert_archetype = $connection->prepare("INSERT INTO tbl_OrgArchetypes(Organization, Archetype) VALUES (?, ?) ON DUPLICATE KEY UPDATE Archetype = ?");
-	$prepared_insert_archetype ->bind_param("sss", $SID, $Archetype, $Archetype);
+	$prepared_insert_archetype  = $connection->prepare("INSERT INTO tbl_OrgArchetypes(Organization, Archetype) VALUES (?, ?) ON DUPLICATE KEY UPDATE Archetype = ?");
+	$prepared_insert_filterarch = $connection->prepare("INSERT INTO tbl_FilterArchetypes(Archetype, Organization) VALUES (?, ?) ON DUPLICATE KEY UPDATE Archetype = ?");
+	$prepared_insert_archetype  ->bind_param("sss", $SID, $Archetype, $Archetype);
+	$prepared_insert_filterarch ->bind_param("sss", $SID, $Archetype, $Archetype);
 	
 	$prepared_insert_roleplay = $connection->prepare("INSERT INTO tbl_RolePlayOrgs(Organization) VALUES (?) ON DUPLICATE KEY UPDATE Organization = ?");
 	$prepared_delete_roleplay = $connection->prepare("DELETE from tbl_RolePlayOrgs WHERE Organization = ?");
@@ -147,6 +149,7 @@
 			if(!$prepared_insert_secondary->execute())echo "Error inserting secondary $SID $SecondaryFocus\n";
 			if(!$prepared_insert_performs->execute())echo "Error inserting performs $SID\n";
 			if(!$prepared_insert_archetype->execute())echo "Error inserting archetype $SID $Archetype\n";
+			if(!$prepared_insert_filterarch->execute())echo "Error inserting filter archetype $SID $Archetype\n";
 			if( $Roleplay === "Yes" ){
 					if(!$prepared_insert_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
 				else if(!$prepared_delete_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
@@ -169,6 +172,7 @@
 	$prepared_insert_secondary->close();
 	$prepared_insert_performs->close();
 	$prepared_insert_archetype->close();
+	$prepared_insert_filterarch->close();
 	$prepared_insert_roleplay->close();
 	$prepared_delete_roleplay->close();
 	
@@ -178,6 +182,7 @@
 	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_RolePlayOrgs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgArchetypes ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FullOrgs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_ExclusiveOrgs ENGINE=INNODB');
 	
