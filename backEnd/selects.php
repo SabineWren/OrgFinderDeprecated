@@ -83,23 +83,32 @@ SELECTION Query Types:
 	if(strlen($Values[0]) > 0)$sql .= ')';
 	unset($Values);
 	
-	$min = (int)$_GET['Min'];
-	if($min){
+	$lang = $_GET['Lang'];
+	if($lang !== "Any"){
+		$sql .= "$conjunction SID in (SELECT Organization FROM tbl_FilterFluencies WHERE Language = ?))";
+		$conjunction = ' AND (';
+		$types .= 's';
+		array_push($parameters, $lang);
+	}
+	unset($lang);
+	
+	if(isset($_GET['Min'])){
+		$min = (int)$_GET['Min'];
 		$sql .= "$conjunction Size >= ?)";
 		$conjunction = ' AND(';
 		$types .= 'd';
 		array_push($parameters, $min);
+		unset($min);
 	}
-	unset($min);
 	
-	$max = (int)$_GET['Max'];
-	if($max){
+	if(isset($_GET['Max'])){
+		$max = (int)$_GET['Max'];
 		$sql .= "$conjunction Size <= ?)";
 		$conjunction = ' AND(';
 		$types .= 'd';
 		array_push($parameters, $max);
+		unset($max);
 	}
-	unset($max);
 	
 	//if org in Cognition Corp
 	if((int)$_GET['Cog']){
@@ -195,5 +204,6 @@ SELECTION Query Types:
 	
 	$prepared_select->close();
 	$connection->close();
-	echo json_encode($results);
+	if(isset($results))echo json_encode($results);
+	else echo "null";
 ?>

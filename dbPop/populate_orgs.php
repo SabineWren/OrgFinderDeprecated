@@ -185,6 +185,9 @@
 	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FullOrgs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_ExclusiveOrgs ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_PrimaryFocus ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_SecondaryFocus ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	
 	//9) Close Connection
 	$connection->close();

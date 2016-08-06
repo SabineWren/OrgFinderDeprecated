@@ -189,7 +189,13 @@ Zulu";
 $text_lines = explode("\n",$bigString);
 unset($bigString);
 
-$languages = [];
+$output = json_encode($text_lines);
+if( !$output )die('failed to create JSON');
+$fp = fopen('../data/lang.json', 'w');
+fwrite($fp, $output);
+fclose($fp);
+
+/*$languages = [];
 
 foreach($text_lines as $line){
 	$entry = "('" . $line . "'), ";
@@ -199,5 +205,5 @@ foreach($text_lines as $line){
 $fp = fopen('languages', 'w');
 fwrite(  $fp, implode($languages)  );
 fclose($fp);
-
+*/
 ?>

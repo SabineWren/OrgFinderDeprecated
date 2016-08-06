@@ -41,7 +41,10 @@
 				<p>
 					Enter a Name or SID: <input class=filter type="text" ng-model="filterName"><br>
 					Min Size: <input class=filterSmall type="text" ng-model="filterSizeMin"><br>
-					Max Size: <input class=filterSmall type="text" ng-model="filterSizeMax">
+					Max Size: <input class=filterSmall type="text" ng-model="filterSizeMax"><br>
+					Language: <select ng-model="language">
+								<option ng-repeat="lang in langs">{{ lang }}</option>
+							</select>
 				</p>
 				<input type="button" ng-click="reapplyFilters()" value="Apply Filters" />
 			</div>

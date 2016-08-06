@@ -63,6 +63,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 				Min:        $scope.filterSizeMin,
 				Max:        $scope.filterSizeMax,
 				Cog:        btoi($scope.Cog),
+				Lang:       $scope.language,
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
 				Archetype:  $scope.checkboxModels[1].appliedFilter.toString(),
 				Commitment: $scope.checkboxModels[2].appliedFilter.toString(),
@@ -89,6 +90,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
+	$scope.language = "Any";
+	$scope.langs = [];
 	$scope.icons = null;
 	$scope.filterName = "";
 	
@@ -97,6 +100,10 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	//therefore, we never GET more images than there are icons
 	var getIcons = $http.get('/backEnd/activity_icons.php').success(function(data){
 		$scope.icons = data;
+	});
+	
+	$http.get('/data/lang.json').success(function(data){
+		$scope.langs = data;
 	});
 	
 	// each list of checkboxes is stored as array elements in a single JSON file with its corresponding title

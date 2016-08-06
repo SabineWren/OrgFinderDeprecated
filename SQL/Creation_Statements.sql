@@ -3,7 +3,7 @@ DROP TABLE tbl_OrgSize;
 DROP TABLE tbl_OrgMemberHistory;
 DROP TABLE tbl_OrgArchetypes;
 DROP TABLE tbl_Archetypes;
--- person fluencies?
+DROP TABLE tbl_FilterFluencies;
 DROP TABLE tbl_OrgFluencies;
 DROP TABLE tbl_Fluencies;
 DROP TABLE tbl_OrgLocated;
@@ -168,6 +168,15 @@ CREATE TABLE tbl_OrgFluencies(
 	Language VARCHAR(30) NOT NULL,
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	FOREIGN KEY FK_Language(Language) REFERENCES tbl_Fluencies(Language)
+);
+
+CREATE TABLE tbl_FilterFluencies(
+	Language VARCHAR(30) NOT NULL,
+	Organization VARCHAR(10) UNIQUE NOT NULL,
+	FOREIGN KEY FK_Language(Language) REFERENCES tbl_Fluencies(Language),
+	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
+	CONSTRAINT PK_FilterFluencies PRIMARY KEY(Language, Organization),-- Clustered Index
+	CONSTRAINT UNIQUE(Organization)-- only one language per og
 );
 
 

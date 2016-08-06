@@ -37,7 +37,9 @@
 	
 	//2) Prepare statement
 	$prepared_insert_language = $connection->prepare("INSERT INTO tbl_OrgFluencies(Organization, Language) VALUES (?, ?) ON DUPLICATE KEY UPDATE Language = ?");
+	$prepared_insert_filter = $connection->prepare("INSERT INTO tbl_FilterFluencies(Language, Organization) VALUES (?, ?) ON DUPLICATE KEY UPDATE Language = ?");
 	$prepared_insert_language->bind_param("sss", $SID, $Language, $Language);
+	$prepared_insert_filter->bind_param("sss", $Language, $SID, $Language);
 	
 	$numberInserted = 0;
 	for($x = 1; ; $x++){
@@ -56,7 +58,7 @@
 			
 			$failCounter = 0;
 			for(;;){//loop in case request fails due to poor connection
-				$subquery = file_get_contents(
+				$subquery = file_get_contents(//can only get language info from cache
 					'http://sc-api.com/?api_source=cache&system=organizations&action=single_organization&target_id='
 					. $org['sid'] . '&expedite=0&format=raw'
 				);
@@ -80,15 +82,18 @@
 
 			//6) Execute Database Query		
 			if(!$prepared_insert_language->execute())echo "Error inserting language $SID $Language\n";
+			if(!$prepared_insert_filter->execute())echo "Error inserting filter $SID $Language\n";
 			++$numberInserted;
 		}
 		echo "Inserted $numberInserted Orgs\n";
 	}
 	//7) Sort Tuples
-	//ALTER TABLE tbl_OrgFluencies ENGINE=INNODB;
+	$connection->query('ALTER TABLE tbl_OrgFluencies ENGINE=INNODB');//recluster tables
+	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
 	
 	//8) Close Connection
 	$prepared_insert_language->close();
+	$prepared_insert_filter->close();
 	
 	$connection->close();
 ?>
