@@ -47,11 +47,13 @@
 							</select>
 				</p>
 				<input type="button" ng-click="reapplyFilters()" value="Apply Filters" />
+				<input ng-show="listViewTF" type="button" ng-click="toggleView()" value="Enable Grid View" />
+				<input ng-hide="listViewTF" type="button" ng-click="toggleView()" value="Enable List View" />
 			</div>
 		</div>
 		
 		<!-- *********************************************************************************** -->
-		<div class="displayResults">
+		<div ng-show="listViewTF" class="listViewResults">
 			<table>
 				<thead align="left"><tr>
 					<th>SID</th>
@@ -85,6 +87,18 @@
 					<td>{{ result.Roleplay }}</td>
 				</tr>
 			</table>
+		</div>
+		<div ng-hide="listViewTF" class="gridViewResults">
+			<div class=cell ng-repeat="result in results">
+				<figcaption>
+					{{ result.Name }}
+				</figcaption>
+				<img class=gridIcon ng-src="{{ result.Icon }}">
+				<figcaption>
+					{{ result.PrimaryFocus }}, {{ result.SecondaryFocus }}<br>
+					Member Count: {{ result.Members }}
+				</figcaption>
+			</div>
 		</div>
 		<div class="loadButton">
 			<button ng-hide="isLoading" ng-click="loadMoreOrgs()">Load Results</button>

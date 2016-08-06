@@ -1,5 +1,37 @@
+/* GRID VIEW */
+
+.gridViewResults{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.cell {
+	width: calc(20% - 32.2px);
+	padding: 5px;
+	padding-left: 20px;
+	margin-top: 8px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+}
+
+.cell:nth-of-type(1n) {
+	margin-right: 4px;
+}
+
+.cell:nth-of-type(5n) {
+	margin-right: 0;
+}
+
+.gridIcon {
+	width:  200px;
+	height: 200px;
+}
+
+/* END GRID VIEW */
+
 /*
-.displayResults{
+.listViewResults{
 	position: absolute;
 	width: 10%;
 }

@@ -9,6 +9,12 @@
 	@license-end
 */
 FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
+	
+	$scope.toggleView = function(){
+		if($scope.listViewTF)$scope.listViewTF = false;
+		else $scope.listViewTF = true;
+	}
+	
 	var orgData = function(SID, Name, Icon){
 		this.SID        = SID;
 		this.Name       = Name;
@@ -87,6 +93,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.results = [];
 	$scope.isLoading = false;
 	$scope.Cog = false;//default to all orgs
+	$scope.listViewTF = true;
 	
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
