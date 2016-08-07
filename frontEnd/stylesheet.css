@@ -1,4 +1,11 @@
 
+tr:hover {
+    background-color: #CCCCCC;
+}
+
+#first {
+	background-color: #FFFFFF;
+}
 
 td {
 	height: 100%:
@@ -93,8 +100,14 @@ td a {
 	position: absolute;
 	line-height: 16px;
 	margin-left: 750px;
-	margin-top: 200px;
+	margin-top: 50px;
 	width: 300px;
+}
+
+#filterCount{
+	position: absolute;
+	margin-left: 500px;
+	margin-top: 400px;
 }
 
 input[type=button] {
