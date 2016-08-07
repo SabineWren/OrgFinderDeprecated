@@ -37,8 +37,8 @@
 					<!-- Display Current Filters -->
 					<h2>Total Filters:</h2>
 					<p ng-repeat="checkboxModel in checkboxModels">
-						<a>{{ checkboxModel.category }}: </a>
-						<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
+						<span>{{ checkboxModel.category }}: </span>
+						<span ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </span>
 					</p>
 					{{checkedOuter.num}} boxes are checked (outer).<br>
 				</span>
@@ -46,14 +46,14 @@
 					<!-- Extra Filter Options-->
 					Enter a Name or SID: <input class=filter type="text" ng-model="filterName"><br>
 					Min Size: <input class=filterSmall type="text" ng-model="filterSizeMin">
-					<a ng-hide="filterSizeMin > 1">Any</a>
-					<a ng-show="filterSizeMin > 1">{{ filterSizeMin }}</a>
+					<span ng-hide="filterSizeMin > 1">Any</span>
+					<span ng-show="filterSizeMin > 1">{{ filterSizeMin }}</span>
 					<br>
 					<md-slider md-discrete step="1" flex min="1" max="60" ng-model="filterSizeMin" aria-label="red" id="min-slider">
 					</md-slider>
 					Max Size: <input class=filterSmall type="text" ng-model="filterSizeMax">
-					<a ng-hide="filterSizeMax > 0">Any</a>
-					<a ng-show="filterSizeMax > 0">{{ filterSizeMax }}</a>
+					<span ng-hide="filterSizeMax > 0">Any</span>
+					<span ng-show="filterSizeMax > 0">{{ filterSizeMax }}</span>
 					<br>
 					<md-slider md-discrete step="1" flex min="0" max="100" ng-model="filterSizeMax" aria-label="red" id="max-slider">
 					</md-slider>
@@ -73,7 +73,7 @@
 		<!-- List View -->
 		<div ng-show="listViewTF" class="listViewResults">
 			<table>
-				<thead align="left"><tr>
+				<thead align="left"><tr id="first">
 					<th>SID</th>
 					<th>Name</th>
 					<th>Icon</th>
@@ -87,22 +87,22 @@
 					<th>Recruiting</th>
 					<th>Language</th>
 					<th>Roleplay</th>
-					
 				</tr></thead>
 				<tr ng-repeat="result in results">
-					<td>{{ result.SID }}</td>
-					<td>{{ result.Name }}</td>
-					<td><img class=icon ng-src="{{ result.Icon }}"></td>
-					<td>{{ result.Members }}</td>
-					<td>{{ result.Commitment }}</td>
-					<td>{{ result.Archetype }}</td>
-					<td><img class=icon ng-src="{{ result.PrimaryIcon }}"></td>
-					<td>{{ result.PrimaryFocus }}</td>
-					<td><img class=icon ng-src="{{ result.SecondaryIcon }}"></td>
-					<td>{{ result.SecondaryFocus }}</td>
-					<td>{{ result.Recruiting }}</td>
-					<td>{{ result.Language }}</td>
-					<td>{{ result.Roleplay }}</td>
+				<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.SID }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Name }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.Icon }}"></a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Members }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Commitment }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Archetype }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.PrimaryIcon }}"></a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.PrimaryFocus }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.SecondaryIcon }}"></a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.SecondaryFocus }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Recruiting }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Language }}</a></td>
+					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Roleplay }}</a></td>
 				</tr>
 			</table>
 		</div>
@@ -112,7 +112,7 @@
 				<figcaption>
 					{{ result.Name }}
 				</figcaption>
-				<img class=gridIcon ng-src="{{ result.Icon }}">
+				<a ng-href="{{ result.URL }}" target="_blank"<img class=gridIcon ng-src="{{ result.Icon }}"></a>
 				<figcaption>
 					{{ result.PrimaryFocus }}, {{ result.SecondaryFocus }}<br>
 					Member Count: {{ result.Members }}

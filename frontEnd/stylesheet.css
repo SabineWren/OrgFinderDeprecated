@@ -1,4 +1,27 @@
 
+tr:hover {
+    background-color: #CCCCCC;
+}
+
+#first {
+	background-color: #FFFFFF;
+}
+
+td {
+	height: 100%:
+	width:  100%;
+}
+
+a {
+	display: table;
+	position: relative;
+	text-decoration: none; 
+	color: black; 
+	width:  100%;
+	height: 100%;
+	padding-right: 0;
+	padding-left: 0;
+}
 
 /* GRID VIEW */
 

@@ -36,7 +36,7 @@ FROM tbl_OrgSize OrgSize;
 
 -- Default View (no filtering)
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
-SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains,
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, orgs.URL as URL, OrgSize.Members as Size, OrgSize.Mains as Mains,
 	OrgSize.Affiliates as Affiliates, Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,
 	Commitment, Language, Archetype,
 	CASE
@@ -61,6 +61,7 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
 -- Views for Filtering
 
 -- select * from View_OrgsFilterPrimary WHERE PrimaryFocus = "Exploration" LIMIT 300;
+/* DEPRECATED
 CREATE OR REPLACE VIEW View_OrgsFilterPrimary as
 SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, OrgSize.Members as Size, OrgSize.Mains as Mains, 
 	OrgSize.Affiliates as Affiliates, PrimaryFocus as Focus, Commitment, Language, Archetype,
@@ -105,5 +106,5 @@ LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
 LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
 LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
 LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
-
+*/
 

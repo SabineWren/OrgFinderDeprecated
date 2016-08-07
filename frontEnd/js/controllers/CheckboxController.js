@@ -15,10 +15,11 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		else $scope.listViewTF = true;
 	}
 	
-	var orgData = function(SID, Name, Icon){
-		this.SID        = SID;
-		this.Name       = Name;
-		this.Icon       = Icon;
+	var orgData = function(SID, Name, Icon, URL){
+		this.SID  = SID;
+		this.Name = Name;
+		this.Icon = Icon;
+		this.URL  = URL;
 	}
 	
 	function callbackParseSelection(data){
@@ -28,7 +29,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		}
 		else for(obj in data){
 			var icon = "/org_icons/" + data[obj]["SID"];
-			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon );
+			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon, data[obj]["URL"] );
 			
 			field.Members        = data[obj]["Size"];
 			//field.Mains        = data[obj][""];
