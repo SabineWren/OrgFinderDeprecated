@@ -52,10 +52,10 @@
 					<md-slider md-discrete step="1" flex min="1" max="60" ng-model="filterSizeMin" aria-label="red" id="min-slider">
 					</md-slider>
 					Max Size: <input class=filterSmall type="text" ng-model="filterSizeMax">
-					<a ng-hide="filterSizeMax > 1">Any</a>
-					<a ng-show="filterSizeMax > 1">{{ filterSizeMax }}</a>
+					<a ng-hide="filterSizeMax > 0">Any</a>
+					<a ng-show="filterSizeMax > 0">{{ filterSizeMax }}</a>
 					<br>
-					<md-slider md-discrete step="1" flex min="1" max="60" ng-model="filterSizeMax" aria-label="red" id="max-slider">
+					<md-slider md-discrete step="1" flex min="0" max="100" ng-model="filterSizeMax" aria-label="red" id="max-slider">
 					</md-slider>
 					Language: <select ng-model="language">
 								<option ng-repeat="lang in langs">{{ lang }}</option>

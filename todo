@@ -22,11 +22,7 @@ Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
 	
 Front End:
-	add sliders
 	add main/members/total listings for size
 	add RSI page links
 	add sorting options (not just filtering)
 
- <md-slider flex min="0" max="255" ng-model="color.red" aria-label="red" id="red-slider">
- 
- https://www.npmjs.com/package/angular-slider#range
