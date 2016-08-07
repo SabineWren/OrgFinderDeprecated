@@ -12,7 +12,7 @@ td {
 	width:  100%;
 }
 
-a {
+td a {
 	display: table;
 	position: relative;
 	text-decoration: none; 
