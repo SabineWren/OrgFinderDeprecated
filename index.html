@@ -120,8 +120,8 @@
 			</div>
 		</div>
 		<div class="loadButton">
-			<button ng-hide="isLoading" ng-click="loadMoreOrgs()">Load Results</button>
-			<button ng-show="isLoading"> loading... </button>
+			<input ng-hide="isLoading" type="button" value="Load Results"ng-click="loadMoreOrgs()" />
+			<input ng-show="isLoading" type="button" value="loading..." />
 		</div>
 		<div class="footer"></div>
 	</div>
