@@ -18,7 +18,7 @@ SELECTION Query Types:
 	Default:
 	
 	SELECT * FROM View_OrganizationsEverything WHERE ATTRIBUTE1 = ?1 OR Attribute1 = ?2 OR ... OR AttributeN = ?M LIMIT 10 OFFSET ?
-	"s^{M}d", $value1, $value2, ..., $valueM, $pagenum
+	"s^{M}d", $value1, $value2, ..., $valueM, $pageNum
 	//M 's's and 1 d
 	
 	If filter by Activity, then as above with additions:
@@ -33,7 +33,7 @@ SELECTION Query Types:
 		WHERE Activity = ?a OR ... OR Activity = ?z
 	)
 	LIMIT 10 OFFSET ?;
-	"s^{M+2*z}d", $value1, $value2, ..., $valueM, $valuea ... $valuez, $valuea ... $valuez, $pagenum
+	"s^{M+2*z}d", $value1, $value2, ..., $valueM, $valuea ... $valuez, $valuea ... $valuez, $pageNum
 	//M+2*z 's's and 1 d
 	*/
 	
@@ -45,11 +45,12 @@ SELECTION Query Types:
 	//ini_set('default_charset', 'UTF-8'); php5 uses utf-8 by default
 	
 	//get parameters from query string
-	$pagenum = (int)$_GET['pagenum'];
-	if($pagenum < 0){
+	$pageNum = (int)$_GET['pagenum'];
+	if($pageNum < 0){
 		exit("invalid page offset"); 
 	}
-	$pagenum = $pagenum * 10;//number of results to skip
+	$pageSize = 12;
+	$offset = $pageNum * $pageSize;
 	
 	//init loop
 	$sql = "SELECT * FROM View_OrganizationsEverything";
@@ -163,8 +164,8 @@ SELECTION Query Types:
 	unset($Archetypes);
 	
 	//add offset
-	$sql .= ' LIMIT 10 OFFSET ?';
-	array_push($parameters, $pagenum);
+	$sql .= " LIMIT $pageSize OFFSET $offset";
+	array_push($parameters, $pageNum);
 	$types .= 'd';
 	
 	//require references to array elements to bind

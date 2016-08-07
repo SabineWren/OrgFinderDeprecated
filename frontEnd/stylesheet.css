@@ -5,12 +5,12 @@
 .gridViewResults{
 	display: flex;
 	flex-wrap: wrap;
+	text-align: center;
 }
 
 .cell {
-	width: calc(20% - 32.2px);
-	padding: 5px;
-	padding-left: 20px;
+	width: calc(16.6666% - 47.3333px);
+	padding: 20px;
 	margin-top: 8px;
 	border-style: solid;
 	border-width: 2px;
@@ -21,7 +21,7 @@
 	margin-right: 4px;
 }
 
-.cell:nth-of-type(5n) {
+.cell:nth-of-type(6n) {
 	margin-right: 0;
 }
 

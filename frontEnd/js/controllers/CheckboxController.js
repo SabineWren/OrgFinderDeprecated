@@ -100,7 +100,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.nextPage = 0;
 	$scope.filterSizeMin = 1;
 	$scope.filterSizeMax = 0;
-	$scope.pageSize = 10;
+	$scope.pageSize = 12;
 	$scope.results = [];
 	$scope.isLoading = false;
 	$scope.Cog = false;//default to all orgs
