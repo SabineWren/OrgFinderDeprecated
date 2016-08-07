@@ -46,8 +46,9 @@ CREATE TABLE tbl_FromCountry(
 -- Most important table - most tables FK to it
 CREATE TABLE tbl_Organizations(
 	SID  VARCHAR(10) PRIMARY KEY,-- Clustered Index
-	Name VARCHAR(30) NOT NULL,
-	Icon VARCHAR(100)-- can be saved locally or as URL to RSI
+	Name VARCHAR(30)  NOT NULL,
+	Icon VARCHAR(100) NOT NULL,-- link to RSI
+	URL  VARCHAR(100) NOT NULL--org website (default RSI)
 );
 
 -- Used exclusively for selecting orgs based on Name (case insensitive)

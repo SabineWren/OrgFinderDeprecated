@@ -17,6 +17,7 @@ ER diagram:
 	change FullOrganizations to FullOrgs
 	fix clustering on diagram for all tables that don't show it as a primary key
 	add new table OrgNames
+	add url to orgs
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)

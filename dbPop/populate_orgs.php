@@ -19,9 +19,24 @@
 	*			5) Bind data to statement
 	*			6) Execute Database Transactions
 	* 7) Close Statements
-	* 8) Force reclustering
+	* 8) Recluster Tables
 	* 9) Close connection
 	*/
+	
+	function didSizeChange(&$SID, &$size, &$connection){
+		$rows = $connection->query("SELECT MemberCount FROM tbl_OrgSize WHERE Organization = UPPER('$SID')");
+		$row = $rows->fetch_assoc();
+		if($row == null){
+			echo "NOT FOUND Org SID = $SID\n";
+			return true;
+		}
+		if($size != $row['MemberCount']){
+			echo "UPDATING Org SID = $SID\n";
+			return true;//org has changed size
+		}
+		//echo "current: " . $row['MemberCount'] . " actual: $size SAME\n";
+		return false;
+	}
 	
 	//1) Connect to DB
 	if( sizeof($argv) < 3){
@@ -69,6 +84,11 @@
 	$prepared_insert_roleplay->bind_param("ss", $SID, $SID);
 	$prepared_delete_roleplay->bind_param("s", $SID);
 	
+	$prepared_insert_language = $connection->prepare("INSERT INTO tbl_OrgFluencies(Organization, Language) VALUES (?, ?) ON DUPLICATE KEY UPDATE Language = ?");
+	$prepared_insert_filter = $connection->prepare("INSERT INTO tbl_FilterFluencies(Language, Organization) VALUES (?, ?) ON DUPLICATE KEY UPDATE Language = ?");
+	$prepared_insert_language->bind_param("sss", $SID, $Language, $Language);
+	$prepared_insert_filter->bind_param("sss", $Language, $SID, $Language);
+	
 	$numberInserted = 0;
 	for($x = 1; ; $x++){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
@@ -84,80 +104,93 @@
 		if($dataArray == false)exit("failed to decode\n");
 		unset($lines);
 		
-		if($dataArray["data"] == null)break;//if we have read all orgs
+		//if we have read all orgs
+		if($dataArray["data"] == null){
+			echo "Finished inserting $numberInserted Orgs\n";
+			break;
+		}
 		
+		//4) Sub-query Org (more data)
 		foreach ($dataArray["data"] as $org){
-			//4) Sub-query Org (more data)
-			for($failCounterSingleOrg = 0;;++$failCounterSingleOrg){//loop in case request fails due to poor connection
-				$subquery = file_get_contents(
-					//note sc-api does not provide language information on live results
-					'http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id='
-					. $org['sid'] . '&expedite=0&format=raw'
-				);
-				if($subquery)break;
-				sleep(1);
-				if($failCounterSingleOrg > 2){
-					echo "FAILED to query API live for org with SID == " . $org['sid'] . "\n";
-					continue(2);
+			//only query the org if it's new or has changed its size
+			if(  didSizeChange($org['sid'], $org['member_count'], $connection)  ){
+				for($failCounterSingleOrg = 0;;++$failCounterSingleOrg){//loop in case request fails due to poor connection
+					$subquery = file_get_contents(
+						//note sc-api does not provide language information on live results
+						'http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id='
+						. $org['sid'] . '&expedite=0&format=raw'
+					);
+					if($subquery)break;
+					sleep(1);
+					if($failCounterSingleOrg > 2){
+						echo "FAILED to query API live for org with SID == " . $org['sid'] . "\n";
+						continue(2);
+					}
 				}
-			}
-			$orgArray = json_decode($subquery, true);
-			unset($subquery);
-			if($orgArray['data'] == null)echo "WARNING: Org null (in API live result!)\n";
+				$orgArray = json_decode($subquery, true);
+				unset($subquery);
+				if($orgArray['data'] == null)echo "WARNING: Org null (in API live result!)\n";
 			
-			//5) Bind data to statement
-			$SID         = strtoupper( $orgArray['data']['sid'] );
-			$Name        = html_entity_decode(  $orgArray['data']['title']  );
-			$NameUpper   = strtoupper($Name);
-			$Icon        = $orgArray['data']['logo'];
-			$MemberCount = intval( $orgArray['data']['member_count'] );
-			$Recruiting  = $orgArray['data']['recruiting'];
-			$Archetype   = $orgArray['data']['archetype'];
-			$Commitment  = $orgArray['data']['commitment'];
-			$Roleplay    = $orgArray['data']['roleplay'];
-			$PrimaryFocus   = $orgArray['data']['primary_focus'];
-			$SecondaryFocus = $orgArray['data']['secondary_focus'];
-			//banner
-			//headline
-			//history
-			//manifesto
-			//charter
-			unset($orgArray);
+				//5) Bind data to statement
+				$SID         = strtoupper( $orgArray['data']['sid'] );
+				$Name        = rawurldecode(  $orgArray['data']['title']  );
+				$NameUpper   = strtoupper($Name);
+				$Icon        = $orgArray['data']['logo'];
+				$MemberCount = intval( $orgArray['data']['member_count'] );
+				$Recruiting  = $orgArray['data']['recruiting'];
+				$Archetype   = $orgArray['data']['archetype'];
+				$Commitment  = $orgArray['data']['commitment'];
+				$Roleplay    = $orgArray['data']['roleplay'];
+				$PrimaryFocus   = $orgArray['data']['primary_focus'];
+				$SecondaryFocus = $orgArray['data']['secondary_focus'];
+				$Language       = $orgArray['data']['lang'];
+				//banner
+				//headline
+				//history
+				//manifesto
+				//charter
+				unset($orgArray);
 
-			//test code
-			//echo "SID: " . $SID . "\n";
-			//echo "Name: " . $Name . "\n";
-			//echo "$Icon \n";
-			//echo "Members: " . $MemberCount . "\n";
-			//echo "Commitment: " . $Commitment . "\n";
-			//echo "Primary: " . $PrimaryFocus . "\n";
-			//echo "\n";
+				//test code
+				//echo "SID: " . $SID . "\n";
+				//echo "Name: " . $Name . "\n";
+				//echo "$Icon \n";
+				//echo "Members: " . $MemberCount . "\n";
+				//echo "Commitment: " . $Commitment . "\n";
+				//echo "Primary: " . $PrimaryFocus . "\n";
+				//echo "\n";
 
-			//6) Execute Database Queries		
-			$connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
-			if(!$prepared_insert_org->execute())echo "Error inserting Org $SID $Name\n";
-			$connection->query('SET foreign_key_checks = 1');
+				//6) Execute Database Queries		
+				$connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
+				if(!$prepared_insert_org->execute())echo "Error inserting Org $SID $Name\n";
+				$connection->query('SET foreign_key_checks = 1');
 			
-			if(!$prepared_insert_name->execute())echo "Error inserting Name $SID $Name\n";
-			if(!$prepared_insert_size->execute())echo "Error inserting Size $SID $MemberCount\n";
-			if(!$prepared_insert_commits->execute())echo "Error inserting Commits $SID $Commitment\n";
-			if( $Recruiting === "No" ){
-					if(!$prepared_insert_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
+				if(!$prepared_insert_name->execute())echo "Error inserting Name $SID $Name\n";
+				if(!$prepared_insert_size->execute())echo "Error inserting Size $SID $MemberCount\n";
+				if(!$prepared_insert_commits->execute())echo "Error inserting Commits $SID $Commitment\n";
+				if( $Recruiting === "No" ){
+						if(!$prepared_insert_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
+				}
+				else if(!$prepared_delete_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
+				if(!$prepared_insert_primary->execute())echo "Error inserting primary $SID $PrimaryFocus\n";
+				if(!$prepared_insert_secondary->execute())echo "Error inserting secondary $SID $SecondaryFocus\n";
+				if(!$prepared_insert_performs->execute())echo "Error inserting performs $SID\n";
+				if(!$prepared_insert_archetype->execute())echo "Error inserting archetype $SID $Archetype\n";
+				if(!$prepared_insert_filterarch->execute())echo "Error inserting filter archetype $SID $Archetype\n";
+				if( $Roleplay === "Yes" ){
+						if(!$prepared_insert_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
+				}
+				else if(!$prepared_delete_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
+				if($Language != null){
+					if(!$prepared_insert_language->execute())echo "Error inserting language $SID $Language\n";
+					if(!$prepared_insert_filterlang->execute())echo "Error inserting filter language $SID $Language\n";
+				}
+				++$numberInserted;
+				echo "inserted SID = $SID\n";
 			}
-			else if(!$prepared_delete_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
-			if(!$prepared_insert_primary->execute())echo "Error inserting primary $SID $PrimaryFocus\n";
-			if(!$prepared_insert_secondary->execute())echo "Error inserting secondary $SID $SecondaryFocus\n";
-			if(!$prepared_insert_performs->execute())echo "Error inserting performs $SID\n";
-			if(!$prepared_insert_archetype->execute())echo "Error inserting archetype $SID $Archetype\n";
-			if(!$prepared_insert_filterarch->execute())echo "Error inserting filter archetype $SID $Archetype\n";
-			if( $Roleplay === "Yes" ){
-					if(!$prepared_insert_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
-			}
-			else if(!$prepared_delete_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
-			++$numberInserted;
 		}
 		$connection->commit();
-		if($x % 8 == 1)echo "Inserted $numberInserted Orgs\n";
+		if($x % 32 == 1)echo "Inserted $numberInserted Orgs\n";
 	}
 	
 	//7) Close Connection
@@ -175,8 +208,10 @@
 	$prepared_insert_filterarch->close();
 	$prepared_insert_roleplay->close();
 	$prepared_delete_roleplay->close();
+	$prepared_insert_language->close();
+	$prepared_insert_filter->close();
 	
-	//8) Sort Tuples
+	//8) Recluster Tables
 	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgNames ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
@@ -188,6 +223,8 @@
 	$connection->query('ALTER TABLE tbl_PrimaryFocus ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_SecondaryFocus ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_OrgFluencies ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
 	
 	//9) Close Connection
 	$connection->close();
