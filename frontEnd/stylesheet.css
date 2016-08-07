@@ -1,3 +1,5 @@
+
+
 /* GRID VIEW */
 
 .gridViewResults{
@@ -66,8 +68,29 @@
 
 .lowerBlock {
 	position: absolute;
+	line-height: 12px;
 	margin-left: 750px;
 	width: 300px;
+}
+
+.other-filters {
+	position: absolute;
+	line-height: 16px;
+	margin-left: 750px;
+	margin-top: 220px;
+	width: 300px;
+}
+
+input[type=button] {
+	margin-top: 5px;
+	height: 40px;
+}
+
+md-slider {
+	bottom: 10px;
+	margin-top: 0px;
+	padding-top: 0px;
+	height: 30px;
 }
 
 /* do not delete!

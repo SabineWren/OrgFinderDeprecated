@@ -60,14 +60,23 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	}
 	
 	$scope.loadMoreOrgs = function(){
-		$scope.isLoading = true;//callback sets to false
+		$scope.isLoading = true;//callback sets to false when it's done
+		
+		//prevent DB from wasting time on bad input
+		if($scope.filterSizeMax > 0 && $scope.filterSizeMin > $scope.filterSizeMax + 1)$scope.filterSizeMax = $scope.filterSizeMin;
+		
+		//only filter by size if needed
+		var minSize = null;
+		if($scope.filterSizeMin > 1 )minSize = $scope.filterSizeMin.toString();
+		var maxSize = null;
+		if($scope.filterSizeMax > 0)maxSize = $scope.filterSizeMax.toString();
 		
 		$http.get('/backEnd/selects.php', { 
 			params:{
 				pagenum:   $scope.nextPage,
 				NameOrSID: encodeURI( $scope.filterName ),
-				Min:        $scope.filterSizeMin,
-				Max:        $scope.filterSizeMax,
+				Min:        minSize,
+				Max:        maxSize,
 				Cog:        btoi($scope.Cog),
 				Lang:       $scope.language,
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
@@ -89,6 +98,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 
 	// Init **********************************************************************************************************
 	$scope.nextPage = 0;
+	$scope.filterSizeMin = 1;
+	$scope.filterSizeMax = 0;
 	$scope.pageSize = 10;
 	$scope.results = [];
 	$scope.isLoading = false;

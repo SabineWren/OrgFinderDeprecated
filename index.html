@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<link type="text/css" rel="stylesheet" href="AngularJS/angular-material/angular-material.min.css">
 	<link type="text/css" rel="stylesheet" href="frontEnd/stylesheet.css"/>
 	<title>Cognition Corp</title>
 	
@@ -31,24 +32,40 @@
 				<input type="checkbox" ng-model="Cog" />Cognition Corp Member
 			</label>
 			<br>
-			<div class="lowerBlock">
-				<h2>Total Filters:</h2>
-				<p ng-repeat="checkboxModel in checkboxModels">
-					<a>{{ checkboxModel.category }}: </a>
-					<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
-				</p>
-				<span>{{checkedOuter.num}} boxes are checked (outer).</span>
-				<p>
+			<div>
+				<span class="lowerBlock">
+					<!-- Display Current Filters -->
+					<h2>Total Filters:</h2>
+					<p ng-repeat="checkboxModel in checkboxModels">
+						<a>{{ checkboxModel.category }}: </a>
+						<a ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </a>
+					</p>
+					{{checkedOuter.num}} boxes are checked (outer).<br>
+				</span>
+				<span class="other-filters">
+					<!-- Extra Filter Options-->
 					Enter a Name or SID: <input class=filter type="text" ng-model="filterName"><br>
-					Min Size: <input class=filterSmall type="text" ng-model="filterSizeMin"><br>
-					Max Size: <input class=filterSmall type="text" ng-model="filterSizeMax"><br>
+					Min Size: <input class=filterSmall type="text" ng-model="filterSizeMin">
+					<a ng-hide="filterSizeMin > 1">Any</a>
+					<a ng-show="filterSizeMin > 1">{{ filterSizeMin }}</a>
+					<br>
+					<md-slider md-discrete step="1" flex min="1" max="60" ng-model="filterSizeMin" aria-label="red" id="min-slider">
+					</md-slider>
+					Max Size: <input class=filterSmall type="text" ng-model="filterSizeMax">
+					<a ng-hide="filterSizeMax > 1">Any</a>
+					<a ng-show="filterSizeMax > 1">{{ filterSizeMax }}</a>
+					<br>
+					<md-slider md-discrete step="1" flex min="1" max="60" ng-model="filterSizeMax" aria-label="red" id="max-slider">
+					</md-slider>
 					Language: <select ng-model="language">
 								<option ng-repeat="lang in langs">{{ lang }}</option>
 							</select>
-				</p>
-				<input type="button" ng-click="reapplyFilters()" value="Apply Filters" />
-				<input ng-show="listViewTF" type="button" ng-click="toggleView()" value="Enable Grid View" />
-				<input ng-hide="listViewTF" type="button" ng-click="toggleView()" value="Enable List View" />
+					<span class="filter-buttons">
+						<input type="button" ng-click="reapplyFilters()" value="Apply Filters" />
+						<input ng-show="listViewTF" type="button" ng-click="toggleView()" value="Enable Grid View" />
+						<input ng-hide="listViewTF" type="button" ng-click="toggleView()" value="Enable List View" />
+					</span>
+				</span>
 			</div>
 		</div>
 		
@@ -128,14 +145,19 @@
 	<div>
 		<p><a href="jslicense.html" data-jslicense="1">JavaScript license information</a></p>
 	</div>
-	
+	<!-- to add:
+	angular-material.min.css -> angular-material.css
+	-->
 	<!-- *********************************************************************************** -->
 	
 	<!-- Include AngularJS -->
-	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="AngularJS/angular/angular.min.js"></script>
+	<script src="AngularJS/angular-resource/angular-resource.min.js"></script>
 	
-	<!-- Third Party Directivies -->
-	<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<!-- we use material for sliders, and it depends on animate and aria-->
+	<script src="AngularJS/angular-animate/angular-animate.min.js"></script>
+	<script src="AngularJS/angular-aria/angular-aria.min.js"></script>
+	<script src="AngularJS/angular-material/angular-material.min.js"></script>
 
 	<!-- Modules -->
 	<script src="frontEnd/js/FrontEndModule.js"></script>

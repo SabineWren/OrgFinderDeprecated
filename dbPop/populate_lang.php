@@ -76,7 +76,7 @@
 			
 			//5) Bind data to statement
 			$SID         = strtoupper( $orgArray['data']['sid'] );
-			$Language    = html_entity_decode(  $orgArray['data']['lang']  );
+			$Language    = rawurldecode(  $orgArray['data']['lang']  );
 			unset($orgArray);
 			//echo "Language: " . $Language . "\n";
 
