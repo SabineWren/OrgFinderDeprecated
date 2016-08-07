@@ -15,6 +15,50 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		else $scope.listViewTF = true;
 	}
 	
+	function clearSorting(){
+		$scope.nameDouble      = true;
+		$scope.nameAscending   = false;
+		$scope.nameDescending  = false;
+		$scope.sizeDouble      = true;
+		$scope.sizeAscending   = false;
+		$scope.sizeDescending  = false;
+	}
+	
+	//sort name
+	$scope.clickName = function(){
+		if($scope.nameDouble){
+			clearSorting();
+			$scope.nameDouble = false;
+			$scope.nameAscending  = true;
+		}
+		else if($scope.nameAscending){
+			clearSorting();
+			$scope.nameDouble = false;
+			$scope.nameDescending = true;
+		}
+		else if($scope.nameDescending){
+			clearSorting();
+		}
+		$scope.reapplyFilters();
+	}
+	//sort size
+	$scope.clickSize = function(){
+		if($scope.sizeDouble){
+			clearSorting();
+			$scope.sizeDouble     = false;
+			$scope.sizeAscending  = true;
+		}
+		else if($scope.sizeAscending){
+			clearSorting();
+			$scope.sizeDouble     = false;
+			$scope.sizeDescending = true;
+		}
+		else if($scope.sizeDescending){
+			clearSorting();
+		}
+		$scope.reapplyFilters();
+	}
+	
 	var orgData = function(SID, Name, Icon, URL){
 		this.SID  = SID;
 		this.Name = Name;
@@ -63,7 +107,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.loadMoreOrgs = function(){
 		$scope.isLoading = true;//callback sets to false when it's done
 		
-		//prevent DB from wasting time on bad input
+		//prevent DB from wasting time on bad size input
 		if($scope.slider_bar_max.value > 0 && $scope.slider_bar_min.value > $scope.slider_bar_max.value + 1)
 			$scope.slider_bar_max.value = $scope.slider_bar_min.value;
 		
@@ -74,11 +118,21 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		var maxSize = null;
 		if($scope.slider_bar_max.value > 0)
 			maxSize = $scope.slider_bar_max.value.toString();
+			
+		//only sort if needed
+		var directionName = null;
+		if($scope.nameAscending)directionName = 'up';
+		else if($scope.nameDescending)directionName = 'down';
+		var directionSize = null;
+		if($scope.sizeAscending)directionSize = 'up';
+		else if($scope.sizeDescending)directionSize = 'down';
 		
 		$http.get('/backEnd/selects.php', { 
 			params:{
 				pagenum:   $scope.nextPage,
 				NameOrSID: encodeURI( $scope.filterName ),
+				nameDir:    directionName,
+				sizeDir:    directionSize,
 				Min:        minSize,
 				Max:        maxSize,
 				Cog:        btoi($scope.Cog),
@@ -107,6 +161,14 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.isLoading = false;
 	$scope.Cog = false;//default to all orgs
 	$scope.listViewTF = true;
+	
+	//arrows for sorting
+	$scope.nameDouble     = true;
+	$scope.nameAscending  = false;
+	$scope.nameDescending = false;
+	$scope.sizeDouble     = true;
+	$scope.sizeAscending  = false;
+	$scope.sizeDescending = false;
 	
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];

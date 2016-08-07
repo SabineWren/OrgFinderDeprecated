@@ -163,6 +163,20 @@ SELECTION Query Types:
 	}
 	unset($Archetypes);
 	
+	//apply sorting
+	if(isset($_GET['nameDir'])){
+		$nameDir = $_GET['nameDir'];
+		if($nameDir == 'up') $sql .= ' ORDER BY Name ASC';
+		else if($nameDir == 'down') $sql .= ' ORDER BY Name DESC';
+		unset($nameDir);
+	}
+	if(isset($_GET['sizeDir'])){
+		$sizeDir = $_GET['sizeDir'];
+		if($sizeDir == 'up') $sql .= ' ORDER BY Size ASC';
+		else if($sizeDir == 'down') $sql .= ' ORDER BY Size DESC';
+		unset($sizeDir);
+	}
+	
 	//add offset
 	$sql .= " LIMIT $pageSize OFFSET ?";
 	array_push($parameters, $pageNum);

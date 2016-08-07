@@ -67,9 +67,13 @@
 			<table>
 				<thead align="left"><tr id="first">
 					<th>SID</th>
-					<th>Name</th>
+					<th ng-show="nameDouble" ng-click="clickName()">Name <span style=color:darkblue>&#8646</span></th>
+					<th ng-show="nameAscending" ng-click="clickName()">Name <span style=color:darkblue>&and;</span></th>
+					<th ng-show="nameDescending" ng-click="clickName()">Name <span style=color:darkblue>&or;</span></th>
 					<th>Icon</th>
-					<th>Size</th>
+					<th ng-show="sizeDouble" ng-click="clickSize()">Size <span style=color:darkblue>&#8646</span></th>
+					<th ng-show="sizeAscending" ng-click="clickSize()">Size <span style=color:darkblue>&and;</span></th>
+					<th ng-show="sizeDescending" ng-click="clickSize()">Size <span style=color:darkblue>&or;</span></th>
 					<th>Commitment</th>
 					<th>Archetype</th>
 					<th></th>
