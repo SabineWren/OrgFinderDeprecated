@@ -2,8 +2,8 @@
 <html lang="en-US">
 <head>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-	<link type="text/css" rel="stylesheet" href="AngularJS/angular-material/angular-material.min.css">
-	<link type="text/css" rel="stylesheet" href="frontEnd/stylesheet.css"/>
+	<link rel="stylesheet" type="text/css" href="AngularJS/angularjs-slider/dist/rzslider.css"/>
+	<link type="text/css" rel="stylesheet" href="frontEnd/stylesheet.css">
 	<title>Cognition Corp</title>
 	
 	<script>
@@ -45,18 +45,18 @@
 				<span class="other-filters">
 					<!-- Extra Filter Options-->
 					Enter a Name or SID: <input class=filter type="text" ng-model="filterName"><br>
-					Min Size: <input class=filterSmall type="text" ng-model="filterSizeMin">
-					<span ng-hide="filterSizeMin > 1">Any</span>
-					<span ng-show="filterSizeMin > 1">{{ filterSizeMin }}</span>
+					Min Size: <input class=filterSmall type="number" ng-model="slider_bar_min.value">
+					<span ng-hide="slider_bar_min.value > 1">Any</span>
+					<span ng-show="slider_bar_min.value > 1">{{ slider_bar_min.value }}</span>
 					<br>
-					<md-slider md-discrete step="1" flex min="1" max="60" ng-model="filterSizeMin" aria-label="red" id="min-slider">
-					</md-slider>
-					Max Size: <input class=filterSmall type="text" ng-model="filterSizeMax">
-					<span ng-hide="filterSizeMax > 0">Any</span>
-					<span ng-show="filterSizeMax > 0">{{ filterSizeMax }}</span>
+					<rzslider rz-slider-model="slider_bar_min.value" rz-slider-options="slider_bar_min.options">
+					</rzslider>
+					Max Size: <input class=filterSmall type="number" ng-model="$scope.slider_bar_max.value">
+					<span ng-hide="slider_bar_max.value > 0">Any</span>
+					<span ng-show="slider_bar_max.value > 0">{{ slider_bar_max.value }}</span>
 					<br>
-					<md-slider md-discrete step="1" flex min="0" max="100" ng-model="filterSizeMax" aria-label="red" id="max-slider">
-					</md-slider>
+					<rzslider rz-slider-model="slider_bar_max.value" rz-slider-options="slider_bar_max.options">
+					</rzslider>
 					Language: <select ng-model="language">
 								<option ng-repeat="lang in langs">{{ lang }}</option>
 							</select>
@@ -148,18 +148,14 @@
 		<p><a href="jslicense.html" data-jslicense="1">JavaScript license information</a></p>
 	</div>
 	<!-- to add:
-	angular-material.min.css -> angular-material.css
+	rzslider.js
 	-->
 	<!-- *********************************************************************************** -->
 	
 	<!-- Include AngularJS -->
 	<script src="AngularJS/angular/angular.min.js"></script>
 	<script src="AngularJS/angular-resource/angular-resource.min.js"></script>
-	
-	<!-- we use material for sliders, and it depends on animate and aria-->
-	<script src="AngularJS/angular-animate/angular-animate.min.js"></script>
-	<script src="AngularJS/angular-aria/angular-aria.min.js"></script>
-	<script src="AngularJS/angular-material/angular-material.min.js"></script>
+	<script src="AngularJS/angularjs-slider/src/rzslider.js"></script>
 
 	<!-- Modules -->
 	<script src="frontEnd/js/FrontEndModule.js"></script>

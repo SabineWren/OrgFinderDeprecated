@@ -1,11 +1,4 @@
 
-tr:hover {
-    background-color: #CCCCCC;
-}
-
-#first {
-	background-color: #FFFFFF;
-}
 
 td {
 	height: 100%:
@@ -100,20 +93,13 @@ td a {
 	position: absolute;
 	line-height: 16px;
 	margin-left: 750px;
-	margin-top: 220px;
+	margin-top: 200px;
 	width: 300px;
 }
 
 input[type=button] {
 	margin-top: 5px;
 	height: 40px;
-}
-
-md-slider {
-	bottom: 10px;
-	margin-top: 0px;
-	padding-top: 0px;
-	height: 30px;
 }
 
 /* do not delete!

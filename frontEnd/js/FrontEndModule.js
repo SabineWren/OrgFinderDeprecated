@@ -9,4 +9,4 @@
 	@license-end
 */
 
-var FrontEndApp = angular.module('FrontEndApp', ['ngResource', 'ngMaterial']);
+var FrontEndApp = angular.module('FrontEndApp', ['ngResource', 'rzModule']);

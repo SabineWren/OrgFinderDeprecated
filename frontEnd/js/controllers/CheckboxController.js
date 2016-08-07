@@ -64,13 +64,16 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		$scope.isLoading = true;//callback sets to false when it's done
 		
 		//prevent DB from wasting time on bad input
-		if($scope.filterSizeMax > 0 && $scope.filterSizeMin > $scope.filterSizeMax + 1)$scope.filterSizeMax = $scope.filterSizeMin;
+		if($scope.slider_bar_max.value > 0 && $scope.slider_bar_min.value > $scope.slider_bar_max.value + 1)
+			$scope.slider_bar_max.value = $scope.slider_bar_min.value;
 		
 		//only filter by size if needed
 		var minSize = null;
-		if($scope.filterSizeMin > 1 )minSize = $scope.filterSizeMin.toString();
+		if($scope.slider_bar_min.value > 1 )
+			minSize = $scope.slider_bar_min.value.toString();
 		var maxSize = null;
-		if($scope.filterSizeMax > 0)maxSize = $scope.filterSizeMax.toString();
+		if($scope.slider_bar_max.value > 0)
+			maxSize = $scope.slider_bar_max.value.toString();
 		
 		$http.get('/backEnd/selects.php', { 
 			params:{
@@ -99,8 +102,6 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 
 	// Init **********************************************************************************************************
 	$scope.nextPage = 0;
-	$scope.filterSizeMin = 1;
-	$scope.filterSizeMax = 0;
 	$scope.pageSize = 12;
 	$scope.results = [];
 	$scope.isLoading = false;
@@ -113,6 +114,38 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.langs = [];
 	$scope.icons = null;
 	$scope.filterName = "";
+	
+	$scope.slider_bar_min = {
+		value: 1,
+		options: {
+			floor: 1,
+			ceil: 100,
+			step: 1,
+			showSelectionBar: true,
+			getSelectionBarColor: function(value) {
+				if(value <= 15) return 'red';
+				if(value <= 30) return 'orange';
+				if(value <= 45) return 'yellow';
+				return '#2AE02A';
+			}
+		}
+	};
+	
+	$scope.slider_bar_max = {
+		value: 0,
+		options: {
+			floor: 0,
+			ceil: 100,
+			step: 1,
+			showSelectionBar: true,
+			getSelectionBarColor: function(value) {
+				if(value <= 20) return 'red';
+				if(value <= 40) return 'orange';
+				if(value <= 60) return 'yellow';
+				return '#2AE02A';
+			}
+		}
+	};
 	
 	//the database stores the back-end location of each activity icon
 	//we GET that location via SELECT and store it in an array

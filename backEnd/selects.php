@@ -164,7 +164,7 @@ SELECTION Query Types:
 	unset($Archetypes);
 	
 	//add offset
-	$sql .= " LIMIT $pageSize OFFSET $offset";
+	$sql .= " LIMIT $pageSize OFFSET ?";
 	array_push($parameters, $pageNum);
 	$types .= 'd';
 	
@@ -182,7 +182,7 @@ SELECTION Query Types:
 	/*$fp = fopen('debug', 'a');
 	fwrite($fp, $connection->error . "\n\n" . $sql . "\n\n" . implode(' ', $bindParams));
 	fclose($fp);*/
-	//var_dump($sql, $bindParams);
+	//var_dump($sql, $types, $bindParams);
 	//var_dump($connection->error);
 	
 	$prepared_select->execute();
