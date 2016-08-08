@@ -1,3 +1,4 @@
+/* deprecated
 -- Views for Selects without Filters
 CREATE OR REPLACE VIEW View_Roleplaying as
 SELECT orgs.SID as Organization, CASE
@@ -23,7 +24,6 @@ LEFT JOIN tbl_ExclusiveOrgs XOrgs
 ON orgs.SID = XOrgs.Organization
 LIMIT 2147483647 OFFSET 1;-- case statement generates first row as null
 
--- ***May not need
 CREATE OR REPLACE VIEW View_Size as
 SELECT Organization, MemberCount as Members, CASE
 	WHEN OrgSize.MemberCountMain IS NULL then "NA"
@@ -33,11 +33,12 @@ SELECT Organization, MemberCount as Members, CASE
 		ELSE OrgSize.MemberCountAffiliate
 		END AS Affiliates
 FROM tbl_OrgSize OrgSize;
+*/
 
 -- Default View (no filtering)
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
-SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, orgs.URL as URL, OrgSize.Members as Size, OrgSize.Mains as Mains,
-	OrgSize.Affiliates as Affiliates, Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.Icon as Icon, orgs.URL as URL,
+	Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,
 	Commitment, Language, Archetype,
 	CASE
 		WHEN Roleplay.Organization IS NOT NULL then "Yes"
@@ -50,7 +51,6 @@ SELECT orgs.SID as SID, orgs.Name as Name, orgs.Icon as Icon, orgs.URL as URL, O
 		END AS Recruiting
 FROM tbl_Organizations orgs
 LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
-LEFT JOIN View_Size          OrgSize   ON orgs.SID = OrgSize.Organization
      JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
 LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
 LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization

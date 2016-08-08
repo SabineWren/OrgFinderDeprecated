@@ -8,13 +8,10 @@
 	https://www.gnu.org/licenses/agpl-3.0.html
 	
 	@license-end
-
 CAVEATS:
 Activity (front end) == Focus (database)
 Members  (front end) == Size  (database)
-
 SELECTION Query Types:
-
 	Default:
 	
 	SELECT * FROM View_OrganizationsEverything WHERE ATTRIBUTE1 = ?1 OR Attribute1 = ?2 OR ... OR AttributeN = ?M LIMIT 10 OFFSET ?
@@ -203,12 +200,10 @@ SELECTION Query Types:
 	
 	//parse data and create json using metadata
 	$meta = $prepared_select->result_metadata();
-
 	unset($parameters);
 	while ($field = $meta->fetch_field()) {
 		$parameters[] = &$row[$field->name];
 	}
-
 	call_user_func_array(array($prepared_select, 'bind_result'), $parameters);
 	while ($prepared_select->fetch()) {
 		foreach($row as $key => $val) {

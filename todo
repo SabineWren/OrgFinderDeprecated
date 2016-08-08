@@ -1,5 +1,6 @@
 Database:
-	Future conflict-views:
+	optimize sorting
+	Future conflict-views:	
 	not allow more than 9 affiliates
 	not allow an affiliate without a main
 	not allow multiple OrganizationMemberHistory logs for the same day
@@ -14,15 +15,16 @@ Controllers:
 	improve readability of checkbox-related code
 	
 ER diagram:
+	**instead of manually tracking changes, rebuild diagram using mysql workbench
 	change FullOrganizations to FullOrgs
 	fix clustering on diagram for all tables that don't show it as a primary key
 	add new table OrgNames
 	add url to orgs
+	move total and main member counts to hub
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
 	
 Front End:
 	add main/members/total listings for size
-	add sorting options (not just filtering)
 
