@@ -175,9 +175,7 @@ SELECTION Query Types:
 	}
 	
 	//add offset
-	$sql .= " LIMIT $pageSize OFFSET ?";
-	array_push($parameters, $pageNum);
-	$types .= 'd';
+	$sql .= " LIMIT $pageSize OFFSET $offset";
 	
 	//require references to array elements to bind
 	$bindParams = array();
