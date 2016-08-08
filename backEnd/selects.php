@@ -11,27 +11,6 @@
 CAVEATS:
 Activity (front end) == Focus (database)
 Members  (front end) == Size  (database)
-SELECTION Query Types:
-	Default:
-	
-	SELECT * FROM View_OrganizationsEverything WHERE ATTRIBUTE1 = ?1 OR Attribute1 = ?2 OR ... OR AttributeN = ?M LIMIT 10 OFFSET ?
-	"s^{M}d", $value1, $value2, ..., $valueM, $pageNum
-	//M 's's and 1 d
-	
-	If filter by Activity, then as above with additions:
-	
-	SELECT * FROM View_OrganizationsEverything WHERE ATTRIBUTE1 = ?1 OR Attribute1 = ?2 OR ... OR AttributeN = ?M
-	<WHERE or AND> SID IN (
-		SELECT SID FROM View_OrgsFilterPrimary
-		WHERE Activity = ?a OR ... OR Activity = ?z
-	)
-	OR SID IN (
-		SELECT SID from View_OrgsFilterSecondary
-		WHERE Activity = ?a OR ... OR Activity = ?z
-	)
-	LIMIT 10 OFFSET ?;
-	"s^{M+2*z}d", $value1, $value2, ..., $valueM, $valuea ... $valuez, $valuea ... $valuez, $pageNum
-	//M+2*z 's's and 1 d
 	*/
 	
 	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb");
@@ -161,21 +140,26 @@ SELECTION Query Types:
 	unset($Archetypes);
 	
 	//apply sorting
-	if(isset($_GET['nameDir'])){
+	if( isset($_GET['nameDir']) ){
 		$nameDir = $_GET['nameDir'];
-		if($nameDir == 'up') $sql .= ' ORDER BY Name ASC';
-		else if($nameDir == 'down') $sql .= ' ORDER BY Name DESC';
+		//for some reason 'Name' has to be in quotes for DESC to work, but ASC works without!?!?
+		if($nameDir == 'down')    $sql .= " ORDER BY 'Name' DESC";
+		else if($nameDir == 'up') $sql .= " ORDER BY 'Name' ASC";
 		unset($nameDir);
 	}
-	if(isset($_GET['sizeDir'])){
+	
+	if( isset($_GET['sizeDir']) ){
 		$sizeDir = $_GET['sizeDir'];
-		if($sizeDir == 'up') $sql .= ' ORDER BY Size ASC';
-		else if($sizeDir == 'down') $sql .= ' ORDER BY Size DESC';
+		if($sizeDir == 'down')    $sql .= " ORDER BY 'Size' DESC";
+		else if($sizeDir == 'up') $sql .= " ORDER BY 'Size' ASC";
 		unset($sizeDir);
 	}
 	
-	//add offset
-	$sql .= " LIMIT $pageSize OFFSET $offset";
+	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
+	$offet = 20000;
+	$sql .= " LIMIT $pageSize OFFSET ?";
+	array_push($parameters, $offset);
+	$types .= 'd';
 	
 	//require references to array elements to bind
 	$bindParams = array();
@@ -187,6 +171,7 @@ SELECTION Query Types:
 	//we do not need references to the first element
 	array_unshift($bindParams, $types);
 	$prepared_select = $connection->prepare($sql);
+	
 	call_user_func_array( array($prepared_select, "bind_param"), $bindParams );
 	/*$fp = fopen('debug', 'a');
 	fwrite($fp, $connection->error . "\n\n" . $sql . "\n\n" . implode(' ', $bindParams));
@@ -198,10 +183,12 @@ SELECTION Query Types:
 	
 	//parse data and create json using metadata
 	$meta = $prepared_select->result_metadata();
+	//var_dump($meta);
 	unset($parameters);
 	while ($field = $meta->fetch_field()) {
 		$parameters[] = &$row[$field->name];
 	}
+	
 	call_user_func_array(array($prepared_select, 'bind_result'), $parameters);
 	while ($prepared_select->fetch()) {
 		foreach($row as $key => $val) {
