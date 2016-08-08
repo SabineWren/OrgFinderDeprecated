@@ -5,22 +5,12 @@ Database:
 	not allow an affiliate without a main
 	not allow multiple OrganizationMemberHistory logs for the same day
 
-	optionally add PersonFluencies??
-
 PopulateOrgs.php:
 	delete orgs that no longer exist
 	read and interpret timestamp info from API
 	
 Controllers:
 	improve readability of checkbox-related code
-	
-ER diagram:
-	**instead of manually tracking changes, rebuild diagram using mysql workbench
-	change FullOrganizations to FullOrgs
-	fix clustering on diagram for all tables that don't show it as a primary key
-	add new table OrgNames
-	add url to orgs
-	move total and main member counts to hub
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
