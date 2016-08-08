@@ -1,5 +1,4 @@
 /*
-DROP TABLE tbl_FilterOrgSize;
 DROP TABLE tbl_OrgMemberHistory;
 DROP TABLE tbl_OrgArchetypes;
 DROP TABLE tbl_Archetypes;

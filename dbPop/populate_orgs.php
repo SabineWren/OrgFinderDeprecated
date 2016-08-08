@@ -24,17 +24,19 @@
 	*/
 	
 	function didSizeChange(&$SID, &$size, &$connection){
-		$rows = $connection->query("SELECT MemberCount FROM tbl_OrgSize WHERE Organization = UPPER('$SID')");
+//THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)
+//but the input is from the sc-api, not from a regular user
+		$rows = $connection->query("SELECT Size FROM tbl_Organizations WHERE SID = UPPER('$SID')");
 		$row = $rows->fetch_assoc();
 		if($row == null){
 			echo "NOT FOUND Org SID = $SID\n";
 			return true;
 		}
-		if($size != $row['MemberCount']){
+		if($size != $row['Size']){
 			echo "UPDATING Org SID = $SID\n";
 			return true;//org has changed size
 		}
-		//echo "current: " . $row['MemberCount'] . " actual: $size SAME\n";
+		//echo "Not updating Org SID = $SID\n";
 		return false;
 	}
 	
@@ -51,13 +53,10 @@
 	$connection->autocommit(FALSE);//accelerate inserts
 	
 	//2) Prepare statements
-	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Icon) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Icon = ?");
+	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, Icon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, Icon = ?, URL = ?");
 	$prepared_insert_name = $connection->prepare("INSERT INTO tbl_OrgNames      (SID, NameUpper)       VALUES (?, ?)    ON DUPLICATE KEY UPDATE NameUpper = ?");
-	$prepared_insert_org ->bind_param("sssss", $SID, $Name, $Icon, $Name, $Icon);
+	$prepared_insert_org ->bind_param("sssssssssss", $SID, $Name, $Size, $Main, $Icon, $URL, $Name, $Size, $Main, $Icon, $URL);
 	$prepared_insert_name->bind_param("sss",  $SID, $NameUpper , $NameUpper );
-	
-	$prepared_insert_size = $connection->prepare("INSERT INTO tbl_OrgSize (Organization, MemberCount) VALUES (?, ?) ON DUPLICATE KEY UPDATE MemberCount = ?");
-	$prepared_insert_size->bind_param("sdd", $SID, $MemberCount, $MemberCount);
 	
 	$prepared_insert_commits = $connection->prepare("INSERT INTO tbl_Commits(Organization, Commitment) VALUES (?, ?) ON DUPLICATE KEY UPDATE Commitment = ?");
 	$prepared_insert_commits->bind_param("sss", $SID, $Commitment, $Commitment);
@@ -90,7 +89,7 @@
 	$prepared_insert_filter->bind_param("sss", $Language, $SID, $Language);
 	
 	$numberInserted = 0;
-	for($x = 1; ; $x++){//$x is current page number in query string
+	for($x = 1;; $x++){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
 		for($failCounter = 0;;++$failCounter){
 			$lines = file_get_contents(
@@ -109,6 +108,8 @@
 			echo "Finished inserting $numberInserted Orgs\n";
 			break;
 		}
+		
+		echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
 		
 		//4) Sub-query Org (more data)
 		foreach ($dataArray["data"] as $org){
@@ -132,15 +133,15 @@
 				if($orgArray['data'] == null)echo "WARNING: Org null (in API live result!)\n";
 			
 				//5) Bind data to statement
-				$SID         = strtoupper( $orgArray['data']['sid'] );
-				$Name        = rawurldecode(  $orgArray['data']['title']  );
-				$NameUpper   = strtoupper($Name);
-				$Icon        = $orgArray['data']['logo'];
-				$MemberCount = intval( $orgArray['data']['member_count'] );
-				$Recruiting  = $orgArray['data']['recruiting'];
-				$Archetype   = $orgArray['data']['archetype'];
-				$Commitment  = $orgArray['data']['commitment'];
-				$Roleplay    = $orgArray['data']['roleplay'];
+				$SID            = strtoupper( $orgArray['data']['sid'] );
+				$Name           = rawurldecode(  $orgArray['data']['title']  );
+				$NameUpper      = strtoupper($Name);
+				$Icon           = $orgArray['data']['logo'];
+				$Size           = intval( $orgArray['data']['member_count'] );
+				$Recruiting     = $orgArray['data']['recruiting'];
+				$Archetype      = $orgArray['data']['archetype'];
+				$Commitment     = $orgArray['data']['commitment'];
+				$Roleplay       = $orgArray['data']['roleplay'];
 				$PrimaryFocus   = $orgArray['data']['primary_focus'];
 				$SecondaryFocus = $orgArray['data']['secondary_focus'];
 				$Language       = $orgArray['data']['lang'];
@@ -155,7 +156,7 @@
 				//echo "SID: " . $SID . "\n";
 				//echo "Name: " . $Name . "\n";
 				//echo "$Icon \n";
-				//echo "Members: " . $MemberCount . "\n";
+				//echo "Members: " . $Size . "\n";
 				//echo "Commitment: " . $Commitment . "\n";
 				//echo "Primary: " . $PrimaryFocus . "\n";
 				//echo "\n";
@@ -166,7 +167,6 @@
 				$connection->query('SET foreign_key_checks = 1');
 			
 				if(!$prepared_insert_name->execute())echo "Error inserting Name $SID $Name\n";
-				if(!$prepared_insert_size->execute())echo "Error inserting Size $SID $MemberCount\n";
 				if(!$prepared_insert_commits->execute())echo "Error inserting Commits $SID $Commitment\n";
 				if( $Recruiting === "No" ){
 						if(!$prepared_insert_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
@@ -197,7 +197,6 @@
 	$connection->autocommit(TRUE);
 	$prepared_insert_org->close();
 	$prepared_insert_name->close();
-	$prepared_insert_size->close();
 	$prepared_insert_commits->close();
 	$prepared_insert_full->close();
 	$prepared_delete_full->close();
@@ -210,6 +209,8 @@
 	$prepared_delete_roleplay->close();
 	$prepared_insert_language->close();
 	$prepared_insert_filter->close();
+	
+	echo "Done inserts! Rebuilding table clustering...\n";
 	
 	//8) Recluster Tables
 	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
