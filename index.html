@@ -117,9 +117,9 @@
 				</figcaption>
 			</div>
 		</div>
-		<div class="loadButton">
-			<input ng-hide="isLoading" type="button" value="Load Results"ng-click="loadMoreOrgs()" />
-			<input ng-show="isLoading" type="button" value="loading..." />
+		<div>
+			<input class="loadButton" ng-hide="isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+			<input class="loadButton" ng-show="isLoading" type="button" value="loading..." />
 		</div>
 		<div class="footer"></div>
 	</div>
@@ -143,7 +143,7 @@
 	
 	<!-- License Information -->
 	<div>
-		<p><a href="jslicense.html" data-jslicense="1">JavaScript license information</a></p>
+		<p id="licenses"><a href="jslicense.html" data-jslicense="1">JavaScript License Information</a></p>
 	</div>
 	<!-- to add:
 	rzslider.js
