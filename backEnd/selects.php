@@ -143,15 +143,15 @@ Members  (front end) == Size  (database)
 	if( isset($_GET['nameDir']) ){
 		$nameDir = $_GET['nameDir'];
 		//for some reason 'Name' has to be in quotes for DESC to work, but ASC works without!?!?
-		if($nameDir == 'down')    $sql .= " ORDER BY 'Name' DESC";
-		else if($nameDir == 'up') $sql .= " ORDER BY 'Name' ASC";
+		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC";
+		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC";
 		unset($nameDir);
 	}
 	
 	if( isset($_GET['sizeDir']) ){
 		$sizeDir = $_GET['sizeDir'];
-		if($sizeDir == 'down')    $sql .= " ORDER BY 'Size' DESC";
-		else if($sizeDir == 'up') $sql .= " ORDER BY 'Size' ASC";
+		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC";
+		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC";
 		unset($sizeDir);
 	}
 	
