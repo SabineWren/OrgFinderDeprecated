@@ -1,10 +1,21 @@
 
+body {
+	background-image: url("../space.gif");
+	color: white;
+}
+
 tr:hover {
-    background-color: #CCCCCC;
+    background-color: #333333;
 }
 
 #first {
-	background-color: #FFFFFF;
+	/*background-color: #FFFFFF;*/
+	background-color: #000000;
+}
+
+.arrows {
+	color: #88BBFF;
+	font-weight: bold;
 }
 
 td {
@@ -16,7 +27,7 @@ td a {
 	display: table;
 	position: relative;
 	text-decoration: none; 
-	color: black; 
+	color: #DDDDDD; 
 	width:  100%;
 	height: 100%;
 	padding-right: 0;
@@ -53,25 +64,6 @@ td a {
 	height: 200px;
 }
 
-/* END GRID VIEW */
-
-/*
-.listViewResults{
-	position: absolute;
-	width: 10%;
-}
-
-.SIDList {
-	position: absolute;
-	padding-left: 200px;
-}
-
-
-.memberList {
-	position: absolute;
-	padding-left: 500px;
-}*/
-
 .filterSmall {
 	max-width: 50px;
 }
@@ -82,7 +74,7 @@ td a {
 }
 
 .checkboxMainBlock {
-	background-color: #AAAAAA;
+	/*background-color: #AAAAAA;*/
 	position: relative;
 	display: block;
 	width: 700px;
@@ -170,7 +162,7 @@ h1, h2, h3, h4 {
 }
 
 #Cog{
-	margin-top: 20%;
+	margin-top: 21%;
 }
 
 
