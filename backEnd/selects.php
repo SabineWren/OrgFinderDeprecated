@@ -156,7 +156,6 @@ Members  (front end) == Size  (database)
 	}
 	
 	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
-	$offet = 20000;
 	$sql .= " LIMIT $pageSize OFFSET ?";
 	array_push($parameters, $offset);
 	$types .= 'd';
@@ -192,13 +191,20 @@ Members  (front end) == Size  (database)
 	call_user_func_array(array($prepared_select, 'bind_result'), $parameters);
 	while ($prepared_select->fetch()) {
 		foreach($row as $key => $val) {
-			$x[$key] = $val;
+			//var_dump($key);
+			//var_dump($val);
+			//if($key == "Name")$x[$key] = htmlentities($val);
+			if($key == "Name")$x[$key] = utf8_encode($val);
+			else $x[$key] = $val;
+			//$x[$key] = $val;
+			//var_dump($x[$key]);
+			//echo "\n";
 		}
 		$results[] = $x;
 	}
 	
 	$prepared_select->close();
 	$connection->close();
-	if(isset($results))echo json_encode($results);
+	if(isset($results))echo json_encode($results);//, JSON_HEX_APOS|JSON_HEX_QUOT
 	else echo "null";
 ?>
