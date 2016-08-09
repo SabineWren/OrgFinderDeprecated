@@ -54,15 +54,6 @@ CREATE TABLE tbl_Organizations(
 ALTER TABLE tbl_Organizations ADD INDEX(Size, SID);
 ALTER TABLE tbl_Organizations ADD INDEX(Name, SID);
 
--- Used exclusively for selecting orgs based on Name (case insensitive)
-CREATE TABLE tbl_OrgNames(
-	NameUpper VARCHAR(30) NOT NULL,
-	SID  VARCHAR(10) NOT NULL,
-	FOREIGN KEY FK_OrgName(SID) REFERENCES tbl_Organizations(SID),
-	CONSTRAINT PK_OrgNames PRIMARY KEY (NameUpper, SID), -- Clustered Index
-	CONSTRAINT UNIQUE(SID)
-);
-
 CREATE TABLE tbl_RepresentsCog(
 	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
 	Representative VARCHAR(30) NOT NULL,

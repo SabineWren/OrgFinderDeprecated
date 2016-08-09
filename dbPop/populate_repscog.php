@@ -10,6 +10,9 @@
 	@license-end
 	*/
 	//Connect to DB
+	
+	mb_internal_encoding("UTF-8");
+	
 	if( sizeof($argv) < 3){
 		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
 		exit();
@@ -19,6 +22,8 @@
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
+	if( !$connection->set_charset("utf8") )echo "Error changing connection character set\n";
+	
 	$connection->autocommit(FALSE);//accelerate inserts
 	
 	//Prepare statements

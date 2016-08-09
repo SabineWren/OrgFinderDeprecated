@@ -22,12 +22,14 @@
 	* 8) Recluster Tables
 	* 9) Close connection
 	*/
+	mb_internal_encoding("UTF-8");
 	
 	function didSizeChange(&$SID, &$size, &$connection){
 //THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)
 //but the input is from the sc-api, not from a regular user
 		$rows = $connection->query("SELECT Size FROM tbl_Organizations WHERE SID = UPPER('$SID')");
 		$row = $rows->fetch_assoc();
+		$connection->commit();// may be unnecessary
 		if($row == null){
 			echo "NOT FOUND Org SID = $SID\n";
 			return true;
@@ -40,6 +42,13 @@
 		return false;
 	}
 	
+	function attemptInsert(&$SID, $Value, &$statement, &$connection){
+		if( !$statement->execute() ){
+			echo "Error Inserting for SID: $SID debug: $Value\n";
+			echo $connection->error . "\n";
+		}
+	}
+	
 	//1) Connect to DB
 	if( sizeof($argv) < 3){
 		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
@@ -50,13 +59,13 @@
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
-	$connection->autocommit(FALSE);//accelerate inserts
+	if( !$connection->set_charset("utf8") )echo "Error changing connection character set\n";
+	
+	$connection->autocommit(FALSE);//accelerate inserts BUGGY
 	
 	//2) Prepare statements
 	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, Icon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, Icon = ?, URL = ?");
-	$prepared_insert_name = $connection->prepare("INSERT INTO tbl_OrgNames      (SID, NameUpper)       VALUES (?, ?)    ON DUPLICATE KEY UPDATE NameUpper = ?");
 	$prepared_insert_org ->bind_param("sssssssssss", $SID, $Name, $Size, $Main, $Icon, $URL, $Name, $Size, $Main, $Icon, $URL);
-	$prepared_insert_name->bind_param("sss",  $SID, $NameUpper , $NameUpper );
 	
 	$prepared_insert_commits = $connection->prepare("INSERT INTO tbl_Commits(Organization, Commitment) VALUES (?, ?) ON DUPLICATE KEY UPDATE Commitment = ?");
 	$prepared_insert_commits->bind_param("sss", $SID, $Commitment, $Commitment);
@@ -84,9 +93,9 @@
 	$prepared_delete_roleplay->bind_param("s", $SID);
 	
 	$prepared_insert_language = $connection->prepare("INSERT INTO tbl_OrgFluencies(Organization, Language) VALUES (?, ?) ON DUPLICATE KEY UPDATE Language = ?");
-	$prepared_insert_filter = $connection->prepare("INSERT INTO tbl_FilterFluencies(Language, Organization) VALUES (?, ?) ON DUPLICATE KEY UPDATE Language = ?");
+	$prepared_insert_filterlang = $connection->prepare("INSERT INTO tbl_FilterFluencies(Language, Organization) VALUES (?, ?) ON DUPLICATE KEY UPDATE Language = ?");
 	$prepared_insert_language->bind_param("sss", $SID, $Language, $Language);
-	$prepared_insert_filter->bind_param("sss", $Language, $SID, $Language);
+	$prepared_insert_filterlang->bind_param("sss", $Language, $SID, $Language);
 	
 	$numberInserted = 0;
 	for($x = 1;; $x++){//$x is current page number in query string
@@ -109,9 +118,10 @@
 			break;
 		}
 		
-		echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
+		//echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
 		
 		//4) Sub-query Org (more data)
+		$i = 0;
 		foreach ($dataArray["data"] as $org){
 			//only query the org if it's new or has changed its size
 			if(  didSizeChange($org['sid'], $org['member_count'], $connection)  ){
@@ -134,24 +144,24 @@
 			
 				//5) Bind data to statement
 				$SID            = strtoupper( $orgArray['data']['sid'] );
-				$Name           = rawurldecode(  $orgArray['data']['title']  );
-				$NameUpper      = strtoupper($Name);
-				$Icon           = $orgArray['data']['logo'];
+				$Name           = html_entity_decode( $orgArray['data']['title'] );
 				$Size           = intval( $orgArray['data']['member_count'] );
+				$Main           = 0;
+				$Icon           = $orgArray['data']['logo'];
+				$URL            = 'https://robertsspaceindustries.com/orgs/' . $SID;
 				$Recruiting     = $orgArray['data']['recruiting'];
 				$Archetype      = $orgArray['data']['archetype'];
 				$Commitment     = $orgArray['data']['commitment'];
 				$Roleplay       = $orgArray['data']['roleplay'];
 				$PrimaryFocus   = $orgArray['data']['primary_focus'];
 				$SecondaryFocus = $orgArray['data']['secondary_focus'];
-				$Language       = $orgArray['data']['lang'];
+				$Language       = html_entity_decode( $dataArray["data"][$i]['lang'] );//live query for single org always has null language
 				//banner
 				//headline
 				//history
 				//manifesto
 				//charter
 				unset($orgArray);
-
 				//test code
 				//echo "SID: " . $SID . "\n";
 				//echo "Name: " . $Name . "\n";
@@ -160,43 +170,48 @@
 				//echo "Commitment: " . $Commitment . "\n";
 				//echo "Primary: " . $PrimaryFocus . "\n";
 				//echo "\n";
-
-				//6) Execute Database Queries		
+				
+				//6) Execute Database Queries
 				$connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
-				if(!$prepared_insert_org->execute())echo "Error inserting Org $SID $Name\n";
+				attemptInsert($SID, $Name, $prepared_insert_org, $connection);
 				$connection->query('SET foreign_key_checks = 1');
-			
-				if(!$prepared_insert_name->execute())echo "Error inserting Name $SID $Name\n";
-				if(!$prepared_insert_commits->execute())echo "Error inserting Commits $SID $Commitment\n";
-				if( $Recruiting === "No" ){
-						if(!$prepared_insert_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
-				}
-				else if(!$prepared_delete_full->execute())echo "Error inserting recruiting $SID $Recruiting\n";
-				if(!$prepared_insert_primary->execute())echo "Error inserting primary $SID $PrimaryFocus\n";
-				if(!$prepared_insert_secondary->execute())echo "Error inserting secondary $SID $SecondaryFocus\n";
-				if(!$prepared_insert_performs->execute())echo "Error inserting performs $SID\n";
-				if(!$prepared_insert_archetype->execute())echo "Error inserting archetype $SID $Archetype\n";
-				if(!$prepared_insert_filterarch->execute())echo "Error inserting filter archetype $SID $Archetype\n";
-				if( $Roleplay === "Yes" ){
-						if(!$prepared_insert_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
-				}
-				else if(!$prepared_delete_roleplay->execute())echo "Error inserting roleplay $SID $Roleplay\n";
+				
+				attemptInsert($SID, $Commitment, $prepared_insert_commits, $connection);
+				
+				if( $Recruiting === "No" )attemptInsert($SID, $Recruiting, $prepared_insert_full, $connection);
+				else                      attemptInsert($SID, $Recruiting, $prepared_delete_full, $connection);
+				
+				attemptInsert($SID, $PrimaryFocus,   $prepared_insert_primary,    $connection);
+				attemptInsert($SID, $SecondaryFocus, $prepared_insert_secondary,  $connection);
+				attemptInsert($SID, 'Performs',      $prepared_insert_performs,   $connection);
+				attemptInsert($SID, $Archetype,      $prepared_insert_archetype,  $connection);
+				attemptInsert($SID, $Archetype,      $prepared_insert_filterarch, $connection);
+				
+				
+				if( $Roleplay === "Yes" )attemptInsert($SID, $Roleplay, $prepared_insert_roleplay, $connection);
+				else                     attemptInsert($SID, $Roleplay, $prepared_delete_roleplay, $connection);
+				
 				if($Language != null){
-					if(!$prepared_insert_language->execute())echo "Error inserting language $SID $Language\n";
-					if(!$prepared_insert_filterlang->execute())echo "Error inserting filter language $SID $Language\n";
+					attemptInsert($SID, $Language, $prepared_insert_language,   $connection);
+					attemptInsert($SID, $Language, $prepared_insert_filterlang, $connection);
 				}
+				
+				//was having lock timeouts without committing
+				//there's probably a better way to bulk insert than committing each time.
+				$connection->commit();
 				++$numberInserted;
 				echo "inserted SID = $SID\n";
+				++$i;
 			}
 		}
 		$connection->commit();
-		if($x % 32 == 1)echo "Inserted $numberInserted Orgs\n";
+		if($x % 32 == 1)echo "Loop $x with " . ($x + 1) * 32 . " Orgs looped over; total inserted == $numberInserted\n";
 	}
 	
 	//7) Close Connection
 	$connection->autocommit(TRUE);
+	
 	$prepared_insert_org->close();
-	$prepared_insert_name->close();
 	$prepared_insert_commits->close();
 	$prepared_insert_full->close();
 	$prepared_delete_full->close();
@@ -208,13 +223,12 @@
 	$prepared_insert_roleplay->close();
 	$prepared_delete_roleplay->close();
 	$prepared_insert_language->close();
-	$prepared_insert_filter->close();
+	$prepared_insert_filterlang->close();
 	
 	echo "Done inserts! Rebuilding table clustering...\n";
 	
 	//8) Recluster Tables
 	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
-	$connection->query('ALTER TABLE tbl_OrgNames ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_RolePlayOrgs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgArchetypes ENGINE=INNODB');

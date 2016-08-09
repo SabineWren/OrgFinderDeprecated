@@ -13,12 +13,14 @@ Activity (front end) == Focus (database)
 Members  (front end) == Size  (database)
 	*/
 	
-	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb");
+	mb_internal_encoding("UTF-8");
+	
+	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb2");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
 	
-	//ini_set('default_charset', 'UTF-8'); php5 uses utf-8 by default
+	if( !$connection->set_charset("utf8") )echo "Error changing connection character set\n";
 	
 	//get parameters from query string
 	$pageNum = (int)$_GET['pagenum'];
@@ -99,7 +101,7 @@ Members  (front end) == Size  (database)
 		$Value = '%' . rawurldecode( $Values[0]) . '%';//mysql->real_escape_string and html_entity_decode do not decode %20 (space)
 		$temp = $Value . "\n" . $Values[0];
 		$sql .= $conjunction . "SID LIKE UPPER(?) OR SID IN (
-			SELECT SID FROM tbl_OrgNames WHERE NameUpper LIKE UPPER(?)
+			SELECT SID FROM tbl_Organizations WHERE Name LIKE UPPER(?)
 		))";
 		array_push($parameters, $Value);
 		array_push($parameters, $Value);
@@ -194,8 +196,7 @@ Members  (front end) == Size  (database)
 			//var_dump($key);
 			//var_dump($val);
 			//if($key == "Name")$x[$key] = htmlentities($val);
-			if($key == "Name")$x[$key] = utf8_encode($val);
-			else $x[$key] = $val;
+			$x[$key] = $val;
 			//$x[$key] = $val;
 			//var_dump($x[$key]);
 			//echo "\n";
