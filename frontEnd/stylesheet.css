@@ -1,7 +1,37 @@
+@font-face{
+	font-family: exo2;
+	src: url("images/exo2.otf");
+}
 
 body {
-	background-image: url("../space.gif");
+	background-image: url("images/bg.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+    background-attachment: fixed;
+	font-family: exo2;
 	color: white;
+}
+
+#coglogo{
+	margin-left: 30%;
+	height: 30%;
+	width: 30%;
+}
+
+table {
+	background-color: rgba(42, 54, 186, 0.7);
+	margin-left: 14%;
+	margin-right: 14%;
+	margin-top: 4%;
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #2A36BA;
+
+}
+
+td{
+	border-bottom-width: 1px;
 }
 
 tr:hover {
@@ -18,8 +48,8 @@ tr:hover {
 }
 
 td {
-	height: 100%:
-	width:  100%;
+	height: 100%;
+	width:  40%;
 }
 
 td a {
@@ -72,12 +102,22 @@ td a {
 	max-height: 50px;
 }
 
+input[type=button]{
+	
+}
+
 .checkboxMainBlock {
-	/*background-color: #AAAAAA;*/
+	background-color: rgba(42, 54, 186, 0.7);
 	position: relative;
 	display: block;
 	width: 700px;
 	height: 450px;
+	margin-left: 20%;
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #2A36BA;
+
 }
 
 .lowerBlock {
@@ -104,6 +144,21 @@ td a {
 input[type=button] {
 	margin-top: 5px;
 	height: 40px;
+	background-image: linear-gradient(to bottom, #3498db, #2980b9);
+	background: #3498db;
+	font-size: 18px;
+	text-decoration: none;
+	border-radius: 10px;
+	font-family: exo2;
+	color: white;
+	border-color: #3498db;
+}
+
+input[type=button]:hover {
+	background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+	background: #3cb0fd;
+	border-color: #3cb0fd;
+	text-decoration: none;
 }
 
 .loadButton {
@@ -111,6 +166,8 @@ input[type=button] {
 	font-size: 20px;
 	width: 250px;
 	height: 45px !important;
+	margin-left: 14%;
+	margin-right: 14%;
 }
 
 /* do not delete!
@@ -178,6 +235,8 @@ a {
 
 #licenses {
 	height: 40px;
+	margin-left: 14%;
+	margin-right: 14%;
 }
 
 /* used to buffer the data list to make room for the Load More button*/

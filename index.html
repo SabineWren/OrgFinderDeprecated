@@ -2,8 +2,9 @@
 <html lang="en-US">
 <head>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<link rel="icon" type="image/png" href="images/logo.png"/>
 	<link rel="stylesheet" type="text/css" href="AngularJS/angularjs-slider/dist/rzslider.css"/>
-	<link type="text/css" rel="stylesheet" href="frontEnd/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="frontEnd/stylesheet.css">
 	<title>Cognition Corp</title>
 	
 	<script>
@@ -23,6 +24,9 @@
 	<!-- *********************************************************************************** -->
 
 <body ng-app="FrontEndApp">
+	<header>
+		<img id="coglogo" src="frontend/images/logo.gif" alt="cog logo"/>
+	</header>
 	<div ng-controller="CheckboxController">
 		<div class="checkboxMainBlock">
 			<div class="checkboxCategories" ng-repeat="checkboxModel in checkboxModels" ng-attr-id="{{checkboxModel.category}}">
