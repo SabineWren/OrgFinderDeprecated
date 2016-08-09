@@ -19,7 +19,7 @@ DROP TABLE tbl_RolePlayOrgs;
 DROP TABLE tbl_Affiliated;
 DROP TABLE tbl_Main;
 DROP TABLE tbl_RepresentsCog;
-DROP TABLE tbl_OrgNames;
+DROP TABLE tbl_IconURLs;
 DROP TABLE tbl_Organizations;
 DROP TABLE tbl_FromCountry;
 DROP TABLE tbl_Persons;
@@ -48,11 +48,17 @@ CREATE TABLE tbl_Organizations(
 	Name VARCHAR(30)  NOT NULL,
 	Size INT NOT NULL,
 	Main INT,
-	Icon VARCHAR(100) NOT NULL, -- link to RSI
+	CustomIcon BOOLEAN NOT NULL, -- link to RSI
 	URL  VARCHAR(100) NOT NULL -- org website (default RSI)
 );
 ALTER TABLE tbl_Organizations ADD INDEX(Size, SID);
 ALTER TABLE tbl_Organizations ADD INDEX(Name, SID);
+
+CREATE TABLE tbl_IconURLs(
+	Organization  VARCHAR(10), -- Clustered Index
+	Icon VARCHAR(100) NOT NULL, -- link to RSI
+	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID)
+);
 
 CREATE TABLE tbl_RepresentsCog(
 	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index

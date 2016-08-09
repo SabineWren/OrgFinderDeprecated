@@ -64,8 +64,11 @@
 	$connection->autocommit(FALSE);//accelerate inserts BUGGY
 	
 	//2) Prepare statements
-	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, Icon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, Icon = ?, URL = ?");
-	$prepared_insert_org ->bind_param("sssssssssss", $SID, $Name, $Size, $Main, $Icon, $URL, $Name, $Size, $Main, $Icon, $URL);
+	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, Icon = ?, URL = ?");
+	$prepared_insert_org ->bind_param("ssssdssssds", $SID, $Name, $Size, $Main, $CustomIcon, $URL, $Name, $Size, $Main, $CustomIcon, $URL);
+	
+	$prepared_insert_icon = $connection->prepare("INSERT INTO tbl_IconURLs(Organization, Icon) VALUES (?, ?)");
+	$prepared_insert_icon->bind_param("ss", $SID, $IconURL);
 	
 	$prepared_insert_commits = $connection->prepare("INSERT INTO tbl_Commits(Organization, Commitment) VALUES (?, ?) ON DUPLICATE KEY UPDATE Commitment = ?");
 	$prepared_insert_commits->bind_param("sss", $SID, $Commitment, $Commitment);
@@ -147,7 +150,25 @@
 				$Name           = html_entity_decode( $orgArray['data']['title'] );
 				$Size           = intval( $orgArray['data']['member_count'] );
 				$Main           = 0;
-				$Icon           = $orgArray['data']['logo'];
+				$IconURL        = $orgArray['data']['logo'];
+				if(
+					//Organization
+					$IconURL == "http://robertsspaceindustries.com/rsi/static/images/organization/defaults/logo/generic.jpg"
+					||
+					//Corporation
+					$IconURL == "http://robertsspaceindustries.com/rsi/static/images/organization/defaults/logo/corp.jpg"
+					||
+					//PMC
+					$IconURL == "http://robertsspaceindustries.com/rsi/static/images/organization/defaults/logo/pmc.jpg"
+					||
+					//Faith
+					$IconURL == "http://robertsspaceindustries.com/rsi/static/images/organization/defaults/logo/faith.jpg"
+					||
+					//Syndicate
+					$IconURL == "http://robertsspaceindustries.com/rsi/static/images/organization/defaults/logo/syndicate.jpg"
+				)$CustomIcon = 0;
+				else $CustomIcon = 1;
+				
 				$URL            = 'https://robertsspaceindustries.com/orgs/' . $SID;
 				$Recruiting     = $orgArray['data']['recruiting'];
 				$Archetype      = $orgArray['data']['archetype'];
@@ -176,6 +197,7 @@
 				attemptInsert($SID, $Name, $prepared_insert_org, $connection);
 				$connection->query('SET foreign_key_checks = 1');
 				
+				attemptInsert($SID, $IconURL, $prepared_insert_icon, $connection);
 				attemptInsert($SID, $Commitment, $prepared_insert_commits, $connection);
 				
 				if( $Recruiting === "No" )attemptInsert($SID, $Recruiting, $prepared_insert_full, $connection);
@@ -212,6 +234,7 @@
 	$connection->autocommit(TRUE);
 	
 	$prepared_insert_org->close();
+	$prepared_insert_icon->close();
 	$prepared_insert_commits->close();
 	$prepared_insert_full->close();
 	$prepared_delete_full->close();

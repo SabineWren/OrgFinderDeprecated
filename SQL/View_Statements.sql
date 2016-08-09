@@ -37,7 +37,7 @@ FROM tbl_OrgSize OrgSize;
 
 -- Default View (no filtering)
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
-SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.Icon as Icon, orgs.URL as URL,
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.CustomIcon as CustomIcon, orgs.URL as URL,
 	Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,
 	Commitment, Language, Archetype,
 	CASE

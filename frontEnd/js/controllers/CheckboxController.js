@@ -67,12 +67,15 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	}
 	
 	function callbackParseSelection(data){
-		if(data == "null"){
+		if(data === "null"){
 			console.log("No more orgs found!\n");
 			alert("No more orgs found!\n");
 		}
 		else for(obj in data){
-			var icon = "/org_icons/" + data[obj]["SID"];
+			var icon = "";
+			if( data[obj]["CustomIcon"] === 1 )icon = "/org_icons/" + data[obj]["SID"];
+			else icon = "/frontEnd/org_icons_default/" + data[obj]["Archetype"] + ".jpg";
+			
 			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon, data[obj]["URL"] );
 			
 			field.Members        = data[obj]["Size"];

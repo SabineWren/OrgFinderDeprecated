@@ -15,7 +15,7 @@ Members  (front end) == Size  (database)
 	
 	mb_internal_encoding("UTF-8");
 	
-	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb2");
+	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
