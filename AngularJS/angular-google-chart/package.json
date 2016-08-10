@@ -1,0 +1,58 @@
+{
+  "name": "angular-google-chart",
+  "version": "0.1.0",
+  "main": "./ng-google-chart.js",
+  "description": "Google Chart Tools AngularJS Directive Module",
+  "homepage": "http://angular-google-chart.github.io/angular-google-chart/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-google-chart/angular-google-chart.git"
+  },
+  "contributors": [
+    {
+      "name": "Github Contributors",
+      "url": "https://github.com/angular-google-chart/angular-google-chart/graphs/contributors"
+    }
+  ],
+  "keywords": [
+    "angular",
+    "angularjs",
+    "google",
+    "chart",
+    "graph"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": ">1.2.9"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.2.28",
+    "bardjs": "^0.1.8",
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-karma": "^0.12.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-coverage": "^0.5.2",
+    "karma-jasmine": "^0.3.6",
+    "karma-jasmine-matchers": "^2.0.0-beta1",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sinon": "^1.0.4",
+    "phantomjs": "^1.9.18",
+    "sinon": "^1.16.1"
+  },
+  "readme": "Google Chart Tools Directive Module\n============================\nfor AngularJS\n-------------\n[![Join the chat at https://gitter.im/angular-google-chart/angular-google-chart](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/angular-google-chart/angular-google-chart?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n\n### Install\n\nInstall with bower\n\n`bower install angular-google-chart --save`\n\n\n### Goal\n\nWrapper directive for [Google Chart Tools](https://developers.google.com/chart/)\n\n### Contributing\n\nInterested in contributing to **Angular Google Chart**? Cool! Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for a brief guide to raising issues and submitting Pull Requests.\n\n### A note on branches\n\nDevelopment branch is `development`.\n\nRelease branch is `master` (idealy), and was created just because Bower needed it.\n\nThere is documentation on the `gh-pages` branch which hosts the project's documentation website.\n\nPlease send your pull requests to `development`.\n\n### Building with Grunt\n\nIn order to build the project you will need to have NodeJS and NPM installed.\nIn commandline, from the root of the project, run `npm install`. This will install\ngrunt and the required plugins.  Run `grunt` or `grunt build` to build `ng-google-chart.js` and\n`ng-google-chart.min.js` with included source maps. `grunt release` builds without\nsource maps.\n\n### Running Tests\n\nTests are run during build. Use `grunt watch` to run jshint and tests whenever\nsource files are changed.\n\n### Usage and Demo\n\nSee examples in the [Documentation](http://angular-google-chart.github.io/angular-google-chart/docs/latest/examples/)\n\n#### Other samples\n\n* http://plnkr.co/edit/3RJ2HS?p=preview\n* http://plnkr.co/edit/E4iPtQ?p=preview\n\n### Chart Data doc\n\nSee [ChartWrapper](https://developers.google.com/chart/interactive/docs/reference#chartwrapperobject) and [DataTable](https://developers.google.com/chart/interactive/docs/reference#datatable-class) documentation.\n\n### Release notes\n\nSee [CHANGELOG.md](./CHANGELOG.md) for a summary of changes.\n\n### Out of luck ?\n\nTry another AngularJS directive that use [Highcharts](https://github.com/pablojim/highcharts-ng).\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/angular-google-chart/angular-google-chart/issues"
+  },
+  "_id": "angular-google-chart@0.1.0",
+  "dist": {
+    "shasum": "3a10fc5c9a82e7fb539559e6dd3caba1d2db91ee"
+  },
+  "_from": "angular-google-chart@",
+  "_resolved": "https://registry.npmjs.org/angular-google-chart/-/angular-google-chart-0.1.0.tgz"
+}

@@ -128,37 +128,21 @@
 		<div class="footer"></div>
 	</div>
 	
-	<!-- *********************************************************************************** -->
-	
-	<!--GET AND DISPLAY MEMBER DATA HERE div ng-controller="MemberController">
-		<div class="SIDList">
-			<h3>SIDs for orgs in Cog</h3>
-			<p ng-repeat="org in orgData">{{ org.SID }}</p>
-		</div>
-		<div class="memberList">
-			<h3>Handles for persons in Cog</h3>
-			<div>
-				<p ng-repeat="member in orgDataArray track by $index">{{ member }}</p>
-			</div>
-		</div>
-	</div-->
-	
-	<!-- *********************************************************************************** -->
+	<!-- test chart -->
+	<div ng-controller="GenericChartCtrl">
+		<h3 class="chart-title">Organization Growth</h3>
+		<div google-chart chart="chartObject" style="height:100%; width:40%;"></div>
+	</div>
 	
 	<!-- License Information -->
 	<div>
-		<p id="licenses"><a href="jslicense.html" data-jslicense="1">JavaScript License Information</a></p>
+		<p id="licenses"><a href="jslicense.html" data-jslicense="1">License Information</a></p>
 	</div>
-	<!-- to add:
-	rzslider.js
-	-->
 	<!-- *********************************************************************************** -->
 	
 	<!-- Include AngularJS -->
 	<script src="AngularJS/angular/angular.min.js"></script>
-	<script src="AngularJS/angular-resource/angular-resource.min.js"></script>
-	<script src="AngularJS/angularjs-slider/src/rzslider.js"></script>
-
+	
 	<!-- Modules -->
 	<script src="frontEnd/js/FrontEndModule.js"></script>
 
@@ -167,9 +151,15 @@
 
 	<!-- Services -->
 	<script src="frontEnd/js/services/readFileService.js"></script>
+	<!-- $resource object; we should remove this and just use $http -->
+	<script src="AngularJS/angular-resource/angular-resource.min.js"></script>
 		
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>
+	<!-- stand-alone slider directive -->
+	<script src="AngularJS/angularjs-slider/src/rzslider.js"></script>
+	<!-- stand-alone chart directive-->
+	<script src="AngularJS/angular-google-chart/ng-google-chart.min.js"></script>
 	
 </body>
 </html>

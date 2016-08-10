@@ -179,6 +179,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	$scope.langs = [];
 	$scope.icons = null;
 	$scope.filterName = "";
+	//END INIT ****************************************************************************************************
 	
 	$scope.slider_bar_min = {
 		value: 1,
@@ -213,17 +214,19 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	};
 	
 	//the database stores the back-end location of each activity icon
-	//we GET that location via SELECT and store it in an array
-	//therefore, we never GET more images than there are icons
+	//we GET that location via SELECT and store it in an array for future use
 	var getIcons = $http.get('/backEnd/activity_icons.php').success(function(data){
 		$scope.icons = data;
 	});
 	
+	//we need a list of valid languages for the dropdown filter
 	$http.get('/data/lang.json').success(function(data){
 		$scope.langs = data;
 	});
 	
 	// each list of checkboxes is stored as array elements in a single JSON file with its corresponding title
+	//	in hindsight, everything checkbox related is really hard to read; don't try to reuse any of it
+	//	we should rebuild it legibly at some point
 	var getCheckboxes = readFileService.query( {file: "Checkboxes.json"} );
 	getCheckboxes.$promise.then(function(data){
 		var jsonData = data;
@@ -243,3 +246,62 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	
 }]);
 
+//test chart
+angular.module("FrontEndApp").controller("GenericChartCtrl", function ($scope) {
+    $scope.chartObject = {};
+
+    $scope.chartObject.type = "LineChart";
+
+    $scope.chartObject.data = {"cols": [
+        {id: "t", label: "Topping", type: "string"},
+        {id: "s", label: "Slices", type: "number"}
+    ], "rows": [
+        {c: [
+            {v: "3"},
+            {v: 3},
+        ]},
+        {c: [
+            {v: "2"},
+            {v: 31}
+        ]},
+        {c: [
+            {v: "1"},
+            {v: 1},
+        ]},
+        {c: [
+            {v: "0"},
+            {v: 2},
+        ]}
+    ]
+    };
+
+    $scope.chartObject.options = {
+        'titlePosition': 'none',
+        "hAxis": {
+			"title": 'Days Ago'
+		}
+    };
+});
+/* pass back and forth between A and B
+angular.module('app.A', [])
+.service('ServiceA', function() {
+    this.getValue = function() {
+        return this.myValue;
+    };
+
+    this.setValue = function(newValue) {
+        this.myValue = newValue;
+    }
+});
+
+angular.module('app.B', ['app.A'])
+.service('ServiceB', function(ServiceA) {
+    this.getValue = function() {
+        return ServiceA.getValue();
+    };
+
+    this.setValue = function() {
+        ServiceA.setValue('New value');
+    }
+});
+*/
