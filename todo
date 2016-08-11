@@ -1,5 +1,4 @@
 Database:
-	optimize sorting
 	Future conflict-views:	
 	not allow more than 9 affiliates
 	not allow an affiliate without a main
@@ -7,7 +6,6 @@ Database:
 
 PopulateOrgs.php:
 	delete orgs that no longer exist
-	read and interpret timestamp info from API
 	
 Controllers:
 	improve readability of checkbox-related code
@@ -18,5 +16,4 @@ Misc:
 Front End:
 	add main/members/total listings for size
 	build a webgl version of the cube
-	create graphs for org history
 

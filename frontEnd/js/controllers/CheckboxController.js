@@ -8,7 +8,9 @@
 	
 	@license-end
 */
-FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'SharedChartService', function($scope, $http, readFileService, SharedChartService){
+FrontEndApp.controller('CheckboxController', [
+'$scope', '$http', 'SharedChartService',
+function($scope, $http, SharedChartService){
 	
 	$scope.toggleView = function(){
 		if($scope.listViewTF)$scope.listViewTF = false;
@@ -121,7 +123,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		var maxSize = null;
 		if($scope.slider_bar_max.value > 0)
 			maxSize = $scope.slider_bar_max.value.toString();
-			
+		
 		//only sort if needed
 		var directionName = null;
 		if($scope.nameAscending)directionName = 'up';
@@ -227,8 +229,7 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 	// each list of checkboxes is stored as array elements in a single JSON file with its corresponding title
 	//	in hindsight, everything checkbox related is really hard to read; don't try to reuse any of it
 	//	we should rebuild it legibly at some point
-	var getCheckboxes = readFileService.query( {file: "Checkboxes.json"} );
-	getCheckboxes.$promise.then(function(data){
+	$http.get('/data/Checkboxes.json').success(function(data){
 		var jsonData = data;
 		for(var object in jsonData){
 			if( !isNaN(object) ){
