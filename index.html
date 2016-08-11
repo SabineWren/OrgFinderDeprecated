@@ -28,7 +28,7 @@
 		<img id="coglogo" src="frontEnd/images/logo.gif" alt="cog logo"/>
 	</header>
 	<!-- ***************************************************************************************************** -->
-	<!-- User Interface Controls -->
+	<!-- User Controls -->
 	<div ng-controller="CheckboxController">
 		<div class="checkboxMainBlock">
 			<div class="checkboxCategories" ng-repeat="checkboxModel in checkboxModels" ng-attr-id="{{checkboxModel.category}}">
@@ -62,26 +62,32 @@
 							</select>
 					<span class="filter-buttons">
 						<input type="button" ng-click="reapplyFilters()" value="Apply Filters" />
-						<input ng-show="listViewTF" type="button" ng-click="toggleView()" value="Enable Grid View" />
-						<input ng-hide="listViewTF" type="button" ng-click="toggleView()" value="Enable List View" />
+						<input ng-show="loadStatus.listViewTF" type="button" ng-click="toggleView()" value="Enable Grid View" />
+						<input ng-hide="loadStatus.listViewTF" type="button" ng-click="toggleView()" value="Enable List View" />
 					</span>
 				</span>
 			</div>
 		</div>
+		<div>
+			<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+			<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
+		</div>
+	</div>
 		
-		<!-- ***************************************************************************************************** -->
-		<!-- List View -->
-		<div ng-show="listViewTF" class="listViewResults">
+	<!-- ***************************************************************************************************** -->
+	<!-- List View -->
+	<div ng-controller="ViewController">
+		<div ng-show="loadStatus.listViewTF" class="listViewResults">
 			<table>
 				<thead align="left"><tr id="first">
 					<th>SID</th>
-					<th ng-show="nameDouble" ng-click="clickName()">Name <span class="arrows">&#8646</span></th>
-					<th ng-show="nameAscending" ng-click="clickName()">Name <span class="arrows">&and;</span></th>
-					<th ng-show="nameDescending" ng-click="clickName()">Name <span class="arrows">&or;</span></th>
+					<th ng-show="sortstatus.nameDouble"     ng-click="clickName()">Name <span class="arrows">&#8646</span></th>
+					<th ng-show="sortstatus.nameAscending"  ng-click="clickName()">Name <span class="arrows">&and;</span></th>
+					<th ng-show="sortstatus.nameDescending" ng-click="clickName()">Name <span class="arrows">&or;</span></th>
 					<th>Icon</th>
-					<th ng-show="sizeDouble" ng-click="clickSize()">Size <span class="arrows">&#8646</span></th>
-					<th ng-show="sizeAscending" ng-click="clickSize()">Size <span class="arrows">&and;</span></th>
-					<th ng-show="sizeDescending" ng-click="clickSize()">Size <span class="arrows">&or;</span></th>
+					<th ng-show="sortstatus.sizeDouble"     ng-click="clickSize()">Size <span class="arrows">&#8646</span></th>
+					<th ng-show="sortstatus.sizeAscending"  ng-click="clickSize()">Size <span class="arrows">&and;</span></th>
+					<th ng-show="sortstatus.sizeDescending" ng-click="clickSize()">Size <span class="arrows">&or;</span></th>
 					<th>Commitment</th>
 					<th>Archetype</th>
 					<th></th>
@@ -92,7 +98,7 @@
 					<th>Language</th>
 					<th>Roleplay</th>
 				</tr></thead>
-				<tr ng-repeat="result in results">
+				<tr ng-repeat="result in orgResults.results">
 				<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
 					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.SID }}</a></td>
 					<td><a ng-href="{{ result.URL }}" target="_blank">{{ result.Name }}</a></td>
@@ -112,8 +118,8 @@
 		</div>
 		<!-- ***************************************************************************************************** -->
 		<!-- Grid View -->
-		<div ng-hide="listViewTF" class="gridViewResults">
-			<div class=cell ng-repeat="result in results">
+		<div ng-hide="loadStatus.listViewTF" class="gridViewResults">
+			<div class=cell ng-repeat="result in orgResults.results">
 				<figcaption>
 					{{ result.Name }}
 				</figcaption>
@@ -123,10 +129,6 @@
 					Member Count: {{ result.Members }}
 				</figcaption>
 			</div>
-		</div>
-		<div>
-			<input class="loadButton" ng-hide="isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
-			<input class="loadButton" ng-show="isLoading" type="button" value="loading..." />
 		</div>
 		<div class="footer"></div>
 	</div>
@@ -152,10 +154,12 @@
 
 	<!-- Controllers -->
 	<script src="frontEnd/js/controllers/CheckboxController.js"></script>
+	<script src="frontEnd/js/controllers/ViewController.js"></script>
 	<script src="frontEnd/js/controllers/DetailsController.js"></script>
 
 	<!-- Services -->
 	<script src="frontEnd/js/services/SharedChartService.js"></script>
+	<script src="frontEnd/js/services/LoadViewService.js"></script>
 		
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>

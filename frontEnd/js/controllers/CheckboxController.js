@@ -9,113 +9,22 @@
 	@license-end
 */
 FrontEndApp.controller('CheckboxController', [
-'$scope', '$http', 'SharedChartService',
-function($scope, $http, SharedChartService){
-	
-	$scope.toggleView = function(){
-		if($scope.listViewTF)$scope.listViewTF = false;
-		else $scope.listViewTF = true;
-	}
-	
-	function clearSorting(){
-		$scope.nameDouble      = true;
-		$scope.nameAscending   = false;
-		$scope.nameDescending  = false;
-		$scope.sizeDouble      = true;
-		$scope.sizeAscending   = false;
-		$scope.sizeDescending  = false;
-	}
-	
-	//sort name
-	$scope.clickName = function(){
-		if($scope.nameDouble){
-			clearSorting();
-			$scope.nameDouble = false;
-			$scope.nameAscending  = true;
-		}
-		else if($scope.nameAscending){
-			clearSorting();
-			$scope.nameDouble = false;
-			$scope.nameDescending = true;
-		}
-		else if($scope.nameDescending){
-			clearSorting();
-		}
-		$scope.reapplyFilters();
-	}
-	//sort size
-	$scope.clickSize = function(){
-		if($scope.sizeDouble){
-			clearSorting();
-			$scope.sizeDouble     = false;
-			$scope.sizeAscending  = true;
-		}
-		else if($scope.sizeAscending){
-			clearSorting();
-			$scope.sizeDouble     = false;
-			$scope.sizeDescending = true;
-		}
-		else if($scope.sizeDescending){
-			clearSorting();
-		}
-		$scope.reapplyFilters();
-	}
-	
-	var orgData = function(SID, Name, Icon, URL){
-		this.SID  = SID;
-		this.Name = Name;
-		this.Icon = Icon;
-		this.URL  = URL;
-	}
-	
-	function callbackParseSelection(data){
-		if(data === "null"){
-			console.log("No more orgs found!\n");
-			alert("No more orgs found!\n");
-		}
-		else for(obj in data){
-			var icon = "";
-			if( data[obj]["CustomIcon"] === 1 )icon = "/org_icons/" + data[obj]["SID"];
-			else icon = "/frontEnd/org_icons_default/" + data[obj]["Archetype"] + ".jpg";
-			
-			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon, data[obj]["URL"] );
-			
-			field.Members        = data[obj]["Size"];
-			//field.Mains        = data[obj][""];
-			//field.Affiliates   = data[obj][""];
-			
-			field.Commitment     = data[obj]["Commitment"];
-			
-			field.Recruiting     = data[obj]["Recruiting"];
-			
-			field.Language       = data[obj]["Language"];
-			
-			field.Roleplay       = data[obj]["Roleplay"];
-			
-			field.Archetype      = data[obj]["Archetype"];
-			
-			field.PrimaryFocus   = data[obj]["PrimaryFocus"];
-			field.SecondaryFocus = data[obj]["SecondaryFocus"];
-			field.PrimaryIcon    = $scope.icons[  data[obj]["PrimaryFocus"]  ];
-			field.SecondaryIcon  = $scope.icons[  data[obj]["SecondaryFocus"]  ];
-			
-			$scope.results.push(field);
-		}
-		$scope.isLoading = false;
-	}
+'$scope', '$http', 'SharedChartService', 'LoadViewService',
+function($scope, $http, SharedChartService, LoadViewService){
 	
 	function btoi(theBool){
 		if(theBool)return 1;
 		else return 0;
-	}
+	};
 	
+	var callbackParse = LoadViewService.callbackParseSelection;
 	$scope.loadMoreOrgs = function(){
-		$scope.isLoading = true;//callback sets to false when it's done
-		
+		$scope.loadStatus.isLoading = true;//callback sets to false when it's done
+	
 		//prevent DB from wasting time on bad size input
 		if($scope.slider_bar_max.value > 0 && $scope.slider_bar_min.value > $scope.slider_bar_max.value + 1)
 			$scope.slider_bar_max.value = $scope.slider_bar_min.value;
-		
+	
 		//only filter by size if needed
 		var minSize = null;
 		if($scope.slider_bar_min.value > 1 )
@@ -123,7 +32,7 @@ function($scope, $http, SharedChartService){
 		var maxSize = null;
 		if($scope.slider_bar_max.value > 0)
 			maxSize = $scope.slider_bar_max.value.toString();
-		
+	
 		//only sort if needed
 		var directionName = null;
 		if($scope.nameAscending)directionName = 'up';
@@ -131,11 +40,11 @@ function($scope, $http, SharedChartService){
 		var directionSize = null;
 		if($scope.sizeAscending)directionSize = 'up';
 		else if($scope.sizeDescending)directionSize = 'down';
-		
+	
 		$http.get('/backEnd/selects.php', { 
 			params:{
-				pagenum:   $scope.nextPage,
-				NameOrSID: encodeURI( $scope.filterName ),
+				pagenum:    $scope.filterStatus.nextPage,
+				NameOrSID:  encodeURI( $scope.filterName ),
 				nameDir:    directionName,
 				sizeDir:    directionSize,
 				Min:        minSize,
@@ -148,39 +57,31 @@ function($scope, $http, SharedChartService){
 				Recruiting: $scope.checkboxModels[3].appliedFilter.toString(),
 				Roleplay:   $scope.checkboxModels[4].appliedFilter.toString()
 			}
-		} ).success(callbackParseSelection);
-		
-		$scope.nextPage++;
-	}
+		} ).success(callbackParse);
 	
-	$scope.reapplyFilters = function(){
-		$scope.nextPage = 0;
-		$scope.results = [];
-		$scope.loadMoreOrgs();
-	}
+		$scope.filterStatus.nextPage++;
+	};
 
 	// Init **********************************************************************************************************
-	$scope.nextPage = 0;
+	$scope.filterStatus = LoadViewService.filterStatus;
 	$scope.pageSize = 12;
-	$scope.results = [];
-	$scope.isLoading = false;
 	$scope.Cog = false;//default to all orgs
 	$scope.listViewTF = true;
 	
-	//arrows for sorting
-	$scope.nameDouble     = true;
-	$scope.nameAscending  = false;
-	$scope.nameDescending = false;
-	$scope.sizeDouble     = true;
-	$scope.sizeAscending  = false;
-	$scope.sizeDescending = false;
+	$scope.loadStatus = LoadViewService.loadStatus;
+	$scope.orgResults = LoadViewService.orgResults;
 	
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
 	$scope.language = "Any";
 	$scope.langs = [];
-	$scope.icons = null;
 	$scope.filterName = "";
+	
+	$scope.reapplyFilters = function(){
+		$scope.filterStatus.nextPage = 0;
+		$scope.orgResults.results    = [];
+		$scope.loadMoreOrgs();
+	};
 	//END INIT ****************************************************************************************************
 	
 	$scope.slider_bar_min = {
@@ -217,8 +118,9 @@ function($scope, $http, SharedChartService){
 	
 	//the database stores the back-end location of each activity icon
 	//we GET that location via SELECT and store it in an array for future use
+	$scope.iconsObj = LoadViewService.icons;
 	var getIcons = $http.get('/backEnd/activity_icons.php').success(function(data){
-		$scope.icons = data;
+		$scope.iconsObj.icons = data;
 	});
 	
 	//we need a list of valid languages for the dropdown filter
@@ -247,6 +149,14 @@ function($scope, $http, SharedChartService){
 	
 	//updateChart( [5, 4, 3, 2, 1] );
 	var updateChart = SharedChartService.updateChart;
+	
+	$scope.toggleView = function(){
+		if($scope.loadStatus.listViewTF)$scope.loadStatus.listViewTF = false;
+		else $scope.loadStatus.listViewTF = true;
+	}
+	
+	//ViewController can set sorting, which requires refiltering
+	$scope.$on('reapplyFilters', $scope.loadMoreOrgs);
 	
 }]);
 
