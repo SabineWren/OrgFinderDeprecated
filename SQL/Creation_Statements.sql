@@ -207,12 +207,14 @@ CREATE TABLE tbl_FilterArchetypes(
 
 -- need to individually count members to check main and affiliate, which can be an added feature but allow null for now
 CREATE TABLE tbl_OrgMemberHistory(
-	Organization VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
+	Organization VARCHAR(10) NOT NULL,
 	ScrapeDate DATE NOT NULL,
-	MemberCount INT NOT NULL,
-	MemberCountMain INT,
-	MemberCountAffiliate INT,
-	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID)
+	Size INT NOT NULL,
+	Main INT,
+	Affiliate INT,
+	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
+	CONSTRAINT PK_OrgMemberHistory PRIMARY KEY(Organization, ScrapeDate), -- Clustered Index
+	CONSTRAINT UNIQUE(Organization) -- only one archetype per org
 );
 
 

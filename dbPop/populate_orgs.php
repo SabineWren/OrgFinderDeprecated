@@ -24,22 +24,17 @@
 	*/
 	mb_internal_encoding("UTF-8");
 	
-	function didSizeChange(&$SID, &$size, &$connection){
+	function getOrgSize(&$SID, &$connection){
 //THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)
 //but the input is from the sc-api, not from a regular user
-		$rows = $connection->query("SELECT Size FROM tbl_Organizations WHERE SID = UPPER('$SID')");
+		$rows = $connection->query("SELECT Size FROM tbl_Organizations WHERE SID = '$SID'");
 		$row = $rows->fetch_assoc();
 		$connection->commit();// may be unnecessary
 		if($row == null){
 			echo "NOT FOUND Org SID = $SID\n";
-			return true;
+			return 0;
 		}
-		if($size != $row['Size']){
-			echo "UPDATING Org SID = $SID\n";
-			return true;//org has changed size
-		}
-		//echo "Not updating Org SID = $SID\n";
-		return false;
+		return $row['Size'];
 	}
 	
 	function attemptInsert(&$SID, $Value, &$statement, &$connection){
@@ -64,8 +59,13 @@
 	$connection->autocommit(FALSE);//accelerate inserts BUGGY
 	
 	//2) Prepare statements
-	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, Icon = ?, URL = ?");
+	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, CustomIcon = ?, URL = ?");
+	$prepared_update_org  = $connection->prepare("UPDATE tbl_Organizations SET Size = ?, Main = ? WHERE SID = ?");
 	$prepared_insert_org ->bind_param("ssssdssssds", $SID, $Name, $Size, $Main, $CustomIcon, $URL, $Name, $Size, $Main, $CustomIcon, $URL);
+	$prepared_update_org ->bind_param("dds", $Size, $Main, $SID);
+	
+	$prepared_insert_date  = $connection->prepare("INSERT INTO tbl_OrgMemberHistory (Organization, ScrapeDate, Size, Main) VALUES (?, CURDATE(), ?, ?) ON DUPLICATE KEY UPDATE ScrapeDate = CURDATE(), Size = ?, Main = ?");
+	$prepared_insert_date ->bind_param("sdddd", $SID, $Size, $Main, $Size, $Main);
 	
 	$prepared_insert_icon = $connection->prepare("INSERT INTO tbl_IconURLs(Organization, Icon) VALUES (?, ?)");
 	$prepared_insert_icon->bind_param("ss", $SID, $IconURL);
@@ -101,6 +101,7 @@
 	$prepared_insert_filterlang->bind_param("sss", $Language, $SID, $Language);
 	
 	$numberInserted = 0;
+	$numberUpdated  = 0;
 	for($x = 1;; $x++){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
 		for($failCounter = 0;;++$failCounter){
@@ -116,18 +117,21 @@
 		unset($lines);
 		
 		//if we have read all orgs
-		if($dataArray["data"] == null){
-			echo "Finished inserting $numberInserted Orgs\n";
-			break;
-		}
+		if($dataArray["data"] == null)break;
 		
 		//echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
 		
 		//4) Sub-query Org (more data)
 		$i = 0;
 		foreach ($dataArray["data"] as $org){
-			//only query the org if it's new or has changed its size
-			if(  didSizeChange($org['sid'], $org['member_count'], $connection)  ){
+			//5a) Bind data from outer query
+			$SID         = strtoupper( $org['sid'] );
+			$Size        = intval( $org['member_count'] );
+			$Main        = 0;
+			
+			$savedSize = getOrgSize($SID, $connection);
+			//only query the org if it's new
+			if(  $savedSize == 0  ){
 				for($failCounterSingleOrg = 0;;++$failCounterSingleOrg){//loop in case request fails due to poor connection
 					$subquery = file_get_contents(
 						//note sc-api does not provide language information on live results
@@ -145,12 +149,9 @@
 				unset($subquery);
 				if($orgArray['data'] == null)echo "WARNING: Org null (in API live result!)\n";
 			
-				//5) Bind data to statement
-				$SID            = strtoupper( $orgArray['data']['sid'] );
-				$Name           = html_entity_decode( $orgArray['data']['title'] );
-				$Size           = intval( $orgArray['data']['member_count'] );
-				$Main           = 0;
-				$IconURL        = $orgArray['data']['logo'];
+				//5b) Bind data from subquery
+				$Name    = html_entity_decode( $org['title'] );
+				$IconURL = $orgArray['data']['logo'];
 				if(
 					//Organization
 					$IconURL == "http://robertsspaceindustries.com/rsi/static/images/organization/defaults/logo/generic.jpg"
@@ -197,8 +198,9 @@
 				attemptInsert($SID, $Name, $prepared_insert_org, $connection);
 				$connection->query('SET foreign_key_checks = 1');
 				
-				attemptInsert($SID, $IconURL, $prepared_insert_icon, $connection);
-				attemptInsert($SID, $Commitment, $prepared_insert_commits, $connection);
+				attemptInsert($SID, 'update date', $prepared_insert_date, $connection);
+				attemptInsert($SID, $IconURL,      $prepared_insert_icon, $connection);
+				attemptInsert($SID, $Commitment,   $prepared_insert_commits, $connection);
 				
 				if( $Recruiting === "No" )attemptInsert($SID, $Recruiting, $prepared_insert_full, $connection);
 				else                      attemptInsert($SID, $Recruiting, $prepared_delete_full, $connection);
@@ -220,20 +222,33 @@
 				
 				//was having lock timeouts without committing
 				//there's probably a better way to bulk insert than committing each time.
-				$connection->commit();
 				++$numberInserted;
 				echo "inserted SID = $SID\n";
-				++$i;
 			}
+			//update existing org size
+			else if ( $Size != $savedSize ){
+				attemptInsert($SID, 'update org',  $prepared_update_org,  $connection);
+				++$numberUpdated;
+				echo "updated SID = $SID\n";
+			}
+			//always insert a scrape dape
+			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
+			$connection->commit();
+			++$i;
 		}
-		$connection->commit();
-		if($x % 32 == 1)echo "Loop $x with " . ($x + 1) * 32 . " Orgs looped over; total inserted == $numberInserted\n";
+		if($x % 32 == 1)echo "Loop $x with " . ($x + 1) * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
+	
+	echo "Finished...\n"
+	echo "Inserted $numberInserted Orgs\n";
+	echo "Updated  $numberUpdated Orgs\n";
 	
 	//7) Close Connection
 	$connection->autocommit(TRUE);
 	
 	$prepared_insert_org->close();
+	$prepared_update_org->close();
+	$prepared_insert_date->close();
 	$prepared_insert_icon->close();
 	$prepared_insert_commits->close();
 	$prepared_insert_full->close();
@@ -252,6 +267,8 @@
 	
 	//8) Recluster Tables
 	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_OrgMemberHistory ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_IconURLs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_RolePlayOrgs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgArchetypes ENGINE=INNODB');

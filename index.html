@@ -129,7 +129,7 @@
 	</div>
 	
 	<!-- test chart -->
-	<div ng-controller="GenericChartCtrl">
+	<div ng-controller="DetailsController">
 		<h3 class="chart-title">Organization Growth</h3>
 		<div google-chart chart="chartObject" style="height:100%; width:40%;"></div>
 	</div>
@@ -148,17 +148,17 @@
 
 	<!-- Controllers -->
 	<script src="frontEnd/js/controllers/CheckboxController.js"></script>
+	<script src="frontEnd/js/controllers/DetailsController.js"></script>
 
 	<!-- Services -->
 	<script src="frontEnd/js/services/readFileService.js"></script>
 	<!-- $resource object; we should remove this and just use $http -->
 	<script src="AngularJS/angular-resource/angular-resource.min.js"></script>
+	<script src="frontEnd/js/services/SharedChartService.js"></script>
 		
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>
-	<!-- stand-alone slider directive -->
 	<script src="AngularJS/angularjs-slider/src/rzslider.js"></script>
-	<!-- stand-alone chart directive-->
 	<script src="AngularJS/angular-google-chart/ng-google-chart.min.js"></script>
 	
 </body>

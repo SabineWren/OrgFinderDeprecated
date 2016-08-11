@@ -10,3 +10,27 @@
 */
 
 var FrontEndApp = angular.module('FrontEndApp', ['ngResource', 'rzModule', 'googlechart']);
+
+/* pass back and forth between A and B
+angular.module('app.A', [])
+.service('ServiceA', function() {
+    this.getValue = function() {
+        return this.myValue;
+    };
+
+    this.setValue = function(newValue) {
+        this.myValue = newValue;
+    }
+});
+
+angular.module('app.B', ['app.A'])
+.service('ServiceB', function(ServiceA) {
+    this.getValue = function() {
+        return ServiceA.getValue();
+    };
+
+    this.setValue = function() {
+        ServiceA.setValue('New value');
+    }
+});
+*/

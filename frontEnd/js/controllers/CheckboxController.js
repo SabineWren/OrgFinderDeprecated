@@ -8,7 +8,7 @@
 	
 	@license-end
 */
-FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', function($scope, $http, readFileService) {
+FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileService', 'SharedChartService', function($scope, $http, readFileService, SharedChartService){
 	
 	$scope.toggleView = function(){
 		if($scope.listViewTF)$scope.listViewTF = false;
@@ -244,64 +244,8 @@ FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'readFileServic
 		})
 	});
 	
+	//updateChart( [5, 4, 3, 2, 1] );
+	var updateChart = SharedChartService.updateChart;
+	
 }]);
 
-//test chart
-angular.module("FrontEndApp").controller("GenericChartCtrl", function ($scope) {
-    $scope.chartObject = {};
-
-    $scope.chartObject.type = "LineChart";
-
-    $scope.chartObject.data = {"cols": [
-        {id: "t", label: "Topping", type: "string"},
-        {id: "s", label: "Slices", type: "number"}
-    ], "rows": [
-        {c: [
-            {v: "3"},
-            {v: 3},
-        ]},
-        {c: [
-            {v: "2"},
-            {v: 31}
-        ]},
-        {c: [
-            {v: "1"},
-            {v: 1},
-        ]},
-        {c: [
-            {v: "0"},
-            {v: 2},
-        ]}
-    ]
-    };
-
-    $scope.chartObject.options = {
-        'titlePosition': 'none',
-        "hAxis": {
-			"title": 'Days Ago'
-		}
-    };
-});
-/* pass back and forth between A and B
-angular.module('app.A', [])
-.service('ServiceA', function() {
-    this.getValue = function() {
-        return this.myValue;
-    };
-
-    this.setValue = function(newValue) {
-        this.myValue = newValue;
-    }
-});
-
-angular.module('app.B', ['app.A'])
-.service('ServiceB', function(ServiceA) {
-    this.getValue = function() {
-        return ServiceA.getValue();
-    };
-
-    this.setValue = function() {
-        ServiceA.setValue('New value');
-    }
-});
-*/
