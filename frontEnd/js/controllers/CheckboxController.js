@@ -35,11 +35,11 @@ function($scope, $http, SharedChartService, LoadViewService){
 	
 		//only sort if needed
 		var directionName = null;
-		if($scope.nameAscending)directionName = 'up';
-		else if($scope.nameDescending)directionName = 'down';
+		if($scope.sortStatus.nameAscending)directionName = 'up';
+		else if($scope.sortStatus.nameDescending)directionName = 'down';
 		var directionSize = null;
-		if($scope.sizeAscending)directionSize = 'up';
-		else if($scope.sizeDescending)directionSize = 'down';
+		if($scope.sortStatus.sizeAscending)directionSize = 'up';
+		else if($scope.sortStatus.sizeDescending)directionSize = 'down';
 	
 		$http.get('/backEnd/selects.php', { 
 			params:{
@@ -68,8 +68,9 @@ function($scope, $http, SharedChartService, LoadViewService){
 	$scope.listViewTF = true;
 	
 	$scope.clearFiltering = LoadViewService.clearFiltering;
-	$scope.loadStatus = LoadViewService.loadStatus;
-	$scope.orgResults = LoadViewService.orgResults;
+	$scope.sortStatus     = LoadViewService.sortStatus;
+	$scope.loadStatus     = LoadViewService.loadStatus;
+	$scope.orgResults     = LoadViewService.orgResults;
 	
 	$scope.reapplyFilters = function(){
 		$scope.clearFiltering();

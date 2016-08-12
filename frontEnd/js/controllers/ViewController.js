@@ -43,7 +43,7 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 		$scope.broadcastLoadMoreOrgs();
 	}
 	//sort size
-	$scope.sortstatus.clickSize = function(){
+	$scope.clickSize = function(){
 		if($scope.sortstatus.sizeDouble){
 			$scope.clearSorting();
 			$scope.sortstatus.sizeDouble     = false;

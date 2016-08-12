@@ -1,8 +1,8 @@
 /* List View */
 
 .list-view {
-	width: 65%;
-	margin-left: 35%;
+	width: 67%;
+	margin-left: 33%;
 }
 table {
 	background-color: rgba(42, 54, 186, 0.7);
@@ -10,11 +10,10 @@ table {
 	border-style: ridge;
 	border-radius: 10px;
 	border-color: #2A36BA;
-
 }
 
-td{
-	border-bottom-width: 1px;
+th {
+	text-align: center;
 }
 
 tr:hover {
@@ -26,13 +25,13 @@ tr:hover {
 }
 
 .arrows {
-	color: #88BBFF;
+	color: orange;
 	font-weight: bold;
 }
 
 td {
 	height: 100%;
-	width:  40%;
+	text-align: center;
 }
 
 td a {
@@ -44,6 +43,24 @@ td a {
 	height: 100%;
 	padding-right: 0;
 	padding-left: 0;
+}
+
+#SID {
+	width: 100px;
+	text-align: left;
+}
+#Name {
+	width: 200px;
+}
+#Size {
+	width: 40px;
+	font-weight: bold;
+}
+
+@media only screen and (max-width: 1600px) {
+	#SID, #Recruiting, #Roleplay{
+		display: none;
+	}
 }
 
 /* Grid View */
@@ -87,4 +104,5 @@ td a {
 	margin-left: 750px;
 	width: 300px;
 }
+
 
