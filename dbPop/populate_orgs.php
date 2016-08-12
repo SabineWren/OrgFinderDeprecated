@@ -62,7 +62,7 @@
 			unset($lines);
 			
 			if($dataArray["data"] == null){
-				echo "Query returned null\n";
+				echo "Query returned null; failCounter == $failCounter\n";
 				continue;//try again; we might be done
 			}
 			break;
@@ -133,8 +133,9 @@
 	
 	for($x = 1;; $x++){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
+		//the +3 means query four pages at a time
 		$queryString  = "http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
-		$queryString .="&end_page=$x&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
+		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
 		$dataArray = queryAPI($queryString);
 		if($dataArray == -1)break;
 		//echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
@@ -151,8 +152,8 @@
 			//only query the org if it's new
 			if(  $savedSize == 0  ){
 				//note sc-api does not provide language information on live results
-				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id='
-				$subqueryString .= $org['sid'] . '&expedite=0&format=raw'
+				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=';
+				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
 				$orgArray = queryAPI($subqueryString);
 				if($orgArray == -1){
 					echo "\nWARNING -- unable to query org $SID; skipping\n\n";
@@ -246,7 +247,7 @@
 			$connection->commit();
 			++$i;
 		}
-		if($x % 32 == 1)echo "Loop $x with " . $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
+		if($x % 8 == 1)echo "Loop $x with " . $x * 32 * 4 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
 	
 	echo "Finished...\n";
