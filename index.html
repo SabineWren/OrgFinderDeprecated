@@ -68,10 +68,6 @@
 				</span>
 			</div>
 		</div>
-		<div>
-			<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
-			<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
-		</div>
 	</div>
 		
 	<!-- ***************************************************************************************************** -->
@@ -129,6 +125,10 @@
 					Member Count: {{ result.Members }}
 				</figcaption>
 			</div>
+		</div>
+		<div>
+			<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="broadcastLoadMoreOrgs()" />
+			<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
 		</div>
 		<div class="footer"></div>
 	</div>

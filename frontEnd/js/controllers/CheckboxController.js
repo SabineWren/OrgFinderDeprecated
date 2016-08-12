@@ -43,7 +43,7 @@ function($scope, $http, SharedChartService, LoadViewService){
 	
 		$http.get('/backEnd/selects.php', { 
 			params:{
-				pagenum:    $scope.filterStatus.nextPage,
+				pagenum:    $scope.orgResults.nextPage,
 				NameOrSID:  encodeURI( $scope.filterName ),
 				nameDir:    directionName,
 				sizeDir:    directionSize,
@@ -59,17 +59,22 @@ function($scope, $http, SharedChartService, LoadViewService){
 			}
 		} ).success(callbackParse);
 	
-		$scope.filterStatus.nextPage++;
+		$scope.orgResults.nextPage++;
 	};
 
 	// Init **********************************************************************************************************
-	$scope.filterStatus = LoadViewService.filterStatus;
 	$scope.pageSize = 12;
 	$scope.Cog = false;//default to all orgs
 	$scope.listViewTF = true;
 	
+	$scope.clearFiltering = LoadViewService.clearFiltering;
 	$scope.loadStatus = LoadViewService.loadStatus;
 	$scope.orgResults = LoadViewService.orgResults;
+	
+	$scope.reapplyFilters = function(){
+		$scope.clearFiltering();
+		$scope.loadMoreOrgs();
+	}
 	
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
@@ -77,11 +82,6 @@ function($scope, $http, SharedChartService, LoadViewService){
 	$scope.langs = [];
 	$scope.filterName = "";
 	
-	$scope.reapplyFilters = function(){
-		$scope.filterStatus.nextPage = 0;
-		$scope.orgResults.results    = [];
-		$scope.loadMoreOrgs();
-	};
 	//END INIT ****************************************************************************************************
 	
 	$scope.slider_bar_min = {
@@ -153,10 +153,10 @@ function($scope, $http, SharedChartService, LoadViewService){
 	$scope.toggleView = function(){
 		if($scope.loadStatus.listViewTF)$scope.loadStatus.listViewTF = false;
 		else $scope.loadStatus.listViewTF = true;
-	}
+	};
 	
 	//ViewController can set sorting, which requires refiltering
-	$scope.$on('reapplyFilters', $scope.loadMoreOrgs);
+	$scope.$on( 'loadMoreOrgs', $scope.loadMoreOrgs );
 	
 }]);
 

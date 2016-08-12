@@ -11,10 +11,17 @@
 
 FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewService', function($scope, $rootScope, LoadViewService){
 	
+	$scope.broadcastLoadMoreOrgs = function(){
+		$rootScope.$broadcast('loadMoreOrgs');
+	}
+	
+	$scope.clearFiltering = LoadViewService.clearFiltering;
+	
+	//init
 	$scope.sortstatus     = LoadViewService.sortStatus;
 	$scope.clearSorting   = LoadViewService.clearSorting;
-	$scope.reapplyFilters = LoadViewService.reapplyFilters;
 	$scope.loadStatus     = LoadViewService.loadStatus;
+	$scope.orgResults = LoadViewService.orgResults;
 	
 	//sort name
 	$scope.clickName = function(){
@@ -31,7 +38,9 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 		else if($scope.sortstatus.nameDescending){
 			$scope.clearSorting();
 		}
-		$rootscope.$broadcast('reapplyFilters');
+		//reapply filters
+		$scope.clearFiltering();
+		$scope.broadcastLoadMoreOrgs();
 	}
 	//sort size
 	$scope.sortstatus.clickSize = function(){
@@ -48,10 +57,10 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 		else if($scope.sortstatus.sizeDescending){
 			$scope.clearSorting();
 		}
-		$rootscope.$broadcast('reapplyFilters');
+		//reapply filters
+		$scope.clearFiltering();
+		$scope.broadcastLoadMoreOrgs();
 	}
-	
-	$scope.orgResults = LoadViewService.orgResults;
 	
 }]);
 

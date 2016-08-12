@@ -19,19 +19,17 @@ FrontEndApp.factory('LoadViewService', function(){
 	};
 	
 	var orgResults = {
-		results: []
+		results: [],
+		nextPage: 0
 	};
 	
 	var icons = {
 		icons: {}
 	};
 	
-	var filterStatus = {
-		nextPage: 0
-	};
-	
 	var clearFiltering = function(){
-	
+		orgResults.results = [];
+		orgResults.nextPage = 0;
 	};
 	
 	//arrows for sorting
@@ -100,7 +98,6 @@ FrontEndApp.factory('LoadViewService', function(){
 		loadStatus,
 		sortStatus,
 		clearSorting,
-		filterStatus,
 		clearFiltering,
 		icons
 	};
