@@ -1,8 +1,9 @@
 /* List View */
 
 .list-view {
-	width: 67%;
-	margin-left: 33%;
+	width: 69%;
+	margin-left: 31%;
+	margin-right: 0%;
 }
 table {
 	background-color: rgba(42, 54, 186, 0.7);
@@ -45,20 +46,89 @@ td a {
 	padding-left: 0;
 }
 
-#SID {
-	width: 100px;
-	text-align: left;
-}
-#Name {
-	width: 200px;
-}
 #Size {
 	width: 40px;
 	font-weight: bold;
 }
 
-@media only screen and (max-width: 1600px) {
-	#SID, #Recruiting, #Roleplay{
+#Name {
+	width: 200px;
+}
+@media only screen and (max-width: 990px) {
+	#Name{
+		width: 150px;
+	}
+}
+
+#Primary {
+	width: 90px;
+}
+@media only screen and (max-width: 1075px) {
+	#Primary{
+		display: none;
+	}
+}
+
+#Secondary {
+	width: 90px;
+}
+@media only screen and (max-width: 1175px) {
+	#Secondary{
+		display: none;
+	}
+}
+
+#Archetype {
+	width: 100px;
+}
+@media only screen and (max-width: 1275px) {
+	#Archetype{
+		display: none;
+	}
+}
+
+#SID {
+	width: 100px;
+	text-align: left;
+}
+@media only screen and (max-width: 1375px) {
+	#SID{
+		display: none;
+	}
+}
+
+#Commitment {
+	width: 80px;
+}
+@media only screen and (max-width: 1455px) {
+	#Commitment{
+		display: none;
+	}
+}
+
+#Language {
+	width: 90px;
+}
+@media only screen and (max-width: 1545px) {
+	#Language{
+		display: none;
+	}
+}
+
+#Roleplay {
+	width: 70px;
+}
+@media only screen and (max-width: 1615px) {
+	#Roleplay{
+		display: none;
+	}
+}
+
+#Recruiting {
+	width: 60px;
+}
+@media only screen and (max-width: 1670px) {
+	#Recruiting{
 		display: none;
 	}
 }

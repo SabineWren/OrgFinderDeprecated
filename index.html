@@ -105,11 +105,11 @@
 				<th><div id="Commitment"><br>Commit</div></th>
 				<th><div id="Archetype"><br>Archetype</div></th>
 				<th></th>
-				<th><div><br>Primary</div></th>
+				<th><div id="Primary"><br>Primary</div></th>
 				<th></th>
-				<th><div><br>Secondary</div></th>
+				<th><div id="Secondary"><br>Secondary</div></th>
 				<th><div id="Recruiting"><br>Recruit</div></th>
-				<th><div><br>Language</div></th>
+				<th><div id="Language"><br>Language</div></th>
 				<th><div id="Roleplay"><br>Roleplay</div></th>
 			</tr></thead>
 			<tr ng-repeat="result in orgResults.results">
@@ -121,11 +121,11 @@
 				<td><div id="Commitment"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Commitment }}</a></div></td>
 				<td><div id="Archetype"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Archetype }}</a></div></td>
 				<td><div><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.PrimaryIcon }}"></a></div></td>
-				<td><div><a ng-href="{{ result.URL }}" target="_blank">{{ result.PrimaryFocus }}</a></div></td>
+				<td><div id="Primary"><a ng-href="{{ result.URL }}" target="_blank">{{ result.PrimaryFocus }}</a></div></td>
 				<td><div><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.SecondaryIcon }}"></a></div></td>
-				<td><div><a ng-href="{{ result.URL }}" target="_blank">{{ result.SecondaryFocus }}</a></div></td>
+				<td><div id="Secondary"><a ng-href="{{ result.URL }}" target="_blank">{{ result.SecondaryFocus }}</a></div></td>
 				<td><div id="Recruiting"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Recruiting }}</a></div></td>
-				<td><div><a ng-href="{{ result.URL }}" target="_blank">{{ result.Language }}</a></div></td>
+				<td><div id="Language"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Language }}</a></div></td>
 				<td><div id="Roleplay"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Roleplay }}</a></div></td>
 			</tr>
 			</table>
