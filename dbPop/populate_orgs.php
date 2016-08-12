@@ -44,6 +44,37 @@
 		}
 	}
 	
+	function getBulkOrgs(&$page){
+		$dataArray = null;
+		
+		for($failCounter = 0; $failCounter < 4; ++$failCounter){
+			$lines = file_get_contents(
+				"http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$page"
+				."&end_page=$page&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw"
+			);
+			if(!$lines){
+				sleep(1);
+				continue;//try again
+			}
+			
+			$dataArray = json_decode($lines, true);//json to php associated array
+			if($dataArray == false){
+				echo "failed to decode\n";
+				return -1;
+			}
+			unset($lines);
+			
+			if($dataArray["data"] == null){
+				echo "Query returned null\n";
+				continue;//try again; we might be done
+			}
+			break;
+		}
+		
+		if($failCounter >= 4)return -1;
+		return $dataArray;
+	}
+	
 	//1) Connect to DB
 	if( sizeof($argv) < 3){
 		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
@@ -102,23 +133,11 @@
 	
 	$numberInserted = 0;
 	$numberUpdated  = 0;
+	
 	for($x = 1;; $x++){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
-		for($failCounter = 0;;++$failCounter){
-			$lines = file_get_contents(
-				"http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x&end_page=$x&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw"
-			);
-			if($lines)break;
-			sleep(1);//try a few more times if request fails
-			if($failCounter > 3)break 2;
-		}
-		$dataArray = json_decode($lines, true);//json to php associated array
-		if($dataArray == false)exit("failed to decode\n");
-		unset($lines);
-		
-		//if we have read all orgs
-		if($dataArray["data"] == null)break;
-		
+		$dataArray = getBulkOrgs($x);
+		if($dataArray == -1)break;
 		//echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
 		
 		//4) Sub-query Org (more data)
@@ -235,11 +254,12 @@
 			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
 			$connection->commit();
 			++$i;
+			//echo "Added Scrape $SID\n";
 		}
-		if($x % 32 == 1)echo "Loop $x with " . ($x + 1) * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
+		if($x % 32 == 1)echo "Loop $x with " . $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
 	
-	echo "Finished...\n"
+	echo "Finished...\n";
 	echo "Inserted $numberInserted Orgs\n";
 	echo "Updated  $numberUpdated Orgs\n";
 	
@@ -266,7 +286,7 @@
 	echo "Done inserts! Rebuilding table clustering...\n";
 	
 	//8) Recluster Tables
-	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
+	/*$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgMemberHistory ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_IconURLs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
@@ -279,7 +299,7 @@
 	$connection->query('ALTER TABLE tbl_SecondaryFocus ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgFluencies ENGINE=INNODB');
-	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');*/
 	
 	//9) Close Connection
 	$connection->close();
