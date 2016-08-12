@@ -34,14 +34,13 @@
 	<div ng-controller="CheckboxController" class="checkboxMainBlock">
 		<div class="checkboxCategories">
 		<!-- see /data/Checkboxes.json for which index is which -->
-			<div id="columnLeft">
-				<print-checkbox ng-init="{{ checkboxModel = checkboxModels[1] }}"></print-checkbox>
-				<print-checkbox ng-init="{{ checkboxModel = checkboxModels[2] }}"></print-checkbox>
-				<print-checkbox ng-init="{{ checkboxModel = checkboxModels[3] }}"></print-checkbox>
-				<print-checkbox ng-init="{{ checkboxModel = checkboxModels[4] }}"></print-checkbox>
+			<div class="columnLeft">
+				<div ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 0">
+					<print-checkbox></print-checkbox>
+				</div>
 			</div>
-			<div id="columnRight">
-				<print-checkbox ng-init="{{ checkboxModel = checkboxModels[0] }}"></print-checkbox>
+			<div class="columnRight">
+				<print-checkbox ng-repeat="checkboxModel in checkboxModels" ng-if="$index == 0"></print-checkbox>
 				<label class="checkboxCategories" id="Cog">
 					<h3>Cognition Corp</h3>
 					<input type="checkbox" ng-model="Cog" />
@@ -155,7 +154,9 @@
 	<!-- test chart -->
 	<div ng-controller="DetailsController">
 		<h3 class="chart-title">Organization Growth</h3>
-		<div google-chart chart="chartObject" style="height:100%; width:40%;"></div>
+		<canvas id="bar" class="chart chart-line"
+			chart-data="data" chart-labels="labels"> chart-series="series"
+		</canvas
 	</div>
 	
 	<!-- ***************************************************************************************************** -->
@@ -183,7 +184,8 @@
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>
 	<script src="AngularJS/angularjs-slider/src/rzslider.js"></script>
-	<script src="AngularJS/angular-google-chart/ng-google-chart.min.js"></script>
+	<script src="AngularJS/angular-chart.js/node_modules/chart.js/dist/Chart.min.js"></script>
+	<script src="AngularJS/angular-chart.js/dist/angular-chart.min.js"></script>
 	
 </body>
 </html>

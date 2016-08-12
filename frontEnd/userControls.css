@@ -19,13 +19,13 @@
 	padding: 0%;
 }
 
-#columnLeft {
+.columnLeft {
 	width: 48%;
 	padding: 1%;
 	float: left;
 }
 
-#columnRight {
+.columnRight {
 	width: 48%;
 	padding: 1%;
 	margin-left: 50%;

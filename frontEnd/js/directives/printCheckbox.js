@@ -19,7 +19,7 @@ FrontEndApp.directive('printCheckbox', function() {
 			$scope.checked = 0;
 		
 			$scope.callCheckChanged = function(box) {
-		
+				
 				for (var i=0; i < $scope.$parent.checkboxModels.length; i++) {
 					if($scope.$parent.checkboxModels[i].category === $scope.checkboxModel.category) break;
 				}

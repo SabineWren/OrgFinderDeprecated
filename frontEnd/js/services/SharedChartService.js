@@ -11,43 +11,19 @@
 
 FrontEndApp.factory('SharedChartService', function(){
 	var chartData = {
-		data: [0, 0, 0, 0, 0],
-		redraw: false
+		data: [
+			[65, 59, 80, 81, 56, 55, 40],
+			[28, 48, 40, 19, 86, 27, 90]
+		]
 	}
 	
-	var chartObject = {};
+	updateChart = function(total, main){
+		chartData.data = [total, main];
+	};
 	
 	return{
 		chartData,
-		chartObject,
-		updateChart: function(newData){
-			chartData.data = newData;
-			
-			chartObject.data = {
-				"cols": [
-					{id: "t", label: "Topping", type: "string"},
-					{id: "s", label: "Slices", type: "number"}
-				],
-				"rows": [
-					{c: [
-						{v: "3"},
-						{v: chartData.data[3]},
-					]},
-					{c: [
-						{v: "2"},
-						{v: chartData.data[2]}
-					]},
-					{c: [
-						{v: "1"},
-						{v: chartData.data[1]},
-					]},
-					{c: [
-						{v: '0'},
-						{v: chartData.data[0]},
-					]}
-				]
-			};
-		}//end update
+		updateChart
 	};
 	
 });

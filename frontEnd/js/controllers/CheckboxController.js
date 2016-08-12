@@ -142,6 +142,7 @@ function($scope, $http, SharedChartService, LoadViewService){
 				});
 			}
 		}
+	
 		getIcons.then(function(){
 			$scope.loadMoreOrgs();//once we have icons and checkboxes, query the database
 		})

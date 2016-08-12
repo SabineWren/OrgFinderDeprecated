@@ -9,7 +9,8 @@
 	@license-end
 */
 
-var FrontEndApp = angular.module('FrontEndApp', ['rzModule', 'googlechart']);
+var FrontEndApp = angular.module('FrontEndApp', ['rzModule', 'chart.js']);
+//var FrontEndApp = angular.module('FrontEndApp', ['rzModule']);
 
 /* pass back and forth between A and B
 angular.module('app.A', [])
