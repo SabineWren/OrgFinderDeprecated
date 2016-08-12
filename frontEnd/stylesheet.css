@@ -20,16 +20,6 @@ body {
 	width: 25%;
 }
 
-.highlight {
-	color: orange;
-	font-weight: bold;
-}
-
-.unhighlight {
-	color: #00AAFF;
-	font-weight: bold;
-}
-
 h1, h2, h3, h4 {
 	display: block;
 	font: sans-serif;
@@ -40,161 +30,6 @@ h1, h2, h3, h4 {
 
 .testerCode {
 	size: 10px;
-}
-
-.checkboxMainBlock {
-	background-color: rgba(42, 54, 186, 0.7);
-	position: relative;
-	display: block;
-	width: 700px;
-	height: 450px;
-	margin-left: 20%;
-	border-width: 5px;
-	border-style: ridge;
-	border-radius: 10px;
-	border-color: #2A36BA;
-
-}
-
-.checkboxCategories /*.Commitment .Roleplay .Archetype .Activities .Recruiting*/{
-	display: inline-block;
-	position: absolute;
-	width: 32%;
-	padding: 1%;
-}
-
-#Commitment {
-	margin-top: 33%;
-}
-
-#RolePlay {
-	margin-top: 33%;
-}
-
-#Archetype {
-	margin-top: 33%;
-	margin-left: 33%;
-}
-
-#Activities {
-	margin-left: 67%;
-}
-
-#Recruiting {
-	margin-left: 33%;
-}
-
-#Cog{
-	margin-top: 21%;
-}
-
-table {
-	background-color: rgba(42, 54, 186, 0.7);
-	margin-left: 14%;
-	margin-right: 14%;
-	margin-top: 4%;
-	border-width: 5px;
-	border-style: ridge;
-	border-radius: 10px;
-	border-color: #2A36BA;
-
-}
-
-td{
-	border-bottom-width: 1px;
-}
-
-tr:hover {
-	background-color: #333333;
-}
-
-#first {
-	background-color: transparent;
-}
-
-.arrows {
-	color: #88BBFF;
-	font-weight: bold;
-}
-
-td {
-	height: 100%;
-	width:  40%;
-}
-
-td a {
-	display: table;
-	position: relative;
-	text-decoration: none; 
-	color: #DDDDDD;
-	width:  100%;
-	height: 100%;
-	padding-right: 0;
-	padding-left: 0;
-}
-
-/* GRID VIEW */
-
-.gridViewResults{
-	display: flex;
-	flex-wrap: wrap;
-	text-align: center;
-}
-
-.cell {
-	width: calc(16.6666% - 47.3333px);
-	padding: 20px;
-	margin-top: 8px;
-	border-style: solid;
-	border-width: 2px;
-	border-color: black;
-}
-
-.cell:nth-of-type(1n) {
-	margin-right: 4px;
-}
-
-.cell:nth-of-type(6n) {
-	margin-right: 0;
-}
-
-.gridIcon {
-	width:  200px;
-	height: 200px;
-}
-
-.filterSmall {
-	max-width: 50px;
-}
-
-.icon {
-	max-width:  50px;
-	max-height: 50px;
-}
-
-input[type=button]{
-	
-}
-
-.lowerBlock {
-	position: absolute;
-	line-height: 12px;
-	margin-left: 750px;
-	width: 300px;
-}
-
-.other-filters {
-	position: absolute;
-	line-height: 16px;
-	margin-left: 750px;
-	margin-top: 50px;
-	width: 300px;
-}
-
-#filterCount{
-	position: absolute;
-	margin-left: 500px;
-	margin-top: 400px;
 }
 
 input[type=button] {
@@ -208,6 +43,7 @@ input[type=button] {
 	font-family: exo2;
 	color: white;
 	border-color: #3498db;
+	font-weight: bold;
 }
 
 input[type=button]:hover {

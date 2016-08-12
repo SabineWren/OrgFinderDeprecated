@@ -1,0 +1,90 @@
+/* List View */
+
+.list-view {
+	width: 65%;
+	margin-left: 35%;
+}
+table {
+	background-color: rgba(42, 54, 186, 0.7);
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #2A36BA;
+
+}
+
+td{
+	border-bottom-width: 1px;
+}
+
+tr:hover {
+	background-color: #333333;
+}
+
+#first {
+	background-color: transparent;
+}
+
+.arrows {
+	color: #88BBFF;
+	font-weight: bold;
+}
+
+td {
+	height: 100%;
+	width:  40%;
+}
+
+td a {
+	display: table;
+	position: relative;
+	text-decoration: none; 
+	color: #DDDDDD;
+	width:  100%;
+	height: 100%;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+/* Grid View */
+
+.gridViewResults{
+	display: flex;
+	flex-wrap: wrap;
+	text-align: center;
+}
+
+.cell {
+	width: calc(16.6666% - 47.3333px);
+	padding: 20px;
+	margin-top: 8px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+}
+
+.cell:nth-of-type(1n) {
+	margin-right: 4px;
+}
+
+.cell:nth-of-type(6n) {
+	margin-right: 0;
+}
+
+.gridIcon {
+	width:  200px;
+	height: 200px;
+}
+
+.icon {
+	max-width:  50px;
+	max-height: 50px;
+}
+
+.lowerBlock {
+	position: absolute;
+	line-height: 12px;
+	margin-left: 750px;
+	width: 300px;
+}
+

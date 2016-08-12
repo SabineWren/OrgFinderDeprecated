@@ -1,0 +1,101 @@
+.checkboxMainBlock {
+	background-color: rgba(42, 54, 186, 0.7);
+	position: relative;
+	display: block;
+	width: 30%;
+	height: 760px;
+	margin-left: 1%;
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #2A36BA;
+	float: left;
+}
+
+.checkboxCategories /*.Commitment .Roleplay .Archetype .Activities .Recruiting*/{
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	padding: 0%;
+}
+
+#columnLeft {
+	width: 48%;
+	padding: 1%;
+	float: left;
+}
+
+#columnRight {
+	width: 48%;
+	padding: 1%;
+	margin-left: 50%;
+}
+
+.highlight {
+	color: orange;
+	font-weight: bold;
+}
+
+.unhighlight {
+	color: #00AAFF;
+	font-weight: bold;
+}
+
+#filterCount{
+	width: 100%;
+	position: relative;
+}
+
+.other-filters {
+	position: relative;
+	line-height: 16px;
+	width: 100%;
+}
+
+input[type=number]{
+	border-style: solid;
+	border-color: orange;
+	border-size: 1px;
+	width: 50px;
+}
+
+#first-layer {
+	height: 10%;
+	width: 97%;
+	margin-left: 3%;
+}
+
+#second-layer {
+	width: 97%;
+	margin-left: 3%;
+}
+
+#filter-name-SID {
+	width: 52%;
+	float: left;
+}
+
+.filter-button {
+	width: 40%;
+	height: 100px;
+	margin-left: 55%;
+}
+
+.apply-reset {
+	width: 92%;
+	margin-left:  3%;
+	margin-right: 3%;
+	padding: 0;
+}
+
+#max-size {
+	width: 38%;
+	float: left;
+}
+
+#language {
+	width: 62%;
+	margin-left: 35%;
+}
+
+
