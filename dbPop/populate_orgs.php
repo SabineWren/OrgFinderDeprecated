@@ -17,7 +17,7 @@
 	*		INNER LOOP:
 	*			4) Sub-query Org (more data)
 	*			5) Bind data to statement
-	*			6) Execute Database Transactions
+	*			6) Execute Database Transaction
 	* 7) Close Statements
 	* 8) Recluster Tables
 	* 9) Close connection
@@ -44,14 +44,11 @@
 		}
 	}
 	
-	function getBulkOrgs(&$page){
+	function queryAPI(&$queryString){
 		$dataArray = null;
 		
 		for($failCounter = 0; $failCounter < 4; ++$failCounter){
-			$lines = file_get_contents(
-				"http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$page"
-				."&end_page=$page&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw"
-			);
+			$lines = file_get_contents($queryString);
 			if(!$lines){
 				sleep(1);
 				continue;//try again
@@ -136,7 +133,9 @@
 	
 	for($x = 1;; $x++){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
-		$dataArray = getBulkOrgs($x);
+		$queryString  = "http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
+		$queryString .="&end_page=$x&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
+		$dataArray = queryAPI($queryString);
 		if($dataArray == -1)break;
 		//echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
 		
@@ -151,23 +150,15 @@
 			$savedSize = getOrgSize($SID, $connection);
 			//only query the org if it's new
 			if(  $savedSize == 0  ){
-				for($failCounterSingleOrg = 0;;++$failCounterSingleOrg){//loop in case request fails due to poor connection
-					$subquery = file_get_contents(
-						//note sc-api does not provide language information on live results
-						'http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id='
-						. $org['sid'] . '&expedite=0&format=raw'
-					);
-					if($subquery)break;
-					sleep(1);
-					if($failCounterSingleOrg > 2){
-						echo "FAILED to query API live for org with SID == " . $org['sid'] . "\n";
-						continue(2);
-					}
+				//note sc-api does not provide language information on live results
+				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id='
+				$subqueryString .= $org['sid'] . '&expedite=0&format=raw'
+				$orgArray = queryAPI($subqueryString);
+				if($orgArray == -1){
+					echo "\nWARNING -- unable to query org $SID; skipping\n\n";
+					continue;
 				}
-				$orgArray = json_decode($subquery, true);
-				unset($subquery);
-				if($orgArray['data'] == null)echo "WARNING: Org null (in API live result!)\n";
-			
+				
 				//5b) Bind data from subquery
 				$Name    = html_entity_decode( $org['title'] );
 				$IconURL = $orgArray['data']['logo'];
@@ -254,7 +245,6 @@
 			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
 			$connection->commit();
 			++$i;
-			//echo "Added Scrape $SID\n";
 		}
 		if($x % 32 == 1)echo "Loop $x with " . $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
@@ -286,7 +276,7 @@
 	echo "Done inserts! Rebuilding table clustering...\n";
 	
 	//8) Recluster Tables
-	/*$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgMemberHistory ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_IconURLs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
@@ -299,7 +289,7 @@
 	$connection->query('ALTER TABLE tbl_SecondaryFocus ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgFluencies ENGINE=INNODB');
-	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');*/
+	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
 	
 	//9) Close Connection
 	$connection->close();
