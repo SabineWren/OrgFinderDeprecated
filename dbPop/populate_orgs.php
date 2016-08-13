@@ -247,7 +247,7 @@
 			$connection->commit();
 			++$i;
 		}
-		if($x % 8 == 1)echo "Loop $x with " . $x * 32 * 4 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
+		if($x % 8 == 1)echo "Loop $x with " . $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
 	
 	echo "Finished...\n";

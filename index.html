@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="AngularJS/angularjs-slider/dist/rzslider.css"/>
 	<link rel="stylesheet" type="text/css" href="frontEnd/userControls.css">
 	<link rel="stylesheet" type="text/css" href="frontEnd/views.css">
+	<link rel="stylesheet" type="text/css" href="frontEnd/details.css">
 	<link rel="stylesheet" type="text/css" href="frontEnd/stylesheet.css">
 	<title>Cognition Corp</title>
 	
@@ -31,7 +32,8 @@
 	</header>
 	<!-- ***************************************************************************************************** -->
 	<!-- User Controls -->
-	<div ng-controller="CheckboxController" class="checkboxMainBlock">
+	<div ng-controller="CheckboxController">
+	<div ng-show="StateUI.Controls" class="checkboxMainBlock">
 		<div class="checkboxCategories">
 		<!-- see /data/Checkboxes.json for which index is which -->
 			<div class="columnLeft">
@@ -88,7 +90,18 @@
 			</div>
 		</div>
 	</div>
-		
+	</div>
+	
+	<div ng-controller="DetailsController">
+		<div ng-show="StateUI.Details" class="details-view">
+			<h3 class="chart-title">Organization Growth</h3>
+			<canvas id="bar" class="chart chart-line"
+				chart-data="chartData.plots" chart-labels="labels"> chart-series="series"
+			</canvas>
+			<input type="button" value="Show Controls" ng-click="exitDetails()" />
+		</div>
+	</div>
+	
 	<!-- ***************************************************************************************************** -->
 	<!-- List View -->
 	<div ng-controller="ViewController" class="list-view">
@@ -115,15 +128,15 @@
 			</tr></thead>
 			<tr ng-repeat="result in orgResults.results">
 			<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
-				<td><div id="SID"> <a ng-href="{{ result.URL }}" target="_blank">{{ result.SID }}</a></div></td>
+				<td><div id="SID"> <a ng-click="loadDetails(result.SID)">{{ result.SID }}</a></div></td>
 				<td><div id="Name"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Name }}</a></div></td>
 				<td><div id="Icon"><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.Icon }}"></a></div></td>
 				<td><div id="Size"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Members }}</a></div></td>
 				<td><div id="Commitment"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Commitment }}</a></div></td>
 				<td><div id="Archetype"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Archetype }}</a></div></td>
-				<td><div><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.PrimaryIcon }}"></a></div></td>
+				<td><div>               <a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.PrimaryIcon }}"></a></div></td>
 				<td><div id="Primary"><a ng-href="{{ result.URL }}" target="_blank">{{ result.PrimaryFocus }}</a></div></td>
-				<td><div><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.SecondaryIcon }}"></a></div></td>
+				<td><div>             <a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.SecondaryIcon }}"></a></div></td>
 				<td><div id="Secondary"><a ng-href="{{ result.URL }}" target="_blank">{{ result.SecondaryFocus }}</a></div></td>
 				<td><div id="Recruiting"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Recruiting }}</a></div></td>
 				<td><div id="Language"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Language }}</a></div></td>
@@ -146,18 +159,10 @@
 			</div>
 		</div>
 		<div>
-			<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="broadcastLoadMoreOrgs()" />
+			<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
 			<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
 		</div>
 		<div class="footer"></div>
-	</div>
-	
-	<!-- test chart -->
-	<div ng-controller="DetailsController">
-		<h3 class="chart-title">Organization Growth</h3>
-		<canvas id="bar" class="chart chart-line"
-			chart-data="data" chart-labels="labels"> chart-series="series"
-		</canvas
 	</div>
 	
 	<!-- ***************************************************************************************************** -->
@@ -179,8 +184,9 @@
 	<script src="frontEnd/js/controllers/DetailsController.js"></script>
 
 	<!-- Services -->
-	<script src="frontEnd/js/services/SharedChartService.js"></script>
+	<script src="frontEnd/js/services/GlobalStateUI.js"></script>
 	<script src="frontEnd/js/services/LoadViewService.js"></script>
+	<script src="frontEnd/js/services/LoadDetailsService.js"></script>
 		
 	<!-- Directives -->
 	<script src="frontEnd/js/directives/printCheckbox.js"></script>

@@ -1,16 +1,15 @@
 /*	
 	@license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt
 	
-	Copyright (C) 2016 LucFauvel and SabineWren
+	Copyright (C) 2016 SabineWren
 	
 	GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 	https://www.gnu.org/licenses/agpl-3.0.html
 	
 	@license-end
 */
-FrontEndApp.controller('CheckboxController', [
-'$scope', '$http', 'SharedChartService', 'LoadViewService',
-function($scope, $http, SharedChartService, LoadViewService){
+FrontEndApp.controller('CheckboxController', ['$scope', '$http', 'LoadViewService', 'GlobalStateUI',
+function($scope, $http, LoadViewService, GlobalStateUI){
 	
 	function btoi(theBool){
 		if(theBool)return 1;
@@ -63,6 +62,8 @@ function($scope, $http, SharedChartService, LoadViewService){
 	};
 
 	// Init **********************************************************************************************************
+	$scope.StateUI = GlobalStateUI.StateUI;
+	
 	$scope.pageSize = 12;
 	$scope.Cog = false;//default to all orgs
 	$scope.listViewTF = true;
@@ -166,9 +167,6 @@ function($scope, $http, SharedChartService, LoadViewService){
 			$scope.loadMoreOrgs();//once we have icons and checkboxes, query the database
 		})
 	});
-	
-	//updateChart( [5, 4, 3, 2, 1] );
-	var updateChart = SharedChartService.updateChart;
 	
 	$scope.toggleView = function(){
 		if($scope.loadStatus.listViewTF)$scope.loadStatus.listViewTF = false;

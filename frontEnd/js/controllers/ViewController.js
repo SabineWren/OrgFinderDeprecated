@@ -1,7 +1,7 @@
 /*
 	@license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt
 	
-	Copyright (C) 2016 LucFauvel and SabineWren
+	Copyright (C) 2016 SabineWren
 	
 	GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 	https://www.gnu.org/licenses/agpl-3.0.html
@@ -9,19 +9,28 @@
 	@license-end
 */
 
-FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewService', function($scope, $rootScope, LoadViewService){
+FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewService', 'LoadDetailsService', 'GlobalStateUI',
+function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI){
 	
-	$scope.broadcastLoadMoreOrgs = function(){
+	$scope.loadMoreOrgs = function(){
 		$rootScope.$broadcast('loadMoreOrgs');
-	}
+	};
+	
+	$scope.loadDetails = function(SID){
+		LoadDetailsService.loadDetails(SID);
+		$scope.StateUI.Details  = true;
+		$scope.StateUI.Controls = false;
+	};
 	
 	$scope.clearResults = LoadViewService.clearResults;
 	
 	//init
+	$scope.StateUI = GlobalStateUI.StateUI;
+	
 	$scope.sortstatus     = LoadViewService.sortStatus;
 	$scope.clearSorting   = LoadViewService.clearSorting;
 	$scope.loadStatus     = LoadViewService.loadStatus;
-	$scope.orgResults = LoadViewService.orgResults;
+	$scope.orgResults     = LoadViewService.orgResults;
 	
 	//sort name
 	$scope.clickName = function(){
@@ -40,7 +49,7 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 		}
 		//reapply filters
 		$scope.clearResults();
-		$scope.broadcastLoadMoreOrgs();
+		$scope.loadMoreOrgs();
 	}
 	//sort size
 	$scope.clickSize = function(){
@@ -59,7 +68,7 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 		}
 		//reapply filters
 		$scope.clearResults();
-		$scope.broadcastLoadMoreOrgs();
+		$scope.loadMoreOrgs();
 	}
 	
 }]);

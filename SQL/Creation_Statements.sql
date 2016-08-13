@@ -1,29 +1,12 @@
 /*
-DROP TABLE tbl_OrgMemberHistory;
-DROP TABLE tbl_OrgArchetypes;
-DROP TABLE tbl_Archetypes;
-DROP TABLE tbl_FilterFluencies;
-DROP TABLE tbl_OrgFluencies;
-DROP TABLE tbl_Fluencies;
-DROP TABLE tbl_OrgLocated;
-DROP TABLE tbl_OrgRegions;
-DROP TABLE tbl_SecondaryFocus;
-DROP TABLE tbl_PrimaryFocus;
-DROP TABLE tbl_Performs;
-DROP TABLE tbl_Activities;
-DROP TABLE tbl_Commits;
-DROP TABLE tbl_Commitments;
-DROP TABLE tbl_ExclusiveOrgs;
-DROP TABLE tbl_FullOrgs;
-DROP TABLE tbl_RolePlayOrgs;
-DROP TABLE tbl_Affiliated;
-DROP TABLE tbl_Main;
-DROP TABLE tbl_RepresentsCog;
-DROP TABLE tbl_IconURLs;
-DROP TABLE tbl_Organizations;
-DROP TABLE tbl_FromCountry;
-DROP TABLE tbl_Persons;
-DROP TABLE tbl_Countries;
+	@license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt
+	
+	Copyright (C) 2016 SabineWren
+	
+	GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
+	https://www.gnu.org/licenses/agpl-3.0.html
+	
+	@license-end
 */
 
 CREATE TABLE tbl_Countries(
