@@ -181,27 +181,24 @@ Members  (front end) == Size  (database)
 	//var_dump($connection->error);
 	
 	$prepared_select->execute();
-	
-	//parse data and create json using metadata
-	$meta = $prepared_select->result_metadata();
-	//var_dump($meta);
 	unset($parameters);
+	
+	$meta = $prepared_select->result_metadata();
+	
 	while ($field = $meta->fetch_field()) {
-		$parameters[] = &$row[$field->name];
+		$parameters[] = &$rowKeyValue[$field->name];
 	}
 	
 	call_user_func_array(array($prepared_select, 'bind_result'), $parameters);
+	
+	//fetch results into $parameters, which references the values of $resultsKeyValue
 	while ($prepared_select->fetch()) {
-		foreach($row as $key => $val) {
-			//var_dump($key);
-			//var_dump($val);
-			//if($key == "Name")$x[$key] = htmlentities($val);
+		//copy the resulting row one attribute at a time
+		//we use a loop because the contents are references
+		foreach($rowKeyValue as $key => $val) {
 			$x[$key] = $val;
-			//$x[$key] = $val;
-			//var_dump($x[$key]);
-			//echo "\n";
 		}
-		$results[] = $x;
+		$results[] = $x;//save the row
 	}
 	
 	$prepared_select->close();
@@ -209,3 +206,4 @@ Members  (front end) == Size  (database)
 	if(isset($results))echo json_encode($results);//, JSON_HEX_APOS|JSON_HEX_QUOT
 	else echo "null";
 ?>
+

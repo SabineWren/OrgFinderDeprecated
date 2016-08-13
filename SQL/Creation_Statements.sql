@@ -214,7 +214,6 @@ CREATE TABLE tbl_OrgMemberHistory(
 	Affiliate INT,
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	CONSTRAINT PK_OrgMemberHistory PRIMARY KEY(Organization, ScrapeDate), -- Clustered Index
-	CONSTRAINT UNIQUE(Organization) -- only one archetype per org
 );
 
 
