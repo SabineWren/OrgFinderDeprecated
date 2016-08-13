@@ -15,7 +15,7 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 		$rootScope.$broadcast('loadMoreOrgs');
 	}
 	
-	$scope.clearFiltering = LoadViewService.clearFiltering;
+	$scope.clearResults = LoadViewService.clearResults;
 	
 	//init
 	$scope.sortstatus     = LoadViewService.sortStatus;
@@ -39,7 +39,7 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 			$scope.clearSorting();
 		}
 		//reapply filters
-		$scope.clearFiltering();
+		$scope.clearResults();
 		$scope.broadcastLoadMoreOrgs();
 	}
 	//sort size
@@ -58,7 +58,7 @@ FrontEndApp.controller('ViewController', ['$scope', '$rootScope', 'LoadViewServi
 			$scope.clearSorting();
 		}
 		//reapply filters
-		$scope.clearFiltering();
+		$scope.clearResults();
 		$scope.broadcastLoadMoreOrgs();
 	}
 	

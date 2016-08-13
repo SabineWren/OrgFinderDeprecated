@@ -27,7 +27,7 @@ FrontEndApp.factory('LoadViewService', function(){
 		icons: {}
 	};
 	
-	var clearFiltering = function(){
+	var clearResults = function(){
 		orgResults.results = [];
 		orgResults.nextPage = 0;
 	};
@@ -98,7 +98,7 @@ FrontEndApp.factory('LoadViewService', function(){
 		loadStatus,
 		sortStatus,
 		clearSorting,
-		clearFiltering,
+		clearResults,
 		icons
 	};
 	

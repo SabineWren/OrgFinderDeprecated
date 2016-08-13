@@ -16,7 +16,6 @@ FrontEndApp.directive('printCheckbox', function() {
 		scope: true,
 	
 		controller: function($scope){
-			$scope.checked = 0;
 		
 			$scope.callCheckChanged = function(box) {
 				
@@ -26,12 +25,10 @@ FrontEndApp.directive('printCheckbox', function() {
 			
 				if(box.isSelected){
 					$scope.$parent.checkedOuter.num++;
-					$scope.checked++;
 					$scope.$parent.checkboxModels[i].appliedFilter.push(box.name);
 				}
 				else{
 					$scope.$parent.checkedOuter.num--;
-					$scope.checked--;
 					var index = $scope.$parent.checkboxModels[i].appliedFilter.indexOf(box.name);
 					$scope.$parent.checkboxModels[i].appliedFilter.splice(index, 1)
 				}

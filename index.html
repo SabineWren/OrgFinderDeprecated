@@ -74,6 +74,7 @@
 					<div id="language">
 						Language:
 						<select ng-model="language">
+							<option value="Any" style="display: none;"> -- Any --</option>
 							<option ng-repeat="lang in langs">{{ lang }}</option>
 						</select>
 					</div>

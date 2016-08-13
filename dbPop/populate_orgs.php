@@ -131,7 +131,7 @@
 	$numberInserted = 0;
 	$numberUpdated  = 0;
 	
-	for($x = 1;; $x++){//$x is current page number in query string
+	for($x = 1;; $x = $x + 4){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
 		//the +3 means query four pages at a time
 		$queryString  = "http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";

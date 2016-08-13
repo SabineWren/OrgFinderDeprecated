@@ -67,15 +67,33 @@ function($scope, $http, SharedChartService, LoadViewService){
 	$scope.Cog = false;//default to all orgs
 	$scope.listViewTF = true;
 	
-	$scope.clearFiltering = LoadViewService.clearFiltering;
-	$scope.sortStatus     = LoadViewService.sortStatus;
-	$scope.loadStatus     = LoadViewService.loadStatus;
-	$scope.orgResults     = LoadViewService.orgResults;
+	$scope.clearResults = LoadViewService.clearResults;
+	$scope.sortStatus   = LoadViewService.sortStatus;
+	$scope.loadStatus   = LoadViewService.loadStatus;
+	$scope.orgResults   = LoadViewService.orgResults;
 	
 	$scope.reapplyFilters = function(){
-		$scope.clearFiltering();
+		$scope.clearResults();
 		$scope.loadMoreOrgs();
-	}
+	};
+	
+	//this needs to be rebuilt more readably
+	$scope.resetFilters = function(){
+		$scope.checkedOuter.num = 0;
+		for( checkboxModel in $scope.checkboxModels){
+			$scope.checkboxModels[checkboxModel].appliedFilter.length = 0;
+			for(checkboxLabel in $scope.checkboxModels[checkboxModel].data){
+				$scope.checkboxModels[checkboxModel].data[ checkboxLabel ].isSelected = false;
+			}
+		}
+		
+		$scope.Cog                  = false;
+		$scope.slider_bar_min.value = 1;
+		$scope.slider_bar_max.value = 0;
+		//if( angular.isDefined($scope.language) )delete $scope.language;
+		$scope.language             = "Any";
+		$scope.filterName           = "";
+	};
 	
 	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
