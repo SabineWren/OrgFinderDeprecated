@@ -24,11 +24,9 @@ FrontEndApp.directive('printCheckbox', function() {
 				}
 			
 				if(box.isSelected){
-					$scope.$parent.checkedOuter.num++;
 					$scope.$parent.checkboxModels[i].appliedFilter.push(box.name);
 				}
 				else{
-					$scope.$parent.checkedOuter.num--;
 					var index = $scope.$parent.checkboxModels[i].appliedFilter.indexOf(box.name);
 					$scope.$parent.checkboxModels[i].appliedFilter.splice(index, 1)
 				}

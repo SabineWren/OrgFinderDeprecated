@@ -12,11 +12,12 @@
 FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	
 	var chartData = {
-		plots: [
-			[65, 59, 80, 81, 56, 55, 40],
-			[28, 48, 40, 19, 86, 27, 90]
-		]
+		plots: []
 	}
+	
+	var rowData = {
+		result: {}
+	};
 	
 	var parseHistory = function(history_json){
 		var Size = [];
@@ -31,12 +32,13 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		];
 	};
 	
-	var loadDetails = function(SID){
-		console.log(SID);
+	var loadDetails = function(currentRow){
+		
+		rowData.result = currentRow;
 		
 		$http.get('/backEnd/org_history.php', { 
 			params:{
-				SID: SID
+				SID: currentRow.SID
 			}
 		} ).success(parseHistory);
 		
@@ -44,6 +46,7 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	
 	return {
 		chartData,
+		rowData,
 		loadDetails
 	};
 	

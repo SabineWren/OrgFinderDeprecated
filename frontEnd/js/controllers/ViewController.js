@@ -16,8 +16,8 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		$rootScope.$broadcast('loadMoreOrgs');
 	};
 	
-	$scope.loadDetails = function(SID){
-		LoadDetailsService.loadDetails(SID);
+	$scope.loadDetails = function(currentRow){
+		LoadDetailsService.loadDetails(currentRow);
 		$scope.StateUI.Details  = true;
 		$scope.StateUI.Controls = false;
 	};

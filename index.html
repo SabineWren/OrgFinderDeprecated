@@ -29,6 +29,7 @@
 <body ng-app="FrontEndApp">
 	<header>
 		<img id="coglogo" src="frontEnd/images/logo.gif" alt="cog logo"/>
+		<h3 style="text-align: right; color: red;">Click on an Organization to View Details</h3>
 	</header>
 	<!-- ***************************************************************************************************** -->
 	<!-- User Controls -->
@@ -48,7 +49,6 @@
 					<input type="checkbox" ng-model="Cog" />
 					<span ng-class="{highlight: ch, unhighlight: !ch}" ng-mouseenter="ch=true" ng-mouseleave="ch=false">Cognition Corp Member</span>
 				</label>
-				<p id="filterCount">Filters used: {{ checkedOuter.num }}</p>
 			</div>
 			<!-- Extra Filter Options-->
 			<div class="other-filters">
@@ -94,7 +94,9 @@
 	
 	<div ng-controller="DetailsController">
 		<div ng-show="StateUI.Details" class="details-view">
-			<h3 class="chart-title">Organization Growth</h3>
+			<h1 id="org-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
+			<br>
+			<h3 id="chart-title">Organization Growth</h3>
 			<canvas id="bar" class="chart chart-line"
 				chart-data="chartData.plots" chart-labels="labels"> chart-series="series"
 			</canvas>
@@ -128,19 +130,19 @@
 			</tr></thead>
 			<tr ng-repeat="result in orgResults.results">
 			<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
-				<td><div id="SID"> <a ng-click="loadDetails(result.SID)">{{ result.SID }}</a></div></td>
-				<td><div id="Name"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Name }}</a></div></td>
-				<td><div id="Icon"><a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.Icon }}"></a></div></td>
-				<td><div id="Size"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Members }}</a></div></td>
-				<td><div id="Commitment"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Commitment }}</a></div></td>
-				<td><div id="Archetype"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Archetype }}</a></div></td>
-				<td><div>               <a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.PrimaryIcon }}"></a></div></td>
-				<td><div id="Primary"><a ng-href="{{ result.URL }}" target="_blank">{{ result.PrimaryFocus }}</a></div></td>
-				<td><div>             <a ng-href="{{ result.URL }}" target="_blank"><img class=icon ng-src="{{ result.SecondaryIcon }}"></a></div></td>
-				<td><div id="Secondary"><a ng-href="{{ result.URL }}" target="_blank">{{ result.SecondaryFocus }}</a></div></td>
-				<td><div id="Recruiting"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Recruiting }}</a></div></td>
-				<td><div id="Language"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Language }}</a></div></td>
-				<td><div id="Roleplay"><a ng-href="{{ result.URL }}" target="_blank">{{ result.Roleplay }}</a></div></td>
+				<td><div id="SID"        ng-click="loadDetails(result)">{{ result.SID }}</div></td>
+				<td><div id="Name"       ng-click="loadDetails(result)">{{ result.Name }}</div></td>
+				<td><div id="Icon"       ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.Icon }}"></div></td>
+				<td><div id="Size"       ng-click="loadDetails(result)">{{ result.Members }}</div></td>
+				<td><div id="Commitment" ng-click="loadDetails(result)">{{ result.Commitment }}</div></td>
+				<td><div id="Archetype"  ng-click="loadDetails(result)">{{ result.Archetype }}</div></td>
+				<td><div                 ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.PrimaryIcon }}"></div></td>
+				<td><div id="Primary"    ng-click="loadDetails(result)">{{ result.PrimaryFocus }}</div></td>
+				<td><div                 ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.SecondaryIcon }}"></div></td>
+				<td><div id="Secondary"  ng-click="loadDetails(result)">{{ result.SecondaryFocus }}</div></td>
+				<td><div id="Recruiting" ng-click="loadDetails(result)">{{ result.Recruiting }}</div></td>
+				<td><div id="Language"   ng-click="loadDetails(result)">{{ result.Language }}</div></td>
+				<td><div id="Roleplay"   ng-click="loadDetails(result)">{{ result.Roleplay }}</div></td>
 			</tr>
 			</table>
 		</div>
@@ -151,7 +153,7 @@
 				<figcaption>
 					{{ result.Name }}
 				</figcaption>
-				<a ng-href="{{ result.URL }}" target="_blank"><img class=gridIcon ng-src="{{ result.Icon }}"></a>
+				<img class=gridIcon ng-src="{{ result.Icon }}"></a>
 				<figcaption>
 					{{ result.PrimaryFocus }}, {{ result.SecondaryFocus }}<br>
 					Member Count: {{ result.Members }}

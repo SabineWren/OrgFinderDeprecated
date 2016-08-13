@@ -80,7 +80,6 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 	
 	//this needs to be rebuilt more readably
 	$scope.resetFilters = function(){
-		$scope.checkedOuter.num = 0;
 		for( checkboxModel in $scope.checkboxModels){
 			$scope.checkboxModels[checkboxModel].appliedFilter.length = 0;
 			for(checkboxLabel in $scope.checkboxModels[checkboxModel].data){
@@ -96,7 +95,6 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		$scope.filterName           = "";
 	};
 	
-	$scope.checkedOuter = {num: 0};
 	$scope.checkboxModels = [];
 	$scope.language = "Any";
 	$scope.langs = [];

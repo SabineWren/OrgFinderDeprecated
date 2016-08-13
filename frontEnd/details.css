@@ -13,3 +13,16 @@
 	border-color: #2A36BA;
 	float: left;
 }
+
+#org-details {
+	text-align: center;
+	font-weight: bold;
+	text-decoration: underline;
+	text-decoration-color: white;
+	color: #000000;
+}
+
+#chart-title {
+	text-align: center;
+	color: orange;
+}
