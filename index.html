@@ -33,8 +33,9 @@
 	</header>
 	<!-- ***************************************************************************************************** -->
 	<!-- User Controls -->
+	<div id="left-side">
 	<div ng-controller="CheckboxController">
-	<div ng-show="StateUI.Controls" class="checkboxMainBlock">
+	<div ng-show="StateUI.Controls" class="left-block">
 		<div class="checkboxCategories">
 		<!-- see /data/Checkboxes.json for which index is which -->
 			<div class="columnLeft">
@@ -60,9 +61,11 @@
 						<span ng-hide="slider_bar_min.value > 1">Any</span>
 						<span ng-show="slider_bar_min.value > 1">{{ slider_bar_min.value }}</span>
 					</div>
-					<div class="filter-button">
-						<input type="button" class="apply-reset" ng-click="reapplyFilters()" value="Apply Filters"/>
-						<input type="button" class="apply-reset" ng-click="resetFilters()" value="Reset Filters"/>
+					<div class="filter-buttons">
+						<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
+						<input class="filter-button" type="button" ng-click="resetFilters()" value="Reset Filters"/>
+						<input class="filter-button" type="button" ng-show="loadStatus.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
+						<input class="filter-button" type="button" ng-hide="loadStatus.listViewTF" ng-click="toggleView()" value="Enable List View"/>
 					</div>
 				</div>
 				<rzslider rz-slider-model="slider_bar_min.value" rz-slider-options="slider_bar_min.options">
@@ -83,17 +86,13 @@
 				</div>
 				<rzslider rz-slider-model="slider_bar_max.value" rz-slider-options="slider_bar_max.options">
 				</rzslider>
-				<span class="filter-buttons">
-					<input ng-show="loadStatus.listViewTF" type="button" ng-click="toggleView()" value="Enable Grid View"/>
-					<input ng-hide="loadStatus.listViewTF" type="button" ng-click="toggleView()" value="Enable List View"/>
-				</span>
 			</div>
 		</div>
 	</div>
 	</div>
 	
 	<div ng-controller="DetailsController">
-		<div ng-show="StateUI.Details" class="details-view">
+		<div ng-show="StateUI.Details" class="left-block">
 			<h1 id="org-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
 			<br>
 			<h3 id="chart-title">Organization Growth</h3>
@@ -102,6 +101,13 @@
 			</canvas>
 			<input type="button" value="Show Controls" ng-click="exitDetails()" />
 		</div>
+	</div>
+	
+	<!-- ***************************************************************************************************** -->
+	<!-- License Information -->
+	<div>
+		<h3 id="licenses"><a href="jslicense.html" data-jslicense="1">License Information</a></h3>
+	</div>
 	</div>
 	
 	<!-- ***************************************************************************************************** -->
@@ -167,11 +173,6 @@
 		<div class="footer"></div>
 	</div>
 	
-	<!-- ***************************************************************************************************** -->
-	<!-- License Information -->
-	<div>
-		<p id="licenses"><a href="jslicense.html" data-jslicense="1">License Information</a></p>
-	</div>
 	<!-- *********************************************************************************** -->
 	
 	<!-- Include AngularJS -->

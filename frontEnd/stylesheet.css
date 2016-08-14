@@ -1,3 +1,4 @@
+
 @font-face{
 	font-family: exo2;
 	src: url("images/Exo2.otf");
@@ -20,6 +21,24 @@ body {
 	width: 25%;
 }
 
+#left-side {
+	width: 490px;
+}
+
+.left-block {
+	background-color: rgba(42, 54, 186, 0.7);
+	position: relative;
+	display: block;
+	height: 730px;
+	width: 490px;
+	margin-left: 0%;
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #2A36BA;
+	float: left;
+}
+
 h1, h2, h3, h4 {
 	display: block;
 	font: sans-serif;
@@ -34,13 +53,13 @@ h1, h2, h3, h4 {
 
 input[type=button] {
 	margin-top: 5px;
-	height: 40px;
 	background-image: linear-gradient(to bottom, #3498db, #2980b9);
 	background: #3498db;
 	font-size: 18px;
 	text-decoration: none;
 	border-radius: 10px;
 	font-family: exo2;
+	height: 46px;
 	color: white;
 	border-color: #3498db;
 	font-weight: bold;
@@ -68,9 +87,14 @@ a {
 }
 
 #licenses {
+	position: relative;
+	display: block;
+	width: 490px;
 	height: 40px;
 	margin-left: 14%;
 	margin-right: 14%;
+	text-align: left;
+	float: left;
 }
 
 /* used to buffer the data list to make room for the Load More button*/
