@@ -40,8 +40,21 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 					fontColor: '#FFFFFF',
 					fontStyle: 'bold',
 					fontSize: 20,
-					boxWidth: 60,
+					boxWidth: 50,
 				}
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						suggestedMin: 0,
+						stepSize: 1,
+						callback: function(tickValue, index, ticks) {
+							if(!(index % parseInt(ticks.length / 5))) {
+								return tickValue;
+							}
+						}
+					}
+				}]
 			}
 		}
 	}
