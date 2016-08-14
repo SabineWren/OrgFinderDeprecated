@@ -6,16 +6,12 @@ Database:
 
 PopulateOrgs.php:
 	delete orgs that no longer exist
-	populate main/affiliate count
-	
-Controllers:
-	NA
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
 	
 Front End:
-	add main/members/total listings for size
 	build a webgl version of the cube
-	add details view with charts
+	
+******add main/affiliate listings to entire stack
 

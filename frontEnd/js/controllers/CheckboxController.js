@@ -21,13 +21,14 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		$scope.loadStatus.isLoading = true;//callback sets to false when it's done
 	
 		//prevent DB from wasting time on bad size input
-		if($scope.slider_bar_max.value > 0 && $scope.slider_bar_min.value > $scope.slider_bar_max.value + 1)
+		if($scope.slider_bar_max.value > 0 && $scope.slider_bar_min.value > $scope.slider_bar_max.value)
 			$scope.slider_bar_max.value = $scope.slider_bar_min.value;
 	
 		//only filter by size if needed
 		var minSize = null;
-		if($scope.slider_bar_min.value > 1 )
+		if($scope.slider_bar_min.value > 1 ){
 			minSize = $scope.slider_bar_min.value.toString();
+		}
 		var maxSize = null;
 		if($scope.slider_bar_max.value > 0)
 			maxSize = $scope.slider_bar_max.value.toString();

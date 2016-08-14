@@ -8,15 +8,22 @@
 }
 
 .columnLeft {
+	position: relative;
 	width: 48%;
 	padding: 1%;
 	float: left;
+	z-index: 1;
 }
 
 .columnRight {
 	width: 48%;
 	padding: 1%;
 	margin-left: 50%;
+}
+
+.checkboxModels {
+	position: relative;
+	z-index: 2;
 }
 
 .highlight {

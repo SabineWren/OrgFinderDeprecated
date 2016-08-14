@@ -29,7 +29,7 @@
 <body ng-app="FrontEndApp">
 	<header>
 		<img id="coglogo" src="frontEnd/images/logo.gif" alt="cog logo"/>
-		<h3 style="text-align: right; color: red;">Click on an Organization to View Details</h3>
+		<h3 style="text-align: left; color: red;">Click on an Organization to View Details</h3>
 	</header>
 	<!-- ***************************************************************************************************** -->
 	<!-- User Controls -->
@@ -39,7 +39,7 @@
 		<div class="checkboxCategories">
 		<!-- see /data/Checkboxes.json for which index is which -->
 			<div class="columnLeft">
-				<div ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 0">
+				<div ng-class="checkboxModels" ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 0">
 					<print-checkbox></print-checkbox>
 				</div>
 			</div>
