@@ -112,64 +112,115 @@
 	<!-- ***************************************************************************************************** -->
 	<!-- List View -->
 	<div ng-controller="ViewController" class="list-view">
-		<div ng-show="loadStatus.listViewTF" class="listViewResults">
-			<table>
-			<thead align="left"><tr id="first">
-				<th><div id="SID"><br>SID</div></th>
-				<th ng-show="sortstatus.nameDouble"     ng-click="clickName()"><div id="Name"><span class="arrows">&#8646</span><br>Name</div></th>
-				<th ng-show="sortstatus.nameAscending"  ng-click="clickName()"><div id="Name"><span class="arrows">&and;</span><br>Name</div></th>
-				<th ng-show="sortstatus.nameDescending" ng-click="clickName()"><div id="Name"><span class="arrows">&or;</span><br>Name</div></th>
-				<th><div id="Icon"><br>Icon</div></th>
-				<th ng-show="sortstatus.sizeDouble"     ng-click="clickSize()"><div id="Size"><span class="arrows">&#8646</span><br>Size</div></th>
-				<th ng-show="sortstatus.sizeAscending"  ng-click="clickSize()"><div id="Size"><span class="arrows">&and;</span><br>Size</div></th>
-				<th ng-show="sortstatus.sizeDescending" ng-click="clickSize()"><div id="Size"><span class="arrows">&or;</span><br>Size</div></th>
-				<th><div id="Commitment"><br>Commit</div></th>
-				<th><div id="Archetype"><br>Archetype</div></th>
-				<th></th>
-				<th><div id="Primary"><br>Primary</div></th>
-				<th></th>
-				<th><div id="Secondary"><br>Secondary</div></th>
-				<th><div id="Recruiting"><br>Recruit</div></th>
-				<th><div id="Language"><br>Language</div></th>
-				<th><div id="Roleplay"><br>Roleplay</div></th>
-			</tr></thead>
-			<tr ng-repeat="result in orgResults.results">
-			<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
-				<td><div id="SID"        ng-click="loadDetails(result)">{{ result.SID }}</div></td>
-				<td><div id="Name"       ng-click="loadDetails(result)">{{ result.Name }}</div></td>
-				<td><div id="Icon"       ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.Icon }}"></div></td>
-				<td><div id="Size"       ng-click="loadDetails(result)">{{ result.Members }}</div></td>
-				<td><div id="Commitment" ng-click="loadDetails(result)">{{ result.Commitment }}</div></td>
-				<td><div id="Archetype"  ng-click="loadDetails(result)">{{ result.Archetype }}</div></td>
-				<td><div                 ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.PrimaryIcon }}"></div></td>
-				<td><div id="Primary"    ng-click="loadDetails(result)">{{ result.PrimaryFocus }}</div></td>
-				<td><div                 ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.SecondaryIcon }}"></div></td>
-				<td><div id="Secondary"  ng-click="loadDetails(result)">{{ result.SecondaryFocus }}</div></td>
-				<td><div id="Recruiting" ng-click="loadDetails(result)">{{ result.Recruiting }}</div></td>
-				<td><div id="Language"   ng-click="loadDetails(result)">{{ result.Language }}</div></td>
-				<td><div id="Roleplay"   ng-click="loadDetails(result)">{{ result.Roleplay }}</div></td>
-			</tr>
-			</table>
+	<div ng-show="loadStatus.listViewTF" class="listViewResults">
+		<table>
+		<thead align="left"><tr id="first">
+			<th><div id="SID-archetype">
+					&nbsp;
+					<br>Archetype
+					<br><span class="alternate">SID</span>
+			</div></th>
+			<th ng-show="sortstatus.nameDouble"     ng-click="clickName()"><div id="Name">
+					<span class="arrows">&#8646</span>
+					<br>&nbsp;
+					<br>Name
+			</div></th>
+			<th ng-show="sortstatus.nameAscending"  ng-click="clickName()"><div id="Name">
+					<span class="arrows">&and;</span>
+					<br>&nbsp;
+					<br>Name
+			</div></th>
+			<th ng-show="sortstatus.nameDescending" ng-click="clickName()"><div id="Name">
+					<span class="arrows">&or;</span>
+					<br>&nbsp;
+					<br>Name
+			</div></th>
+			<th><div id="Icon">
+					&nbsp;
+					<br>&nbsp;
+					<br>Icon
+			</div></th>
+			<th ng-show="sortstatus.sizeDouble"     ng-click="clickSize()"><div id="size-main">
+					<span class="arrows">&#8646</span>
+					<br>Size
+					<br><span class="alternate">Main<span>
+			</div></th>
+			<th ng-show="sortstatus.sizeAscending"  ng-click="clickSize()"><div id="Size">
+					<span class="arrows">&and;</span>
+					<br>Size
+					<br><span class="alternate">Main<span>
+			</div></th>
+			<th ng-show="sortstatus.sizeDescending" ng-click="clickSize()"><div id="Size">
+					<span class="arrows">&or;</span>
+					<br>Size
+					<br><span class="alternate">Main<span>
+			</div></th>
+			<th><div id="commitment-language">
+					&nbsp;
+					<br>Commitment
+					<br><span class="alternate">Language</span>
+			</div></th>
+			<th></th>
+			<th></th>
+			<th><div id="focuses">
+					&nbsp;
+					<br>Primary
+					<br><span class="alternate">Secondary<span>
+			</div></th>
+			<th><div id="recruiting-roleplay">
+					&nbsp;
+					<br>Recruiting
+					<br><span class="alternate">Roleplay<span>
+			</div></th>
+		</tr></thead>
+		<tr ng-repeat="result in orgResults.results">
+		<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
+			<td><div ng-click="loadDetails(result)" id="SID-archetype">
+					{{ result.Archetype }}
+					<br><span class="alternate">{{ result.SID }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)" id="Name">{{ result.Name }}</div></td>
+			<td><div ng-click="loadDetails(result)" id="Icon"><img class=icon ng-src="{{ result.Icon }}"></div></td>
+			<td><div ng-click="loadDetails(result)" id="size-main">
+					{{ result.Size }}
+					<br><span class="alternate">{{ result.Main }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)" id="commitment-language">
+					{{ result.Commitment }}
+					<br><span class="alternate">{{ result.Language }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.PrimaryIcon }}"></div></td>
+			<td><div ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.SecondaryIcon }}"></div></td>
+			<td><div ng-click="loadDetails(result)" id="focuses">
+					{{ result.PrimaryFocus }}
+					<br><span class="alternate">{{ result.SecondaryFocus }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)" id="recruiting-roleplay">
+					{{ result.Recruiting }}
+					<br><span class="alternate">{{ result.Roleplay }}</span>
+			</div></td>
+		</tr>
+		</table>
+	</div>
+	<!-- ***************************************************************************************************** -->
+	<!-- Grid View -->
+	<div ng-hide="loadStatus.listViewTF" class="gridViewResults">
+		<div class=cell ng-repeat="result in orgResults.results">
+			<figcaption>
+				{{ result.Name }}
+			</figcaption>
+			<img class=gridIcon ng-src="{{ result.Icon }}"></a>
+			<figcaption>
+				{{ result.PrimaryFocus }}, {{ result.SecondaryFocus }}<br>
+				Member Count: {{ result.Members }}
+			</figcaption>
 		</div>
-		<!-- ***************************************************************************************************** -->
-		<!-- Grid View -->
-		<div ng-hide="loadStatus.listViewTF" class="gridViewResults">
-			<div class=cell ng-repeat="result in orgResults.results">
-				<figcaption>
-					{{ result.Name }}
-				</figcaption>
-				<img class=gridIcon ng-src="{{ result.Icon }}"></a>
-				<figcaption>
-					{{ result.PrimaryFocus }}, {{ result.SecondaryFocus }}<br>
-					Member Count: {{ result.Members }}
-				</figcaption>
-			</div>
-		</div>
-		<div>
-			<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
-			<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
-		</div>
-		<div class="footer"></div>
+	</div>
+	<div>
+		<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+		<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
+	</div>
+	<div class="footer"></div>
 	</div>
 	
 	<!-- *********************************************************************************** -->

@@ -11,9 +11,11 @@
 
 FrontEndApp.factory('LoadViewService', function(){
 	
-	var orgData = function(SID, Name, Icon, URL){
+	var orgData = function(SID, Name, Size, Main, Icon, URL){
 		this.SID  = SID;
 		this.Name = Name;
+		this.Size = Size;
+		this.Main = Main;
 		this.Icon = Icon;
 		this.URL  = URL;
 	};
@@ -66,11 +68,14 @@ FrontEndApp.factory('LoadViewService', function(){
 			if( data[obj]["CustomIcon"] === 1 )icon = "/org_icons/" + data[obj]["SID"];
 			else icon = "/frontEnd/org_icons_default/" + data[obj]["Archetype"] + ".jpg";
 			
-			var field = new orgData( data[obj]["SID"], data[obj]["Name"], icon, data[obj]["URL"] );
-			
-			field.Members        = data[obj]["Size"];
-			//field.Mains        = data[obj][""];
-			//field.Affiliates   = data[obj][""];
+			var field = new orgData(
+				data[obj]["SID"],
+				data[obj]["Name"],
+				data[obj]["Size"],
+				data[obj]["Main"],
+				icon,
+				data[obj]["URL"]
+			);
 			
 			field.Commitment     = data[obj]["Commitment"];
 			

@@ -21,25 +21,6 @@ body {
 	width: 25%;
 }
 
-.left-side {
-	width: 490px;
-	float: left;
-}
-
-.left-block {
-	background-color: rgba(42, 54, 186, 0.7);
-	position: relative;
-	display: block;
-	height: 742px;
-	width: 100%;
-	margin-left: 0%;
-	border-width: 5px;
-	border-style: ridge;
-	border-radius: 10px;
-	border-color: #2A36BA;
-	float: left;
-}
-
 h1, h2, h3, h4 {
 	display: block;
 	font: sans-serif;
