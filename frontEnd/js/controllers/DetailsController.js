@@ -23,7 +23,27 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	$scope.rowData     = LoadDetailsService.rowData;
 	$scope.loadDetails = LoadDetailsService.loadDetails;
 	
-	$scope.labels = ["Past", "Current"];
-	$scope.series = ['Total Size', 'Main Members'];
+	Chart.defaults.global.defaultFontColor = '#ffffff';
+	Chart.defaults.global.defaultFontSize = 18;
+	
+	$scope.config = {
+		series:  ['Total Size', 'Main Members'],
+		labels:  ["Past", "Current"],
+		colours: ["#FFFFAA", "#FFAA44"],
+		options: {
+			responsive: true,
+			legend: {
+				display: true,
+				position: 'top',
+				fullWidth: false,
+				labels: {
+					fontColor: '#FFFFFF',
+					fontStyle: 'bold',
+					fontSize: 20,
+					boxWidth: 60,
+				}
+			}
+		}
+	}
 	
 }]);
