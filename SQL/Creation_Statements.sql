@@ -193,10 +193,11 @@ CREATE TABLE tbl_OrgMemberHistory(
 	Organization VARCHAR(10) NOT NULL,
 	ScrapeDate DATE NOT NULL,
 	Size INT NOT NULL,
-	Main INT,
-	Affiliate INT,
+	Main INT NOT NULL,
+	Affiliate INT NOT NULL,
+	Hidden INT NOT NULL,
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
-	CONSTRAINT PK_OrgMemberHistory PRIMARY KEY(Organization, ScrapeDate), -- Clustered Index
+	CONSTRAINT PK_OrgMemberHistory PRIMARY KEY(Organization, ScrapeDate) -- Clustered Index
 );
 
 

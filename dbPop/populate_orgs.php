@@ -27,14 +27,18 @@
 	function getOrgSize(&$SID, &$connection){
 //THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)
 //but the input is from the sc-api, not from a regular user
-		$rows = $connection->query("SELECT Size FROM tbl_Organizations WHERE SID = '$SID'");
+		$rows = $connection->query("SELECT Size, Main FROM tbl_Organizations WHERE SID = '$SID'");
 		$row = $rows->fetch_assoc();
 		$connection->commit();// may be unnecessary
 		if($row == null){
 			echo "NOT FOUND Org SID = $SID\n";
 			return 0;
 		}
-		return $row['Size'];
+		$result = [
+			'Size' => $row['Size'],
+			'Main' => $row['Main']
+		];
+		return $result;
 	}
 	
 	function attemptInsert(&$SID, $Value, &$statement, &$connection){
@@ -45,8 +49,6 @@
 	}
 	
 	function queryAPI(&$queryString){
-		$dataArray = null;
-		
 		for($failCounter = 0; $failCounter < 4; ++$failCounter){
 			$lines = file_get_contents($queryString);
 			if(!$lines){
@@ -74,9 +76,12 @@
 	
 	//1) Connect to DB
 	if( sizeof($argv) < 3){
-		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
+		echo "Correct usage: php " . $argv[0] . " <db username> <db password> <optional: full (counts members and their types)>\n";
 		exit();
 	}
+	
+	if( sizeof($argv) >= 4 && $argv[3] == 'full')$getFullMemberInfo = true;
+	else $getFullMemberInfo = false;
 	
 	$connection = new mysqli("192.168.0.105",$argv[1],$argv[2], "cognitiondb");
 	if( mysqli_connect_errno() ){
@@ -92,8 +97,8 @@
 	$prepared_insert_org ->bind_param("ssssdssssds", $SID, $Name, $Size, $Main, $CustomIcon, $URL, $Name, $Size, $Main, $CustomIcon, $URL);
 	$prepared_update_org ->bind_param("dds", $Size, $Main, $SID);
 	
-	$prepared_insert_date  = $connection->prepare("INSERT INTO tbl_OrgMemberHistory (Organization, ScrapeDate, Size, Main) VALUES (?, CURDATE(), ?, ?) ON DUPLICATE KEY UPDATE ScrapeDate = CURDATE(), Size = ?, Main = ?");
-	$prepared_insert_date ->bind_param("sdddd", $SID, $Size, $Main, $Size, $Main);
+	$prepared_insert_date  = $connection->prepare("INSERT INTO tbl_OrgMemberHistory (Organization, ScrapeDate, Size, Main, Affiliate, Hidden) VALUES (?, CURDATE(), ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ScrapeDate = CURDATE(), Size = ?, Main = ?, Affiliate = ?, Hidden = ?");
+	$prepared_insert_date ->bind_param("sdddddddd", $SID, $Size, $Main, $Affiliate, $Hidden, $Size, $Main, $Affiliate, $Hidden);
 	
 	$prepared_insert_icon = $connection->prepare("INSERT INTO tbl_IconURLs(Organization, Icon) VALUES (?, ?)");
 	$prepared_insert_icon->bind_param("ss", $SID, $IconURL);
@@ -137,24 +142,49 @@
 		$queryString  = "http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
 		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
 		$dataArray = queryAPI($queryString);
+		unset($queryString);
 		if($dataArray == -1)break;
 		//echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
 		
 		//4) Sub-query Org (more data)
-		$i = 0;
 		foreach ($dataArray["data"] as $org){
 			//5a) Bind data from outer query
 			$SID         = strtoupper( $org['sid'] );
 			$Size        = intval( $org['member_count'] );
-			$Main        = 0;
 			
-			$savedSize = getOrgSize($SID, $connection);
+			if($getFullMemberInfo){
+				//get member info
+				$memberQueryString  = "http://sc-api.com/?api_source=live&system=organizations&action=organization_members&target_id=";
+				$memberQueryString .= "$SID&start_page=1&end_page=800&expedite=0&format=pretty_json";
+				$membersArray = queryAPI($memberQueryString);
+				unset($memberQueryString);
+				if($membersArray == -1){
+					echo "\nWARNING -- unable to get member data for org $SID; skipping\n\n";
+					continue;
+				}
+			
+				$total = $Main = $Affiliate = $Hidden = 0;
+				foreach($membersArray["data"] as $member){
+					++$total;
+					if($member['type'] == 'main')++$Main;
+					else if($member['type'] == 'affiliate')++$Affiliate;
+					else if($member['visibility'] == 'hidden' || $member['visibility'] == 'redacted')++$Hidden;
+					else echo "WARNING: org $SID has member of unknown type\n";
+				}
+				if($total != $Size)echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
+			}
+			
+			//IF NOT FULL, NEED TO GET LATEST SIZE AFFIL HIDDEN FROM DB NEXTRUN
+			
+			//$savedSize = getOrgSize($SID, $connection);//USE THIS ON NEXTRUN
 			//only query the org if it's new
-			if(  $savedSize == 0  ){
+			//if(  $savedSize == 0  ){//USE THIS ON NEXTRUN
+			if(true){//... DELETE ON NEXTRUN
 				//note sc-api does not provide language information on live results
 				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=';
 				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
 				$orgArray = queryAPI($subqueryString);
+				unset($subqueryString);
 				if($orgArray == -1){
 					echo "\nWARNING -- unable to query org $SID; skipping\n\n";
 					continue;
@@ -188,7 +218,7 @@
 				$Roleplay       = $orgArray['data']['roleplay'];
 				$PrimaryFocus   = $orgArray['data']['primary_focus'];
 				$SecondaryFocus = $orgArray['data']['secondary_focus'];
-				$Language       = html_entity_decode( $dataArray["data"][$i]['lang'] );//live query for single org always has null language
+				$Language       = html_entity_decode( $org['lang'] );//live query for single org always has null language
 				//banner
 				//headline
 				//history
@@ -209,7 +239,6 @@
 				attemptInsert($SID, $Name, $prepared_insert_org, $connection);
 				$connection->query('SET foreign_key_checks = 1');
 				
-				attemptInsert($SID, 'update date', $prepared_insert_date, $connection);
 				attemptInsert($SID, $IconURL,      $prepared_insert_icon, $connection);
 				attemptInsert($SID, $Commitment,   $prepared_insert_commits, $connection);
 				
@@ -230,22 +259,19 @@
 					attemptInsert($SID, $Language, $prepared_insert_language,   $connection);
 					attemptInsert($SID, $Language, $prepared_insert_filterlang, $connection);
 				}
-				
-				//was having lock timeouts without committing
-				//there's probably a better way to bulk insert than committing each time.
 				++$numberInserted;
-				echo "inserted SID = $SID\n";
+				//echo "inserted SID = $SID\n"; ENABLE ON NEXTRUN
 			}
 			//update existing org size
-			else if ( $Size != $savedSize ){
+			else if ( $Size != $savedSize["Size"] ){
 				attemptInsert($SID, 'update org',  $prepared_update_org,  $connection);
 				++$numberUpdated;
 				echo "updated SID = $SID\n";
 			}
-			//always insert a scrape dape
+			
+			//always insert a scrape date with member info
 			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
 			$connection->commit();
-			++$i;
 		}
 		if($x % 8 == 1)echo "Loop $x with " . $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
