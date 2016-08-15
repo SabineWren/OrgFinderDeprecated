@@ -29,14 +29,18 @@
 //but the input is from the sc-api, not from a regular user
 		$rows = $connection->query("SELECT Size, Main FROM tbl_Organizations WHERE SID = '$SID'");
 		$row = $rows->fetch_assoc();
-		$connection->commit();// may be unnecessary
 		if($row == null){
 			echo "NOT FOUND Org SID = $SID\n";
-			return 0;
+			$result = ['Size' => 0];
+			return $result;
 		}
+		
+		$rows = $connection->query("SELECT Size, Main, Affiliate, Hidden FROM tbl_OrgMemberHistory WHERE SID = '$SID' ORDER BY ScrapeDate DESC LIMIT 1");
 		$result = [
-			'Size' => $row['Size'],
-			'Main' => $row['Main']
+			'Size'      => $row['Size'],
+			'Main'      => $row['Main'],
+			'Affiliate' => $row['Affilate'],
+			'Hidden'    => $row['Hidden']
 		];
 		return $result;
 	}
@@ -136,15 +140,14 @@
 	$numberInserted = 0;
 	$numberUpdated  = 0;
 	
-	for($x = 1;; $x = $x + 4){//$x is current page number in query string
+	for($x = 1;; $x = $x + 8){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
-		//the +3 means query four pages at a time
+		//the +3 means query eight pages at a time
 		$queryString  = "http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
-		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
+		$queryString .="&end_page=" . ($x+7) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
 		$dataArray = queryAPI($queryString);
 		unset($queryString);
 		if($dataArray == -1)break;
-		//echo "Fetched metadata on " . sizeof($dataArray["data"]) . " Orgs\n";
 		
 		//4) Sub-query Org (more data)
 		foreach ($dataArray["data"] as $org){
@@ -152,7 +155,10 @@
 			$SID         = strtoupper( $org['sid'] );
 			$Size        = intval( $org['member_count'] );
 			
-			if($getFullMemberInfo){
+			$savedSize = getOrgSize($SID, $connection);
+			
+			//if "full inserting" or if org is new/updating, we need to get main/affiliate/hidden
+			if($getFullMemberInfo || $savedSize["Size"] != $Size){
 				//get member info
 				$memberQueryString  = "http://sc-api.com/?api_source=live&system=organizations&action=organization_members&target_id=";
 				$memberQueryString .= "$SID&start_page=1&end_page=800&expedite=0&format=pretty_json";
@@ -174,12 +180,8 @@
 				if($total != $Size)echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
 			}
 			
-			//IF NOT FULL, NEED TO GET LATEST SIZE AFFIL HIDDEN FROM DB NEXTRUN
-			
-			//$savedSize = getOrgSize($SID, $connection);//USE THIS ON NEXTRUN
 			//only query the org if it's new
-			//if(  $savedSize == 0  ){//USE THIS ON NEXTRUN
-			if(true){//... DELETE ON NEXTRUN
+			if( $savedSize["Size"] == 0 ){
 				//note sc-api does not provide language information on live results
 				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=';
 				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
@@ -225,14 +227,6 @@
 				//manifesto
 				//charter
 				unset($orgArray);
-				//test code
-				//echo "SID: " . $SID . "\n";
-				//echo "Name: " . $Name . "\n";
-				//echo "$Icon \n";
-				//echo "Members: " . $Size . "\n";
-				//echo "Commitment: " . $Commitment . "\n";
-				//echo "Primary: " . $PrimaryFocus . "\n";
-				//echo "\n";
 				
 				//6) Execute Database Queries
 				$connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
@@ -260,20 +254,26 @@
 					attemptInsert($SID, $Language, $prepared_insert_filterlang, $connection);
 				}
 				++$numberInserted;
-				//echo "inserted SID = $SID\n"; ENABLE ON NEXTRUN
+				echo "inserted SID = $SID\n";
 			}
-			//update existing org size
-			else if ( $Size != $savedSize["Size"] ){
+			//we can run this script with 'full' option to update all org sizes (slow), or just look for ones that changed total size and update those
+			//without 'full', we don't account for members changing between 'main' and 'affiliate'
+			else if ( $getFullMemberInfo || $savedSize["Size"] != $Size ){
 				attemptInsert($SID, 'update org',  $prepared_update_org,  $connection);
 				++$numberUpdated;
 				echo "updated SID = $SID\n";
 			}
-			
+			//if we didn't update any size information
+			else{
+				$Main      = $savedSize["Main"];
+				$Affiliate = $savedSize["Affiliate"];
+				$Hidden    = $savedSize["Hidden"];
+			}
 			//always insert a scrape date with member info
 			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
 			$connection->commit();
 		}
-		if($x % 8 == 1)echo "Loop $x with " . $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
+		echo $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
 	
 	echo "Finished...\n";
