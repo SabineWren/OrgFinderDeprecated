@@ -2,6 +2,7 @@
 
 .list-view {
 	position: relative;
+	display: inline-block;
 	width: 100% - 490px -2%;
 	margin-left: 0%;
 	margin-right: 0%;
@@ -62,58 +63,58 @@ td a {
 }
 
 /* if results list below controls */
-@media only screen and (max-width: 950px) {
+/*@media only screen and (max-width: 950px) {
 	#commitment-language, #SID-archetype {
 		display: block !important;
 	}
-}
+}*/
 
 #Name {
 	width: 200px;
 }
-@media only screen and (max-width: 990px) {
+/*@media only screen and (max-width: 990px) {
 	#Name{
 		width: 150px;
 	}
-}
+}*/
 
 #focuses {
 	width: 120px;
 	text-align: left;
 }
-@media only screen and (max-width: 1100px) {
+/*@media only screen and (max-width: 1100px) {
 	#focuses{
 		display: none;
 	}
-}
+}*/
 
 #SID-archetype {
 	width: 100px;
 	text-align: left;
 }
-@media only screen and (max-width: 1200px) {
+/*@media only screen and (max-width: 1200px) {
 	#SID-archetype{
 		display: none;
 	}
-}
+}*/
 
 #commitment-language {
 	width: 100px;
 }
-@media only screen and (max-width: 1300px) {
+/*@media only screen and (max-width: 1300px) {
 	#commitment-language{
 		display: none;
 	}
-}
+}*/
 
 #recruiting-roleplay {
 	width: 100px;
 }
-@media only screen and (max-width: 1415px) {
+/*@media only screen and (max-width: 1415px) {
 	#recruiting-roleplay{
 		display: none;
 	}
-}
+}*/
 
 /* Grid View */
 

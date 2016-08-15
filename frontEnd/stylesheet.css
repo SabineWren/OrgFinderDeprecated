@@ -11,6 +11,8 @@ body {
 	background-attachment: fixed;
 	font-family: exo2;
 	color: white;
+	overflow-x:auto;
+	white-space: nowrap;
 }
 
 #coglogo{

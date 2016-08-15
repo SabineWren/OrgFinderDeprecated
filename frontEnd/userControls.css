@@ -1,8 +1,9 @@
 
 .left-side {
 	position: relative;
+	display: inline-block;
+	vertical-align: top;
 	width: 490px;
-	float: left;
 	margin-left: 1%;
 	margin-right: 1%;
 	z-index: 50;
@@ -19,7 +20,8 @@
 	border-style: ridge;
 	border-radius: 10px;
 	border-color: #2A36BA;
-	float: left;
+	overflow-x: visible;
+	white-space: normal;
 }
 
 .checkboxCategories /*.Commitment .Roleplay .Archetype .Activities .Recruiting*/{
