@@ -40,6 +40,9 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		var directionSize = null;
 		if($scope.sortStatus.sizeAscending)directionSize = 'up';
 		else if($scope.sortStatus.sizeDescending)directionSize = 'down';
+		var directionMain = null;
+		if($scope.sortStatus.mainAscending)directionMain = 'up';
+		else if($scope.sortStatus.mainDescending)directionMain = 'down';
 	
 		$http.get('/backEnd/selects.php', { 
 			params:{
@@ -47,6 +50,7 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 				NameOrSID:  encodeURI( $scope.filterName ),
 				nameDir:    directionName,
 				sizeDir:    directionSize,
+				mainDir:    directionMain,
 				Min:        minSize,
 				Max:        maxSize,
 				Cog:        btoi($scope.Cog),

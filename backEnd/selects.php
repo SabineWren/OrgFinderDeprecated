@@ -150,11 +150,18 @@ Members  (front end) == Size  (database)
 		unset($nameDir);
 	}
 	
-	if( isset($_GET['sizeDir']) ){
+	else if( isset($_GET['sizeDir']) ){
 		$sizeDir = $_GET['sizeDir'];
 		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC";
 		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC";
 		unset($sizeDir);
+	}
+	
+	else if( isset($_GET['mainDir']) ){
+		$mainDir = $_GET['mainDir'];
+		if($mainDir == 'down')    $sql .= " ORDER BY Main DESC";
+		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
+		unset($mainDir);
 	}
 	
 	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)

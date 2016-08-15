@@ -142,18 +142,33 @@
 			</div></th>
 			<th ng-show="sortstatus.sizeDouble"     ng-click="clickSize()"><div id="size-main">
 					<span class="arrows">&#8646</span>
+					<br>&nbsp;
 					<br>Size
-					<br><span class="alternate">Main<span>
 			</div></th>
-			<th ng-show="sortstatus.sizeAscending"  ng-click="clickSize()"><div id="Size">
+			<th ng-show="sortstatus.sizeAscending"  ng-click="clickSize()"><div id="size-main">
 					<span class="arrows">&and;</span>
+					<br>&nbsp;
 					<br>Size
-					<br><span class="alternate">Main<span>
 			</div></th>
-			<th ng-show="sortstatus.sizeDescending" ng-click="clickSize()"><div id="Size">
+			<th ng-show="sortstatus.sizeDescending" ng-click="clickSize()"><div id="size-main">
 					<span class="arrows">&or;</span>
+					<br>&nbsp;
 					<br>Size
-					<br><span class="alternate">Main<span>
+			</div></th>
+			<th ng-show="sortstatus.mainDouble"     ng-click="clickMain()"><div id="size-main">
+					<span class="arrows">&#8646</span>
+					<br>&nbsp;
+					<br>Main
+			</div></th>
+			<th ng-show="sortstatus.mainAscending"  ng-click="clickMain()"><div id="size-main">
+					<span class="arrows">&and;</span>
+					<br>&nbsp;
+					<br>Main
+			</div></th>
+			<th ng-show="sortstatus.mainDescending" ng-click="clickMain()"><div id="size-main">
+					<span class="arrows">&or;</span>
+					<br>&nbsp;
+					<br>Main
 			</div></th>
 			<th><div id="commitment-language">
 					&nbsp;
@@ -183,7 +198,9 @@
 			<td><div ng-click="loadDetails(result)" id="Icon"><img class=icon ng-src="{{ result.Icon }}"></div></td>
 			<td><div ng-click="loadDetails(result)" id="size-main">
 					{{ result.Size }}
-					<br><span class="alternate">{{ result.Main }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)" id="size-main">
+					{{ result.Main }}
 			</div></td>
 			<td><div ng-click="loadDetails(result)" id="commitment-language">
 					{{ result.Commitment }}

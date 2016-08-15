@@ -41,7 +41,10 @@ FrontEndApp.factory('LoadViewService', function(){
 		nameDescending: false,
 		sizeDouble    : true,
 		sizeAscending : false,
-		sizeDescending: false
+		sizeDescending: false,
+		mainDouble    : true,
+		mainAscending : false,
+		mainDescending: false
 	}
 	
 	function clearSorting(){
@@ -51,6 +54,9 @@ FrontEndApp.factory('LoadViewService', function(){
 		sortStatus.sizeDouble      = true;
 		sortStatus.sizeAscending   = false;
 		sortStatus.sizeDescending  = false;
+		sortStatus.mainDouble      = true;
+		sortStatus.mainAscending   = false;
+		sortStatus.mainDescending  = false;
 	}
 	
 	var loadStatus = {
