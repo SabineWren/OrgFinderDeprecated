@@ -39,24 +39,36 @@ FrontEndApp.factory('LoadViewService', function(){
 		nameDouble    : true,
 		nameAscending : false,
 		nameDescending: false,
+		
 		sizeDouble    : true,
 		sizeAscending : false,
 		sizeDescending: false,
+		
 		mainDouble    : true,
 		mainAscending : false,
-		mainDescending: false
+		mainDescending: false,
+		
+		growthDouble    : false,
+		growthAscending : false,
+		growthDescending: true
 	}
 	
 	function clearSorting(){
 		sortStatus.nameDouble      = true;
 		sortStatus.nameAscending   = false;
 		sortStatus.nameDescending  = false;
+		
 		sortStatus.sizeDouble      = true;
 		sortStatus.sizeAscending   = false;
 		sortStatus.sizeDescending  = false;
+		
 		sortStatus.mainDouble      = true;
 		sortStatus.mainAscending   = false;
 		sortStatus.mainDescending  = false;
+		
+		sortStatus.growthDouble      = false;
+		sortStatus.growthAscending   = false;
+		sortStatus.growthDescending  = true;
 	}
 	
 	var loadStatus = {

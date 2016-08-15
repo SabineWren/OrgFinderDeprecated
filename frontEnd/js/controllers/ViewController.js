@@ -41,7 +41,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		}
 		else if($scope.sortstatus.nameAscending){
 			$scope.clearSorting();
-			$scope.sortstatus.nameDouble = false;
+			$scope.sortstatus.nameDouble     = false;
 			$scope.sortstatus.nameDescending = true;
 		}
 		else if($scope.sortstatus.nameDescending){
@@ -60,7 +60,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		}
 		else if($scope.sortstatus.sizeDescending){
 			$scope.clearSorting();
-			$scope.sortstatus.sizeDouble     = false;
+			$scope.sortstatus.sizeDouble    = false;
 			$scope.sortstatus.sizeAscending = true;
 		}
 		else if($scope.sortstatus.sizeAscending){
@@ -74,15 +74,34 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 	$scope.clickMain = function(){
 		if($scope.sortstatus.mainDouble){
 			$scope.clearSorting();
-			$scope.sortstatus.mainDouble     = false;
+			$scope.sortstatus.mainDouble      = false;
 			$scope.sortstatus.mainDescending  = true;
 		}
 		else if($scope.sortstatus.mainDescending){
 			$scope.clearSorting();
-			$scope.sortstatus.mainDouble     = false;
+			$scope.sortstatus.mainDouble    = false;
 			$scope.sortstatus.mainAscending = true;
 		}
 		else if($scope.sortstatus.mainAscending){
+			$scope.clearSorting();
+		}
+		//reapply filters
+		$scope.clearResults();
+		$scope.loadMoreOrgs();
+	}
+	//sort growth
+	$scope.clickGrowth = function(){
+		if($scope.sortstatus.growthDescending){
+			$scope.clearSorting();
+			$scope.sortstatus.growthDescending = false;
+			$scope.sortstatus.growthAscending  = true;
+		}
+		else if($scope.sortstatus.growthAscending){
+			$scope.clearSorting();
+			$scope.sortstatus.growthDescending = false;
+			$scope.sortstatus.growthDouble     = true;
+		}
+		else if($scope.sortstatus.growthDouble){
 			$scope.clearSorting();
 		}
 		//reapply filters

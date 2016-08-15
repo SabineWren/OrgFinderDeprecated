@@ -170,6 +170,21 @@
 					<br>&nbsp;
 					<br><span class="alternate">Main</span>
 			</div></th>
+			<th ng-show="sortstatus.growthDouble"     ng-click="clickGrowth()"><div id="size-main">
+					<span class="arrows">&#8646</span>
+					<br>Growth-
+					<br>rate
+			</div></th>
+			<th ng-show="sortstatus.growthAscending"  ng-click="clickGrowth()"><div id="size-main">
+					<span class="arrows">&and;</span>
+					<br>Growth-
+					<br>rate
+			</div></th>
+			<th ng-show="sortstatus.growthDescending" ng-click="clickGrowth()"><div id="size-main">
+					<span class="arrows">&or;</span>
+					<br>Growth-
+					<br>rate
+			</div></th>
 			<th><div id="commitment-language">
 					&nbsp;
 					<br>Commitment
@@ -201,6 +216,9 @@
 			</div></td>
 			<td><div ng-click="loadDetails(result)" id="size-main-number">
 					<span class="alternate">{{ result.Main }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)" id="size-main-number">
+					{{ result.Growth }}
 			</div></td>
 			<td><div ng-click="loadDetails(result)" id="commitment-language">
 					{{ result.Commitment }}
