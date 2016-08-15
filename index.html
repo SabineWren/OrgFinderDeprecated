@@ -158,17 +158,17 @@
 			<th ng-show="sortstatus.mainDouble"     ng-click="clickMain()"><div id="size-main">
 					<span class="arrows">&#8646</span>
 					<br>&nbsp;
-					<br>Main
+					<br><span class="alternate">Main</span>
 			</div></th>
 			<th ng-show="sortstatus.mainAscending"  ng-click="clickMain()"><div id="size-main">
 					<span class="arrows">&and;</span>
 					<br>&nbsp;
-					<br>Main
+					<br><span class="alternate">Main</span>
 			</div></th>
 			<th ng-show="sortstatus.mainDescending" ng-click="clickMain()"><div id="size-main">
 					<span class="arrows">&or;</span>
 					<br>&nbsp;
-					<br>Main
+					<br><span class="alternate">Main</span>
 			</div></th>
 			<th><div id="commitment-language">
 					&nbsp;
@@ -196,11 +196,11 @@
 			</div></td>
 			<td><div ng-click="loadDetails(result)" id="Name">{{ result.Name }}</div></td>
 			<td><div ng-click="loadDetails(result)" id="Icon"><img class=icon ng-src="{{ result.Icon }}"></div></td>
-			<td><div ng-click="loadDetails(result)" id="size-main">
+			<td><div ng-click="loadDetails(result)" id="size-main-number">
 					{{ result.Size }}
 			</div></td>
-			<td><div ng-click="loadDetails(result)" id="size-main">
-					{{ result.Main }}
+			<td><div ng-click="loadDetails(result)" id="size-main-number">
+					<span class="alternate">{{ result.Main }}</span>
 			</div></td>
 			<td><div ng-click="loadDetails(result)" id="commitment-language">
 					{{ result.Commitment }}

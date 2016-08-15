@@ -58,8 +58,12 @@ td a {
 }
 
 #size-main {
-	width: 40px;
+	width: 50px;
+}
+#size-main-number {
+	font-size: 18px;
 	font-weight: bold;
+	text-align: left;
 }
 
 /* if results list below controls */
@@ -71,6 +75,8 @@ td a {
 
 #Name {
 	width: 200px;
+	overflow-x: visible;
+	white-space: normal;
 }
 /*@media only screen and (max-width: 990px) {
 	#Name{
@@ -100,6 +106,7 @@ td a {
 
 #commitment-language {
 	width: 100px;
+	text-align: left;
 }
 /*@media only screen and (max-width: 1300px) {
 	#commitment-language{
