@@ -66,6 +66,15 @@ td a {
 	text-align: left;
 }
 
+#growth {
+	width: 110px;
+}
+#growth-number {
+	font-size: 18px;
+	font-weight: bold;
+	text-align: left;
+}
+
 /* if results list below controls */
 /*@media only screen and (max-width: 950px) {
 	#commitment-language, #SID-archetype {
@@ -162,6 +171,12 @@ td a {
 	position: absolute;
 	line-height: 12px;
 	margin-left: 750px;
+	width: 300px;
+}
+
+.loadButton {
+	text-align: center;
+	font-size: 22px;
 	width: 300px;
 }
 

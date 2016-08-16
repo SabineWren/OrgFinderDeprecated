@@ -1,17 +1,15 @@
-Database:
-	Future conflict-views:	
-	not allow more than 9 affiliates
-	not allow an affiliate without a main
-	not allow multiple OrganizationMemberHistory logs for the same day
 
-PopulateOrgs.php:
+DB Population:
 	delete orgs that no longer exist
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
 	
+	**** implement sort by growth rate
+	
 Front End:
 	build a webgl version of the cube
-
-
+	add org description under chart
+	add banner/footer
+	improve fonts
 

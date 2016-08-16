@@ -3,7 +3,7 @@
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
-	width: 490px;
+	width: 400px;
 	margin-left: 1%;
 	margin-right: 1%;
 	z-index: 50;
@@ -31,18 +31,27 @@
 	padding: 0%;
 }
 
+#control-columns {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	padding-bottom: 0;
+}
+
 .columnLeft {
 	position: relative;
-	width: 48%;
+	width: 32%;
 	padding: 1%;
+	padding-left: 3%;
 	float: left;
 	z-index: 100;
 }
 
 .columnRight {
-	width: 48%;
+	width: 40%;
 	padding: 1%;
-	margin-left: 50%;
+	padding-left: 3%;
+	margin-left: 45%;
 }
 
 .checkboxModels {
@@ -56,7 +65,7 @@
 }
 
 .unhighlight {
-	color: #00AAFF;
+	color: #33BBFF;
 	font-weight: bold;
 }
 
@@ -79,40 +88,69 @@ input[type=number]{
 }
 
 #first-layer {
-	height: 10%;
-	width: 97%;
-	margin-left: 3%;
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	white-space: normal;
+	margin-top: -10px;
 }
 
 #second-layer {
-	width: 97%;
-	margin-left: 3%;
+	width: 100%;
 }
 
 #filter-name-SID {
-	width: 52%;
-	float: left;
+	vertical-align: top;
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	width: 47%;
+	padding: 0;
+	padding-left: 2%;
+}
+.filter {
+	width: 95%;
+	margin-bottom: 0;
+	padding-bottom: 5px;
 }
 
-.filter-buttons{
-	width: 40%;
-	margin-left: 55%;
-}
 .filter-button {
-	width: 90%;
+	width: 94%;
 	margin-left: 3%;
 	margin-right: 3%;
 	padding: 0;
 }
 
+#min-size {
+	vertical-align: top;
+	position: relative;
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	padding-top: 20px;
+	padding-left: 20px;
+	width: 50%-20px;
+}
 #max-size {
-	width: 38%;
-	float: left;
+	vertical-align: top;
+	position: relative;
+	display: inline-block;
+	padding: 0;
+	padding-left: 20px;
+	margin: 0;
+	width: 49%-20px;
 }
 
 #language {
-	width: 62%;
-	margin-left: 35%;
+	position: relative;
+	display: inline-block;
+	padding: 0;
+	padding-top: 10px;
+	margin: 0;
+	width: 170%;
+	bottom: 0;
+	left: -75px;
 }
 
 

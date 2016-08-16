@@ -28,7 +28,6 @@
 
 <body ng-app="FrontEndApp">
 	<header>
-		<img id="coglogo" src="frontEnd/images/logo.gif" alt="cog logo"/>
 		<h3 style="text-align: left; color: red;">Click on an Organization to View Details</h3>
 	</header>
 	<!-- ***************************************************************************************************** -->
@@ -38,6 +37,7 @@
 	<div ng-show="StateUI.Controls" class="left-block">
 		<div class="checkboxCategories">
 		<!-- see /data/Checkboxes.json for which index is which -->
+			<div id="control-columns">
 			<div class="columnLeft">
 				<div ng-class="checkboxModels" ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 0">
 					<print-checkbox></print-checkbox>
@@ -48,42 +48,43 @@
 				<label class="checkboxCategories" id="Cog">
 					<h3>Cognition Corp</h3>
 					<input type="checkbox" ng-model="Cog" />
-					<span ng-class="{highlight: ch, unhighlight: !ch}" ng-mouseenter="ch=true" ng-mouseleave="ch=false">Cognition Corp Member</span>
+					<span ng-class="{highlight: ch, unhighlight: !ch}" ng-mouseenter="ch=true" ng-mouseleave="ch=false">Member Org</span>
 				</label>
+				<div id="language">
+					Language:
+					<select ng-model="language">
+						<option value="Any" style="display: none;"> -- Any --</option>
+						<option ng-repeat="lang in langs">{{ lang }}</option>
+					</select>
+				</div>
+			</div>
 			</div>
 			<!-- Extra Filter Options-->
 			<div class="other-filters">
 				<div id="first-layer">
 					<div id="filter-name-SID">
 						Enter a Name or SID:
-						<input class=filter type="text" ng-model="filterName"><br><br>
+						<input class=filter type="text" ng-model="filterName"><br>
+						<input class="filter-button" type="button" ng-show="loadStatus.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
+						<input class="filter-button" type="button" ng-hide="loadStatus.listViewTF" ng-click="toggleView()" value="Enable List View"/>
+					</div>
+					<div id="filter-name-SID">
+						<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
+						<input class="filter-button" type="button" ng-click="resetFilters()" value="Reset Filters"/>
+					</div>
+					<div id="min-size">
 						Min Size: <input type="number" ng-model="slider_bar_min.value">
 						<span ng-hide="slider_bar_min.value > 1">Any</span>
 						<span ng-show="slider_bar_min.value > 1">{{ slider_bar_min.value }}</span>
 					</div>
-					<div class="filter-buttons">
-						<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
-						<input class="filter-button" type="button" ng-click="resetFilters()" value="Reset Filters"/>
-						<input class="filter-button" type="button" ng-show="loadStatus.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
-						<input class="filter-button" type="button" ng-hide="loadStatus.listViewTF" ng-click="toggleView()" value="Enable List View"/>
-					</div>
-				</div>
-				<rzslider rz-slider-model="slider_bar_min.value" rz-slider-options="slider_bar_min.options">
-				</rzslider>
-				<div id="second-layer">
-					<div id="max-size">
+					<div id="min-size">
 						Max Size: <input type="number" ng-model="slider_bar_max.value">
 						<span ng-hide="slider_bar_max.value > 0">Any</span>
 						<span ng-show="slider_bar_max.value > 0">{{ slider_bar_max.value }}</span>
 					</div>
-					<div id="language">
-						Language:
-						<select ng-model="language">
-							<option value="Any" style="display: none;"> -- Any --</option>
-							<option ng-repeat="lang in langs">{{ lang }}</option>
-						</select>
-					</div>
 				</div>
+				<rzslider rz-slider-model="slider_bar_min.value" rz-slider-options="slider_bar_min.options">
+				</rzslider>
 				<rzslider rz-slider-model="slider_bar_max.value" rz-slider-options="slider_bar_max.options">
 				</rzslider>
 			</div>
@@ -170,20 +171,20 @@
 					<br>&nbsp;
 					<br><span class="alternate">Main</span>
 			</div></th>
-			<th ng-show="sortstatus.growthDouble"     ng-click="clickGrowth()"><div id="size-main">
+			<th ng-show="sortstatus.growthDouble"     ng-click="clickGrowth()"><div id="growth">
 					<span class="arrows">&#8646</span>
-					<br>Growth-
-					<br>rate
+					<br>Growth Rate
+					<br>(per week)
 			</div></th>
-			<th ng-show="sortstatus.growthAscending"  ng-click="clickGrowth()"><div id="size-main">
+			<th ng-show="sortstatus.growthAscending"  ng-click="clickGrowth()"><div id="growth">
 					<span class="arrows">&and;</span>
-					<br>Growth-
-					<br>rate
+					<br>Growth Rate
+					<br>(per week)
 			</div></th>
-			<th ng-show="sortstatus.growthDescending" ng-click="clickGrowth()"><div id="size-main">
+			<th ng-show="sortstatus.growthDescending" ng-click="clickGrowth()"><div id="growth">
 					<span class="arrows">&or;</span>
-					<br>Growth-
-					<br>rate
+					<br>Growth Rate
+					<br>(per week)
 			</div></th>
 			<th><div id="commitment-language">
 					&nbsp;
@@ -217,7 +218,7 @@
 			<td><div ng-click="loadDetails(result)" id="size-main-number">
 					<span class="alternate">{{ result.Main }}</span>
 			</div></td>
-			<td><div ng-click="loadDetails(result)" id="size-main-number">
+			<td><div ng-click="loadDetails(result)" id="growth-number">
 					{{ result.Growth }}
 			</div></td>
 			<td><div ng-click="loadDetails(result)" id="commitment-language">
@@ -255,7 +256,8 @@
 		<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
 		<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
 	</div>
-	<div class="footer"></div>
+	
+		<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
 	</div>
 	
 	<!-- *********************************************************************************** -->
