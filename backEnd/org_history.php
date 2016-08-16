@@ -25,7 +25,7 @@ Members  (front end) == Size  (database)
 	//get parameters from query string
 	if( isset($_GET['SID']) )$SID = $_GET['SID'];
 	
-	$prepared_select = $connection->prepare("SELECT Size, Main FROM tbl_OrgMemberHistory WHERE Organization = ?");
+	$prepared_select = $connection->prepare("SELECT Size, Main, Affiliate, Hidden FROM tbl_OrgMemberHistory WHERE Organization = ?");
 	$prepared_select->bind_param("s", $SID);
 	$prepared_select->execute();
 	

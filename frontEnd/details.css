@@ -26,9 +26,18 @@
 }
 
 #show-controls {
+	display: inline-block;
+	position: relative;
 	width: 30%;
-	margin-left: 65%;
-	margin-top: 10%;
+	margin: 0;
+	padding: 0;
 }
 
+#org-greeting {
+	display: inline-block;
+	position: relative;
+	width: 69%;
+	margin: 0;
+	padding: 0
+}
 

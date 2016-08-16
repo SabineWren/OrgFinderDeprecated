@@ -1,6 +1,6 @@
 
 DB Population:
-	delete orgs that no longer exist
+	* delete orgs that no longer exist
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
@@ -9,7 +9,7 @@ Misc:
 	
 Front End:
 	build a webgl version of the cube
-	add org description under chart
+	** implement org description
 	add banner/footer
-	improve fonts
+	* improve fonts
 

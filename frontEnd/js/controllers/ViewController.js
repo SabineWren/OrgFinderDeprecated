@@ -26,6 +26,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 			"width" : ( widthLanguage + widthRaw ).toString() + "px"
 		};
 		
+		//now load details for current org
 		LoadDetailsService.loadDetails(currentRow);
 		$scope.StateUI.Details  = true;
 		$scope.StateUI.Controls = false;

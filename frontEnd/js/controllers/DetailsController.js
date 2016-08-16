@@ -28,9 +28,9 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	Chart.defaults.global.defaultFontSize = 18;
 	
 	$scope.config = {
-		series:  ['Total Size', 'Main Members'],
+		series:  ['Size', 'Main', 'Affiliate', 'Hidden'],
 		labels:  ["Past", "Current"],
-		colours: ["#FFFFAA", "#FFAA44"],
+		colours: ["#FFFFFF", "#FFAA44", "#00FF00", "#FF0000"],
 		options: {
 			responsive: true,
 			legend: {

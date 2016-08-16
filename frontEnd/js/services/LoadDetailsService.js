@@ -20,15 +20,21 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	};
 	
 	var parseHistory = function(history_json){
-		var Size = [];
-		var Main = [];
+		var Size      = [];
+		var Main      = [];
+		var Affiliate = [];
+		var Hidden    = [];
 		for(date in history_json){
 			Size.push( history_json[date].Size );
 			Main.push( history_json[date].Main );
+			Affiliate.push( history_json[date].Affiliate );
+			Hidden.push( history_json[date].Hidden );
 		}
 		chartData.plots = [
 			Size,
-			Main
+			Main,
+			Affiliate,
+			Hidden
 		];
 	};
 	
