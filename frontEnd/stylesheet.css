@@ -52,17 +52,6 @@ a {
 	color: #DDDDDD; 
 }
 
-#licenses {
-	position: relative;
-	display: block;
-	width: 490px;
-	height: 40px;
-	margin-left: 18%;
-	text-align: left;
-	float: left;
-	font-size: 22px;
-}
-
 /* used to buffer the data list to make room for the Load More button*/
 #coglogo{
 	margin-left: 30%;

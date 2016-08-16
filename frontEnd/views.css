@@ -3,7 +3,8 @@
 .list-view {
 	position: relative;
 	display: inline-block;
-	width: 100% - 490px -2%;
+	vertical-align: top;
+	width: 50%;
 	margin-left: 0%;
 	margin-right: 0%;
 }
@@ -67,7 +68,7 @@ td a {
 }
 
 #growth {
-	width: 110px;
+	width: 65px;
 }
 #growth-number {
 	font-size: 18px;
@@ -83,7 +84,7 @@ td a {
 }*/
 
 #Name {
-	width: 200px;
+	width: 175px;
 	overflow-x: visible;
 	white-space: normal;
 }

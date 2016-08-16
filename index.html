@@ -28,13 +28,13 @@
 
 <body ng-app="FrontEndApp">
 	<header>
-		<h3 style="text-align: left; color: red;">Click on an Organization to View Details</h3>
 	</header>
 	<!-- ***************************************************************************************************** -->
 	<!-- User Controls -->
-	<div class="left-side">
 	<div ng-controller="CheckboxController">
-	<div ng-show="StateUI.Controls" class="left-block">
+	<div class="left-block">
+	<h3 style="text-align: left; color: red;">Click on an Organization to View Details</h3>
+	<div ng-show="StateUI.Controls" class="controls">
 		<div class="checkboxCategories">
 		<!-- see /data/Checkboxes.json for which index is which -->
 			<div id="control-columns">
@@ -90,25 +90,24 @@
 			</div>
 		</div>
 	</div>
-	</div>
 	
 	<div ng-controller="DetailsController">
-		<div ng-show="StateUI.Details" class="left-block">
-			<h1 id="org-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
-			<canvas id="bar" class="chart chart-line"
-				chart-data="chartData.plots" chart-labels="config.labels" chart-series="config.series"
-				chart-colors="config.colours" chart-options="config.options">
-			</canvas>
-			<input id="show-controls" type="button" value="Show Controls" ng-click="exitDetails()" />
-		</div>
+	<div ng-show="StateUI.Details" class="chart-block">
+		<h1 id="org-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
+		<canvas id="bar" class="chart chart-line"
+			chart-data="chartData.plots" chart-labels="config.labels" chart-series="config.series"
+			chart-colors="config.colours" chart-options="config.options">
+		</canvas>
+		<input id="show-controls" type="button" value="Show Controls" ng-click="exitDetails()" />
 	</div>
 	
 	<!-- ***************************************************************************************************** -->
 	<!-- License Information -->
 	<div>
 		<h3 id="licenses"><a href="jslicense.html" data-jslicense="1">License Information</a></h3>
-	</div>
-	</div>
+	</div><!-- controls block -->
+	</div><!-- left block -->
+	</div><!-- controller -->
 	
 	<!-- ***************************************************************************************************** -->
 	<!-- List View -->
@@ -173,18 +172,18 @@
 			</div></th>
 			<th ng-show="sortstatus.growthDouble"     ng-click="clickGrowth()"><div id="growth">
 					<span class="arrows">&#8646</span>
-					<br>Growth Rate
-					<br>(per week)
+					<br>Weekly
+					<br>Growth
 			</div></th>
 			<th ng-show="sortstatus.growthAscending"  ng-click="clickGrowth()"><div id="growth">
 					<span class="arrows">&and;</span>
-					<br>Growth Rate
-					<br>(per week)
+					<br>Weekly
+					<br>Growth
 			</div></th>
 			<th ng-show="sortstatus.growthDescending" ng-click="clickGrowth()"><div id="growth">
 					<span class="arrows">&or;</span>
-					<br>Growth Rate
-					<br>(per week)
+					<br>Weekly
+					<br>Growth
 			</div></th>
 			<th><div id="commitment-language">
 					&nbsp;
