@@ -27,95 +27,96 @@
 	<!-- ****************************************************************************************************************** -->
 
 <body ng-app="FrontEndApp">
-	<header>
-	</header>
-	<!-- ***************************************************************************************************** -->
-	<!-- User Controls -->
-	<div ng-controller="CheckboxController">
-	<div class="left-block">
-	<h3 style="text-align: left; color: red;">Click on an Organization to View Details</h3>
-	<div ng-show="StateUI.Controls" class="controls">
-		<div class="checkboxCategories">
-		<!-- see /data/Checkboxes.json for which index is which -->
-			<div id="control-columns">
-			<div class="columnLeft">
-				<div ng-class="checkboxModels" ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 0">
-					<print-checkbox></print-checkbox>
-				</div>
+<header>
+</header>
+<h3 style="text-align: left; color: red;">Click on an Organization to View Details</h3>
+
+<!-- ***************************************************************************************************** -->
+<!-- User Controls -->
+<div ng-controller="CheckboxController" ng-show="StateUI.Controls" class="left-block-controls">
+<div class="controls-details">
+<div class="checkboxCategories">
+	<!-- contents in /data/Checkboxes.json -->
+	<div id="control-columns">
+		<div class="columnLeft">
+			<div ng-class="checkboxModels" ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 0">
+				<print-checkbox></print-checkbox>
 			</div>
-			<div class="columnRight">
-				<print-checkbox ng-repeat="checkboxModel in checkboxModels" ng-if="$index == 0"></print-checkbox>
-				<label class="checkboxCategories" id="Cog">
-					<h3>Cognition Corp</h3>
-					<input type="checkbox" ng-model="Cog" />
-					<span ng-class="{highlight: ch, unhighlight: !ch}" ng-mouseenter="ch=true" ng-mouseleave="ch=false">Member Org</span>
-				</label>
-				<div id="language">
-					Language:
-					<select ng-model="language">
-						<option value="Any" style="display: none;"> -- Any --</option>
-						<option ng-repeat="lang in langs">{{ lang }}</option>
-					</select>
-				</div>
-			</div>
-			</div>
-			<!-- Extra Filter Options-->
-			<div class="other-filters">
-				<div id="first-layer">
-					<div id="filter-name-SID">
-						Enter a Name or SID:
-						<input class=filter type="text" ng-model="filterName"><br>
-						<input class="filter-button" type="button" ng-show="loadStatus.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
-						<input class="filter-button" type="button" ng-hide="loadStatus.listViewTF" ng-click="toggleView()" value="Enable List View"/>
-					</div>
-					<div id="filter-name-SID">
-						<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
-						<input class="filter-button" type="button" ng-click="resetFilters()" value="Reset Filters"/>
-					</div>
-					<div id="min-size">
-						Min Size: <input type="number" ng-model="slider_bar_min.value">
-						<span ng-hide="slider_bar_min.value > 1">Any</span>
-						<span ng-show="slider_bar_min.value > 1">{{ slider_bar_min.value }}</span>
-					</div>
-					<div id="min-size">
-						Max Size: <input type="number" ng-model="slider_bar_max.value">
-						<span ng-hide="slider_bar_max.value > 0">Any</span>
-						<span ng-show="slider_bar_max.value > 0">{{ slider_bar_max.value }}</span>
-					</div>
-				</div>
-				<rzslider rz-slider-model="slider_bar_min.value" rz-slider-options="slider_bar_min.options">
-				</rzslider>
-				<rzslider rz-slider-model="slider_bar_max.value" rz-slider-options="slider_bar_max.options">
-				</rzslider>
+		</div>
+		<div class="columnRight">
+			<print-checkbox ng-repeat="checkboxModel in checkboxModels" ng-if="$index == 0"></print-checkbox>
+			<label class="checkboxCategories" id="Cog">
+				<h3>Cognition Corp</h3>
+				<input type="checkbox" ng-model="Cog" />
+				<span ng-class="{highlight: ch, unhighlight: !ch}" ng-mouseenter="ch=true" ng-mouseleave="ch=false">Member Org</span>
+			</label>
+			<div id="language">
+				Language:
+				<select ng-model="language">
+					<option value="Any" style="display: none;"> -- Any --</option>
+					<option ng-repeat="lang in langs">{{ lang }}</option>
+				</select>
 			</div>
 		</div>
 	</div>
+	<!-- Extra Filter Options-->
+	<div class="other-filters">
+		<div id="first-layer">
+			<div id="filter-name-SID">
+				Enter a Name or SID:
+				<input class=filter type="text" ng-model="filterName"><br>
+				<input class="filter-button" type="button" ng-show="loadStatus.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
+				<input class="filter-button" type="button" ng-hide="loadStatus.listViewTF" ng-click="toggleView()" value="Enable List View"/>
+			</div>
+			<div id="filter-name-SID">
+				<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
+				<input class="filter-button" type="button" ng-click="resetFilters()" value="Reset Filters"/>
+			</div>
+			<div id="min-size">
+				Min Size: <input type="number" ng-model="slider_bar_min.value">
+				<span ng-hide="slider_bar_min.value > 1">Any</span>
+				<span ng-show="slider_bar_min.value > 1">{{ slider_bar_min.value }}</span>
+			</div>
+			<div id="min-size">
+				Max Size: <input type="number" ng-model="slider_bar_max.value">
+				<span ng-hide="slider_bar_max.value > 0">Any</span>
+				<span ng-show="slider_bar_max.value > 0">{{ slider_bar_max.value }}</span>
+			</div>
+		</div>
+		<rzslider rz-slider-model="slider_bar_min.value" rz-slider-options="slider_bar_min.options">
+		</rzslider>
+		<rzslider rz-slider-model="slider_bar_max.value" rz-slider-options="slider_bar_max.options">
+		</rzslider>
+	</div>
+</div>
+</div>
 	
-	<div ng-controller="DetailsController">
-	<div ng-show="StateUI.Details" class="chart-block">
-		<h1 id="org-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
+<!-- License Information -->
+<h3 id="licenses"><a href="jslicense.html" data-jslicense="1">License Information</a></h3>
+<!-- ***************************************************************************************************** -->
+</div><!-- checkbox controller -->
+	
+<!-- Details View with Chart instead of Controls -->
+<div ng-controller="DetailsController" ng-show="StateUI.Details" class="left-block-details">
+	<div class="controls-details">
+		<h1 id="org-name-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
 		<canvas id="bar" class="chart chart-line"
 			chart-data="chartData.plots" chart-labels="config.labels" chart-series="config.series"
 			chart-colors="config.colours" chart-options="config.options">
 		</canvas>
 		<input id="show-controls" type="button" value="Show Controls" ng-click="exitDetails()" />
 	</div>
-	
-	<!-- ***************************************************************************************************** -->
 	<!-- License Information -->
-	<div>
-		<h3 id="licenses"><a href="jslicense.html" data-jslicense="1">License Information</a></h3>
-	</div><!-- controls block -->
-	</div><!-- left block -->
-	</div><!-- controller -->
+	<h3 id="licenses"><a href="jslicense.html" data-jslicense="1">License Information</a></h3>
+</div>
 	
 	<!-- ***************************************************************************************************** -->
 	<!-- List View -->
-	<div ng-controller="ViewController" class="list-view">
+<div ng-controller="ViewController" class="list-view">
 	<div ng-show="loadStatus.listViewTF" class="listViewResults">
 		<table>
 		<thead align="left"><tr id="first">
-			<th><div id="SID-archetype">
+			<th><div id="SID-archetype" ng-hide="StateUI.Details">
 					&nbsp;
 					<br>Archetype
 					<br><span class="alternate">SID</span>
@@ -205,7 +206,7 @@
 		</tr></thead>
 		<tr ng-repeat="result in orgResults.results">
 		<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
-			<td><div ng-click="loadDetails(result)" id="SID-archetype">
+			<td><div ng-click="loadDetails(result)" id="SID-archetype" ng-hide="StateUI.Details">
 					{{ result.Archetype }}
 					<br><span class="alternate">{{ result.SID }}</span>
 			</div></td>
@@ -251,13 +252,11 @@
 			</figcaption>
 		</div>
 	</div>
-	<div>
-		<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
-		<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
-	</div>
+	<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+	<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
 	
-		<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
-	</div>
+	<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
+</div>
 	
 	<!-- *********************************************************************************** -->
 	

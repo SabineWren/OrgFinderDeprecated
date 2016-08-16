@@ -1,3 +1,9 @@
+/*@media only screen and (max-width: 950px) {
+	#commitment-language, #SID-archetype {
+		display: block !important;
+	}
+}*/
+
 /* List View */
 
 .list-view {
@@ -76,62 +82,30 @@ td a {
 	text-align: left;
 }
 
-/* if results list below controls */
-/*@media only screen and (max-width: 950px) {
-	#commitment-language, #SID-archetype {
-		display: block !important;
-	}
-}*/
-
 #Name {
 	width: 175px;
 	overflow-x: visible;
 	white-space: normal;
 }
-/*@media only screen and (max-width: 990px) {
-	#Name{
-		width: 150px;
-	}
-}*/
 
 #focuses {
 	width: 120px;
 	text-align: left;
 }
-/*@media only screen and (max-width: 1100px) {
-	#focuses{
-		display: none;
-	}
-}*/
 
 #SID-archetype {
 	width: 100px;
 	text-align: left;
 }
-/*@media only screen and (max-width: 1200px) {
-	#SID-archetype{
-		display: none;
-	}
-}*/
 
 #commitment-language {
 	width: 100px;
 	text-align: left;
 }
-/*@media only screen and (max-width: 1300px) {
-	#commitment-language{
-		display: none;
-	}
-}*/
 
 #recruiting-roleplay {
 	width: 100px;
 }
-/*@media only screen and (max-width: 1415px) {
-	#recruiting-roleplay{
-		display: none;
-	}
-}*/
 
 /* Grid View */
 
@@ -176,9 +150,18 @@ td a {
 }
 
 .loadButton {
+	vertical-align: top;
 	text-align: center;
 	font-size: 22px;
 	width: 300px;
+}
+
+/* used to buffer the data list to make room for the Load More button*/
+#coglogo{
+	text-align: center;
+	margin-top: 0;
+	margin-bottom: 3%;
+	size: 40%;
 }
 
 

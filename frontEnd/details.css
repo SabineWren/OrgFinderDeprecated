@@ -1,5 +1,18 @@
 
-#org-details {
+.left-block-details {
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+	height: 760px;
+	width: 500px;
+	margin: 0;
+	margin-right: 10px;
+	overflow-x: visible;
+	white-space: normal;
+	z-index: 50;
+}
+
+#org-name-details {
 	text-align: center;
 	font-weight: bold;
 	text-decoration: underline;
@@ -12,4 +25,5 @@
 	margin-left: 65%;
 	margin-top: 10%;
 }
+
 
