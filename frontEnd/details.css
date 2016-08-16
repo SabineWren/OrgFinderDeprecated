@@ -3,7 +3,7 @@
  * ViewController.js reads this to calculate the correct width.
  * left-block-details width == base width plus width of dynamic-width table elements */
 #raw-block-width {
-	width: 700px;
+	width: 655px;
 }
 #left-block-details {
 	display: inline-block;
