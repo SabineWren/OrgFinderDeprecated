@@ -1,10 +1,15 @@
 
-.left-block-details {
+/* This is the base width for left-block-details!
+ * ViewController.js reads this to calculate the correct width.
+ * left-block-details width == base width plus width of dynamic-width table elements */
+#raw-block-width {
+	width: 700px;
+}
+#left-block-details {
 	display: inline-block;
 	position: relative;
 	vertical-align: top;
 	height: 760px;
-	width: 500px;
 	margin: 0;
 	margin-right: 10px;
 	overflow-x: visible;

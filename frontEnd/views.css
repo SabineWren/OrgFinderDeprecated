@@ -33,6 +33,11 @@ th {
 	color: orange;
 }
 
+tr {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
 tr:hover {
 	background-color: #333333;
 }
@@ -51,6 +56,17 @@ tr:hover {
 td {
 	height: 100%;
 	text-align: center;
+}
+
+td > div {
+	margin: 0 !important;
+	padding: 0 !important;
+	height: 50px !important;
+}
+
+.icon {
+	width:  50px !important;
+	height: 50px !important;
 }
 
 td a {
@@ -99,7 +115,6 @@ td a {
 }
 
 #commitment-language {
-	width: 100px;
 	text-align: left;
 }
 
@@ -135,11 +150,6 @@ td a {
 .gridIcon {
 	width:  200px;
 	height: 200px;
-}
-
-.icon {
-	max-width:  50px;
-	max-height: 50px;
 }
 
 .lowerBlock {

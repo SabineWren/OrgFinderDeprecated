@@ -44,10 +44,17 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		
 	};
 	
+	var widthDetails = {
+		data: {
+			"width" : "100px"
+		}
+	};
+	
 	return {
 		chartData,
 		rowData,
-		loadDetails
+		loadDetails,
+		widthDetails
 	};
 	
 }]);

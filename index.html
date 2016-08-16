@@ -97,7 +97,7 @@
 </div><!-- checkbox controller -->
 	
 <!-- Details View with Chart instead of Controls -->
-<div ng-controller="DetailsController" ng-show="StateUI.Details" class="left-block-details">
+<div ng-controller="DetailsController" ng-show="StateUI.Details" id="left-block-details" ng-style="widthDetails.data">
 	<div class="controls-details">
 		<h1 id="org-name-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
 		<canvas id="bar" class="chart chart-line"
@@ -116,10 +116,32 @@
 	<div ng-show="loadStatus.listViewTF" class="listViewResults">
 		<table>
 		<thead align="left"><tr id="first">
-			<th><div id="SID-archetype" ng-hide="StateUI.Details">
+			<th><div ng-hide="StateUI.Details" id="SID-archetype">
 					&nbsp;
 					<br>Archetype
 					<br><span class="alternate">SID</span>
+			</div></th>
+			<th><div ng-hide="StateUI.Details" id="commitment-language">
+					&nbsp;
+					<br>Commitment
+					<br><span class="alternate">Language</span>
+			</div></th>
+			<th><div ng-hide="StateUI.Details" id="recruiting-roleplay">
+					&nbsp;
+					<br>Recruiting
+					<br><span class="alternate">Roleplay<span>
+			</div></th>
+			<th></th>
+			<th></th>
+			<th><div id="focuses">
+					&nbsp;
+					<br>Primary
+					<br><span class="alternate">Secondary<span>
+			</div></th>
+			<th><div id="Icon">
+					&nbsp;
+					<br>&nbsp;
+					<br>Icon
 			</div></th>
 			<th ng-show="sortstatus.nameDouble"     ng-click="clickName()"><div id="Name">
 					<span class="arrows">&#8646</span>
@@ -135,11 +157,6 @@
 					<span class="arrows">&or;</span>
 					<br>&nbsp;
 					<br>Name
-			</div></th>
-			<th><div id="Icon">
-					&nbsp;
-					<br>&nbsp;
-					<br>Icon
 			</div></th>
 			<th ng-show="sortstatus.sizeDouble"     ng-click="clickSize()"><div id="size-main">
 					<span class="arrows">&#8646</span>
@@ -186,23 +203,6 @@
 					<br>Weekly
 					<br>Growth
 			</div></th>
-			<th><div id="commitment-language">
-					&nbsp;
-					<br>Commitment
-					<br><span class="alternate">Language</span>
-			</div></th>
-			<th></th>
-			<th></th>
-			<th><div id="focuses">
-					&nbsp;
-					<br>Primary
-					<br><span class="alternate">Secondary<span>
-			</div></th>
-			<th><div id="recruiting-roleplay">
-					&nbsp;
-					<br>Recruiting
-					<br><span class="alternate">Roleplay<span>
-			</div></th>
 		</tr></thead>
 		<tr ng-repeat="result in orgResults.results">
 		<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
@@ -210,8 +210,22 @@
 					{{ result.Archetype }}
 					<br><span class="alternate">{{ result.SID }}</span>
 			</div></td>
-			<td><div ng-click="loadDetails(result)" id="Name">{{ result.Name }}</div></td>
+			<td><div ng-click="loadDetails(result)" ng-hide="StateUI.Details" id="commitment-language">
+					{{ result.Commitment }}
+					<br><span class="alternate">{{ result.Language }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)" ng-hide="StateUI.Details" id="recruiting-roleplay">
+					{{ result.Recruiting }}
+					<br><span class="alternate">{{ result.Roleplay }}</span>
+			</div></td>
+			<td><div ng-click="loadDetails(result)" ng-hide="StateUI.Details"><img class=icon ng-src="{{ result.PrimaryIcon }}"></div></td>
+			<td><div ng-click="loadDetails(result)" ng-hide="StateUI.Details"><img class=icon ng-src="{{ result.SecondaryIcon }}"></div></td>
+			<td><div ng-click="loadDetails(result)" id="focuses">
+					{{ result.PrimaryFocus }}
+					<br><span class="alternate">{{ result.SecondaryFocus }}</span>
+			</div></td>
 			<td><div ng-click="loadDetails(result)" id="Icon"><img class=icon ng-src="{{ result.Icon }}"></div></td>
+			<td><div ng-click="loadDetails(result)" id="Name">{{ result.Name }}</div></td>
 			<td><div ng-click="loadDetails(result)" id="size-main-number">
 					{{ result.Size }}
 			</div></td>
@@ -220,20 +234,6 @@
 			</div></td>
 			<td><div ng-click="loadDetails(result)" id="growth-number">
 					{{ result.Growth }}
-			</div></td>
-			<td><div ng-click="loadDetails(result)" id="commitment-language">
-					{{ result.Commitment }}
-					<br><span class="alternate">{{ result.Language }}</span>
-			</div></td>
-			<td><div ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.PrimaryIcon }}"></div></td>
-			<td><div ng-click="loadDetails(result)"><img class=icon ng-src="{{ result.SecondaryIcon }}"></div></td>
-			<td><div ng-click="loadDetails(result)" id="focuses">
-					{{ result.PrimaryFocus }}
-					<br><span class="alternate">{{ result.SecondaryFocus }}</span>
-			</div></td>
-			<td><div ng-click="loadDetails(result)" id="recruiting-roleplay">
-					{{ result.Recruiting }}
-					<br><span class="alternate">{{ result.Roleplay }}</span>
 			</div></td>
 		</tr>
 		</table>
@@ -256,6 +256,9 @@
 	<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
 	
 	<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
+	
+	<!-- this is a cheap hack to save a variable in CSS; it allows for modifying the widthDetails variable using only CSS -->
+	<div style="visibility: hidden;" id="raw-block-width"></div>
 </div>
 	
 	<!-- *********************************************************************************** -->

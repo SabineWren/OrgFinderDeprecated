@@ -17,6 +17,15 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 	};
 	
 	$scope.loadDetails = function(currentRow){
+		//calculate width of details window from width of elements it's replacing
+		if( document.getElementById('commitment-language').offsetWidth !== 0 ){
+			widthLanguage = document.getElementById('commitment-language').offsetWidth;
+		}
+		widthRaw = document.getElementById('raw-block-width').offsetWidth;
+		$scope.widthDetails.data = {
+			"width" : ( widthLanguage + widthRaw ).toString() + "px"
+		};
+		
 		LoadDetailsService.loadDetails(currentRow);
 		$scope.StateUI.Details  = true;
 		$scope.StateUI.Controls = false;
@@ -109,5 +118,8 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		$scope.loadMoreOrgs();
 	}
 	
+	var widthRaw;
+	var widthLanguage;
+	$scope.widthDetails = LoadDetailsService.widthDetails;
 }]);
 

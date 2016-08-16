@@ -18,6 +18,7 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	}
 	
 	$scope.StateUI = GlobalStateUI.StateUI;
+	$scope.widthDetails = LoadDetailsService.widthDetails;
 	
 	$scope.chartData   = LoadDetailsService.chartData;
 	$scope.rowData     = LoadDetailsService.rowData;
