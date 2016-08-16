@@ -1,34 +1,44 @@
 # Cognition.corp
-Cognition Corp website and database (live Alpha)
+Cognition Corp website and database (live Alpha -- more to come!)
 
-Technology stack (LAMP):
+Technology stack (GASP/LAMP):
 
-- Raspian GNU+Linux server (USB stick stores database and pictures)
+- GNU+Linux server
 
 - Apache2
 
-- MySQL-server database (administered thru PhpMyAdmin)
+- MySQL database
 
 - PHP5 back-end
 
-- AngularJS front-end
+- AngularJS front-end (deprecated)
 
-- we interface with sc-api
+- we interface with sc-api to scrape data from RSI
 
-Hosting instructions:
+Current hardware:
 
-Use PHP5 for local testing and Apache for hosting, as npm does not run php scripts.
+- 900MHz quad-core ARM Cortex-A7
+
+- 1GiB DDR3
+
+- 8GB USB flash stick (stores database and pictures)
 
 To host the app, add and run dependencies. Debian-based GNU distributions keep it simple:
 
 1) git clone <repository url>
 
-//for local testing,
+2) install MySQL-Server
 
-2) php -S localhost:8000
+3) run the creation .SQL scripts
+
+//test it locally
+
+4) php -S localhost:8000
 
 //navigate to localhost:8000/frontEnd.html
 
-//for LAMP server,
+5) for GASP/LAMP server, install Apache2
 
-3) clone into /var/www/html
+6) clone into /var/www/html
+
+//naviate to <yourIP>/index.html
