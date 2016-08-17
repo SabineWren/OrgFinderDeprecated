@@ -27,7 +27,7 @@
 
 .columnLeft {
 	position: relative;
-	width: 32%;
+	width: 38%;
 	padding: 1%;
 	padding-left: 3%;
 	float: left;
@@ -35,10 +35,10 @@
 }
 
 .columnRight {
-	width: 40%;
+	width: 38%;
 	padding: 1%;
 	padding-left: 3%;
-	margin-left: 45%;
+	margin-left: 50%;
 }
 
 .checkboxModels {
@@ -116,7 +116,7 @@ input[type=number]{
 }
 
 #min-size {
-	vertical-align: top;checkbox
+	vertical-align: top;
 	position: relative;
 	display: inline-block;
 	padding: 0;
@@ -135,7 +135,7 @@ input[type=number]{
 	width: 49%-20px;
 }
 
-#language {
+.language {
 	position: relative;
 	display: inline-block;
 	padding: 0;
@@ -144,7 +144,11 @@ input[type=number]{
 	margin-bottom: -2px;
 	width: 100%;
 	bottom: 0;
-	left: 50px;
+	left: 0;
+}
+
+#languages {
+	width: 90%;
 }
 
 

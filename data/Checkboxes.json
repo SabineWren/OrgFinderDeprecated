@@ -60,28 +60,20 @@
 	},
 	
 	{
-		"category": "Archetype",
+		"category": "Commitment",
 		
 		"data":
 		[
 			{
-				"name": "Organization",
+				"name": "Casual",
 				"isSelected": false
 			},
 			{
-				"name": "Corporation",
+				"name": "Regular",
 				"isSelected": false
 			},
 			{
-				"name": "PMC",
-				"isSelected": false
-			},
-			{
-				"name": "Faith",
-				"isSelected": false
-			},
-			{
-				"name": "Syndicate",
+				"name": "Hardcore",
 				"isSelected": false
 			}
 		]
@@ -120,20 +112,28 @@
 	},
 	
 	{
-		"category": "Commitment",
+		"category": "Archetype",
 		
 		"data":
 		[
 			{
-				"name": "Casual",
+				"name": "Organization",
 				"isSelected": false
 			},
 			{
-				"name": "Regular",
+				"name": "Corporation",
 				"isSelected": false
 			},
 			{
-				"name": "Hardcore",
+				"name": "PMC",
+				"isSelected": false
+			},
+			{
+				"name": "Faith",
+				"isSelected": false
+			},
+			{
+				"name": "Syndicate",
 				"isSelected": false
 			}
 		]
