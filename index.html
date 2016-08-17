@@ -105,12 +105,12 @@
 			chart-colors="config.colours" chart-options="config.options">
 		</canvas>
 		
-		<h2 id="org-greeting">Org Greeting goes Here</h2>
+		<h2 id="org-greeting">{{ descriptionData.Headline }}</h2>
 		
 		<input id="show-controls" type="button" value="Show Controls" ng-click="exitDetails()" />
 		
-		<h3>... and org manifesto here</h3>
-		<p>lorem ipsum blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
+		<h3>Manifesto</h3>
+		<p>{{ descriptionData.Manifesto }}</p>
 	</div>
 	<!-- License Information -->
 	<h3 class="licenses"><a href="jslicense.html">License Information</a></h3>

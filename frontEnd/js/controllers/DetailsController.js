@@ -24,6 +24,8 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	$scope.rowData     = LoadDetailsService.rowData;
 	$scope.loadDetails = LoadDetailsService.loadDetails;
 	
+	$scope.descriptionData = LoadDetailsService.descriptionData;
+	
 	Chart.defaults.global.defaultFontColor = '#ffffff';
 	Chart.defaults.global.defaultFontSize = 18;
 	

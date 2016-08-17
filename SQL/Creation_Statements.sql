@@ -206,4 +206,11 @@ CREATE TABLE tbl_GrowthRate(
 	FOREIGN KEY FK_GrowthRate(SID) REFERENCES tbl_Organizations(SID)
 );
 
+CREATE TABLE tbl_OrgDescription(
+	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
+	Headline VARCHAR(100) NOT NULL,
+	Manifesto VARCHAR(1024) NOT NULL,
+	FOREIGN KEY FK_GrowthRate(SID) REFERENCES tbl_Organizations(SID)
+);
+
 

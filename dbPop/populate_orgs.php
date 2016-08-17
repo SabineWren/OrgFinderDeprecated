@@ -138,6 +138,9 @@
 	$prepared_insert_language->bind_param("sss", $SID, $Language, $Language);
 	$prepared_insert_filterlang->bind_param("sss", $Language, $SID, $Language);
 	
+	$prepared_insert_description = $connection->prepare("INSERT INTO tbl_OrgDescription(SID, Headline, Manifesto) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE Headline = ?, Manifesto = ?");
+	$prepared_insert_description->bind_param("sssss", $SID, $Headline, $Manifesto, $Headline, $Manifesto);
+	
 	$numberInserted = 0;
 	$numberUpdated  = 0;
 	
@@ -223,9 +226,11 @@
 				$SecondaryFocus = $orgArray['data']['secondary_focus'];
 				$Language       = html_entity_decode( $org['lang'] );//live query for single org always has null language
 				//banner
-				//headline
+				$Headline       = $orgArray['data']['headline'];//max size limited by current VARCHAR size
+				$Headline       = substr($Headline , 0, 100);//chop
 				//history
-				//manifesto
+				$Manifesto      = $orgArray['data']['manifesto'];//max size limited by current VARCHAR size
+				$Manifesto      = substr($Manifesto , 0, 1024);//chop
 				//charter
 				unset($orgArray);
 				
@@ -254,6 +259,9 @@
 					attemptInsert($SID, $Language, $prepared_insert_language,   $connection);
 					attemptInsert($SID, $Language, $prepared_insert_filterlang, $connection);
 				}
+				
+				if( !$prepared_insert_description->execute() )echo "error inserting description\n";
+				
 				++$numberInserted;
 				echo "inserted SID = $SID\n";
 			}
@@ -300,6 +308,7 @@
 	$prepared_delete_roleplay->close();
 	$prepared_insert_language->close();
 	$prepared_insert_filterlang->close();
+	$prepared_insert_description->close();
 	
 	echo "Done main inserts! Rebuilding table clustering...\n";
 	

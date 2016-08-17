@@ -15,6 +15,11 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		plots: []
 	}
 	
+	var descriptionData = {
+		Headline: "",
+		Manifesto: ""
+	}
+	
 	var rowData = {
 		result: {}
 	};
@@ -38,6 +43,11 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		];
 	};
 	
+	var parseDescription = function(description_json){
+		descriptionData.Headline  = description_json[0].Headline;
+		descriptionData.Manifesto = description_json[0].Manifesto;
+	};
+	
 	var loadDetails = function(currentRow){
 		
 		rowData.result = currentRow;
@@ -47,6 +57,12 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 				SID: currentRow.SID
 			}
 		} ).success(parseHistory);
+		
+		$http.get('/backEnd/org_description.php', { 
+			params:{
+				SID: currentRow.SID
+			}
+		} ).success(parseDescription);
 		
 	};
 	
@@ -58,6 +74,7 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	
 	return {
 		chartData,
+		descriptionData,
 		rowData,
 		loadDetails,
 		widthDetails
