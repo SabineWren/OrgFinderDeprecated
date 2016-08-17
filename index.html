@@ -119,7 +119,7 @@
 	<!-- ***************************************************************************************************** -->
 	<!-- List View -->
 <div ng-controller="ViewController" class="list-view">
-	<div ng-show="loadStatus.listViewTF" class="listViewResults">
+	<div ng-show="loadStatus.listViewTF" id="list-view-results">
 		<table>
 		<thead align="left"><tr id="first">
 			<th><div ng-hide="StateUI.Details" id="SID-archetype">
@@ -137,8 +137,8 @@
 					<br>Recruiting
 					<br><span class="alternate">Roleplay<span>
 			</div></th>
-			<th></th>
-			<th></th>
+			<th><div ng-hide="StateUI.Details"></div></th>
+			<th><div ng-hide="StateUI.Details"></div></th>
 			<th><div id="focuses">
 					&nbsp;
 					<br>Primary
@@ -258,14 +258,15 @@
 			</figcaption>
 		</div>
 	</div>
+	
 	<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
 	<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
 	
 	<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
-	
+</div>
+
 	<!-- this is a cheap hack to save a variable in CSS; it allows for modifying the widthDetails variable using only CSS -->
 	<div style="visibility: hidden;" id="raw-block-width"></div>
-</div>
 	
 	<!-- *********************************************************************************** -->
 	

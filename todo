@@ -11,5 +11,6 @@ Front End:
 	build a webgl version of the cube
 	** implement org description
 	add banner/footer
-	* improve fonts
+	*** improve fonts
+	* add grid view
 

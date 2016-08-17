@@ -41,4 +41,4 @@ To host the app, add and run dependencies. Debian-based GNU distributions keep i
 
 6) clone into /var/www/html
 
-//naviate to <yourIP>/index.html
+//navigate to <yourIP>/index.html

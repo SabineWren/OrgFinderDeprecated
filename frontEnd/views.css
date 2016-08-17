@@ -10,9 +10,14 @@
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
-	width: 50%;
-	margin-left: 0%;
-	margin-right: 0%;
+	margin: 0;
+	padding: 0;
+}
+
+#list-view-results {
+	position: relative;
+	display: inline-block;
+	width: 100%;
 }
 
 table {
@@ -102,6 +107,7 @@ td a {
 	width: 175px;
 	overflow-x: visible;
 	white-space: normal;
+	word-wrap: break-word;
 }
 
 #focuses {
@@ -160,17 +166,18 @@ td a {
 }
 
 .loadButton {
-	vertical-align: top;
-	text-align: center;
+	position: absolute;
+	right: 260px;
+	bottom: -50px;
 	font-size: 22px;
 	width: 300px;
 }
 
 /* used to buffer the data list to make room for the Load More button*/
 #coglogo{
-	text-align: center;
-	margin-top: 0;
-	margin-bottom: 3%;
+	position: absolute;
+	right: 100px;
+	bottom: -130px;
 	size: 40%;
 }
 

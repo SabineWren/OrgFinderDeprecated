@@ -103,16 +103,16 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 	$scope.clickGrowth = function(){
 		if($scope.sortstatus.growthDescending){
 			$scope.clearSorting();
-			$scope.sortstatus.growthDescending = false;
-			$scope.sortstatus.growthAscending  = true;
+			$scope.sortstatus.growthDouble    = false;
+			$scope.sortstatus.growthAscending = true;
 		}
 		else if($scope.sortstatus.growthAscending){
 			$scope.clearSorting();
-			$scope.sortstatus.growthDescending = false;
-			$scope.sortstatus.growthDouble     = true;
 		}
 		else if($scope.sortstatus.growthDouble){
 			$scope.clearSorting();
+			$scope.sortstatus.growthDouble     = false;
+			$scope.sortstatus.growthDescending = true;
 		}
 		//reapply filters
 		$scope.clearResults();

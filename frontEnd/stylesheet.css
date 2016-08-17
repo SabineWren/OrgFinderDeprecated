@@ -18,6 +18,7 @@ body {
 .controls-details {
 	display: inline-block;
 	position: relative;
+	height: 715px;
 	width: 100%;
 	background-color: rgba(42, 54, 186, 0.7);
 	border-width: 5px;

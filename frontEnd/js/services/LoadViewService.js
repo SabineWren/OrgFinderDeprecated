@@ -66,9 +66,9 @@ FrontEndApp.factory('LoadViewService', function(){
 		sortStatus.mainAscending   = false;
 		sortStatus.mainDescending  = false;
 		
-		sortStatus.growthDouble      = false;
+		sortStatus.growthDouble      = true;
 		sortStatus.growthAscending   = false;
-		sortStatus.growthDescending  = true;
+		sortStatus.growthDescending  = false;
 	}
 	
 	var loadStatus = {
