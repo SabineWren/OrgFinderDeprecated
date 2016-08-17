@@ -88,26 +88,6 @@
 	},
 	
 	{
-		"category": "Commitment",
-		
-		"data":
-		[
-			{
-				"name": "Casual",
-				"isSelected": false
-			},
-			{
-				"name": "Regular",
-				"isSelected": false
-			},
-			{
-				"name": "Hardcore",
-				"isSelected": false
-			}
-		]
-	},
-	
-	{
 		"category": "Recruiting",
 		
 		"data":
@@ -134,6 +114,26 @@
 			},
 			{
 				"name": "No",
+				"isSelected": false
+			}
+		]
+	},
+	
+	{
+		"category": "Commitment",
+		
+		"data":
+		[
+			{
+				"name": "Casual",
+				"isSelected": false
+			},
+			{
+				"name": "Regular",
+				"isSelected": false
+			},
+			{
+				"name": "Hardcore",
 				"isSelected": false
 			}
 		]

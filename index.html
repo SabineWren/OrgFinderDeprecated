@@ -41,22 +41,25 @@
 		<div class="columnLeft">
 			<div ng-class="checkboxModels" ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 0">
 				<print-checkbox></print-checkbox>
+				<div ng-if="!$last" style="height:16px;font-size:16px;">&nbsp;</div><!-- tiny <br>-->
 			</div>
 		</div>
 		<div class="columnRight">
 			<print-checkbox ng-repeat="checkboxModel in checkboxModels" ng-if="$index == 0"></print-checkbox>
-			<label class="checkboxCategories" id="Cog">
-				<h3>Cognition Corp</h3>
+			<div style="height:5px;font-size:5px;">&nbsp;</div><!-- tiny <br>-->
+			<h3 id="union-header">Unions</h3>
+			<label>
 				<input type="checkbox" ng-model="Cog" />
-				<span ng-class="{highlight: ch, unhighlight: !ch}" ng-mouseenter="ch=true" ng-mouseleave="ch=false">Member Org</span>
+				<span ng-class="{highlight: checkcog, unhighlight: !checkcog}" ng-mouseenter="checkcog=true" ng-mouseleave="checkcog=false">Cognition Corp</span><br>
 			</label>
-			<div id="language">
-				Language:
-				<select ng-model="language">
-					<option value="Any" style="display: none;"> -- Any --</option>
-					<option ng-repeat="lang in langs">{{ lang }}</option>
-				</select>
-			</div>
+			<label>
+				<input type="checkbox" ng-model="OPPF" />
+				<span ng-class="{highlight: checkoppf, unhighlight: !checkoppf}" ng-mouseenter="checkoppf=true" ng-mouseleave="checkoppf=false">OPPF</span><br>
+			</label>
+			<label>
+				<input type="checkbox" ng-model="STAR" />
+				<span ng-class="{highlight: checkstar, unhighlight: !checkstar}" ng-mouseenter="checkstar=true" ng-mouseleave="checkstar=false">STAR Alliance</span>
+			</label>
 		</div>
 	</div>
 	<!-- Extra Filter Options-->
@@ -72,19 +75,26 @@
 				<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
 				<input class="filter-button" type="button" ng-click="resetFilters()" value="Reset Filters"/>
 			</div>
-			<div id="min-size">
-				Min Size: <input type="number" ng-model="slider_bar_min.value">
-				<span ng-hide="slider_bar_min.value > 1">Any</span>
-				<span ng-show="slider_bar_min.value > 1">{{ slider_bar_min.value }}</span>
-			</div>
-			<div id="min-size">
-				Max Size: <input type="number" ng-model="slider_bar_max.value">
-				<span ng-hide="slider_bar_max.value > 0">Any</span>
-				<span ng-show="slider_bar_max.value > 0">{{ slider_bar_max.value }}</span>
+			<div id="language">
+				Language:
+				<select ng-model="language">
+					<option value="Any" style="display: none;"> -- Any --</option>
+					<option ng-repeat="lang in langs">{{ lang }}</option>
+				</select>
 			</div>
 		</div>
 		<rzslider rz-slider-model="slider_bar_min.value" rz-slider-options="slider_bar_min.options">
 		</rzslider>
+		<div id="min-size">
+			Min Size: <input type="number" ng-model="slider_bar_min.value">
+			<span ng-hide="slider_bar_min.value > 1">Any</span>
+			<span ng-show="slider_bar_min.value > 1">{{ slider_bar_min.value }}</span>
+		</div>
+		<div id="min-size">
+			Max Size: <input type="number" ng-model="slider_bar_max.value">
+			<span ng-hide="slider_bar_max.value > 0">Any</span>
+			<span ng-show="slider_bar_max.value > 0">{{ slider_bar_max.value }}</span>
+		</div>
 		<rzslider rz-slider-model="slider_bar_max.value" rz-slider-options="slider_bar_max.options">
 		</rzslider>
 	</div>

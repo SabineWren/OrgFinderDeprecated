@@ -35,6 +35,10 @@ h1, h2, h3, h4 {
 	padding: 0px;
 }
 
+h3 {
+	font-size: 20px;
+}
+
 input[type=button] {
 	margin-top: 5px;
 	background-image: linear-gradient(to bottom, #3498db, #2980b9);

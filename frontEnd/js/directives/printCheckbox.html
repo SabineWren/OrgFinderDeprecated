@@ -16,10 +16,9 @@
 	<div ng-class="{highlight: hover, unhighlight: !hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-repeat="box in checkboxModel.data">
 			<label>
 				<input type="checkbox" ng-model="box.isSelected" ng-change=callCheckChanged(box) />{{ box.name }}
-			</label><br>
+			</label>
 	</div>
 </form>
 <!--span class=testerCode>{{checked}} boxes are checked.</span><br>
 <span ng-show="checked === 0">Not filtering</span>
 <span ng-hide="checked === 0" ng-repeat="value in checkboxModel.appliedFilter"> {{ value }} </span-->
-<br>

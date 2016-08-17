@@ -74,7 +74,9 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 	$scope.StateUI = GlobalStateUI.StateUI;
 	
 	$scope.pageSize = 12;
-	$scope.Cog = false;//default to all orgs
+	$scope.Cog  = false;
+	$scope.OPPF = false;
+	$scope.STAR = false;
 	$scope.listViewTF = true;
 	
 	$scope.clearResults = LoadViewService.clearResults;

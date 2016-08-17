@@ -340,8 +340,10 @@
 		}
 		return ($total / $numElements);
 	}
-	
-	$prepared_init_growth = $connection->prepare("SELECT Main FROM tbl_OrgMemberHistory WHERE SID = ? ORDER BY ScrapeDate DESC LIMIT 10");
+	/***************************
+	need to have DB return span of days to normalize growth rate
+	****************************/
+	$prepared_init_growth = $connection->prepare("SELECT Main, ScrapeDate ****FIX THIS***** FROM tbl_OrgMemberHistory WHERE SID = ? ORDER BY ScrapeDate DESC LIMIT 10");
 	$prepared_init_growth->bind_param("s", $SID);
 	
 	$prepared_insert_growth = $connection->prepare("INSERT INTO tbl_GrowthRate(SID, GrowthRate) VALUES(?, ?) ON DUPLICATE UPDATE GrowthRate = ?");
@@ -356,7 +358,8 @@
 	
 	$prepared_init_growth->close();
 	$prepared_insert_growth->close();
-	echo "Done updating analytics!\n";
+	$connection->query('ALTER TABLE tbl_GrowthRate ENGINE=INNODB');
+	echo "Done updating growth!\n";
 	
 	//10) Close Connection
 	$connection->close();

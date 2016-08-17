@@ -46,6 +46,11 @@
 	z-index: 2;
 }
 
+#union-header {
+	padding: 0;
+	margin-top: 0;
+}
+
 .highlight {
 	color: orange;
 	font-weight: bold;
@@ -65,6 +70,7 @@
 	position: relative;
 	line-height: 16px;
 	width: 100%;
+	margin-top: 10px;
 }
 
 input[type=number]{
@@ -110,12 +116,12 @@ input[type=number]{
 }
 
 #min-size {
-	vertical-align: top;
+	vertical-align: top;checkbox
 	position: relative;
 	display: inline-block;
 	padding: 0;
 	margin: 0;
-	padding-top: 20px;
+	padding-top: 0px;
 	padding-left: 20px;
 	width: 50%-20px;
 }
@@ -133,11 +139,12 @@ input[type=number]{
 	position: relative;
 	display: inline-block;
 	padding: 0;
-	padding-top: 10px;
+	padding-top: 4px;
 	margin: 0;
-	width: 170%;
+	margin-bottom: -2px;
+	width: 100%;
 	bottom: 0;
-	left: -75px;
+	left: 50px;
 }
 
 
