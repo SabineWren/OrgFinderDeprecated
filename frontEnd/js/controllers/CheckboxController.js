@@ -54,7 +54,7 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 				nameDir:    directionName,
 				sizeDir:    directionSize,
 				mainDir:    directionMain,
-				//Growth:     directionGrowth,
+				Growth:     directionGrowth,
 				Min:        minSize,
 				Max:        maxSize,
 				Cog:        btoi($scope.Cog),

@@ -5,8 +5,6 @@ DB Population:
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
 	
-	**** implement sort by growth rate
-	
 Front End:
 	build a webgl version of the cube
 	** implement org description

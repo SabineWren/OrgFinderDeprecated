@@ -39,7 +39,7 @@ FROM tbl_OrgSize OrgSize;
 CREATE OR REPLACE VIEW View_OrganizationsEverything as
 SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.CustomIcon as CustomIcon, orgs.URL as URL,
 	Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,
-	Commitment, Language, Archetype,
+	Commitment, Language, Archetype, GrowthRate,
 	CASE
 		WHEN Roleplay.Organization IS NOT NULL then "Yes"
 		ELSE "No"
@@ -56,7 +56,8 @@ LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
 LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
 LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
 LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
-LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization;
+LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
+LEFT JOIN tbl_GrowthRate     Growth    ON orgs.SID = Growth.SID;
 
 -- Views for Filtering
 

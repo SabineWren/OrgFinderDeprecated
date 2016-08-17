@@ -200,4 +200,10 @@ CREATE TABLE tbl_OrgMemberHistory(
 	CONSTRAINT PK_OrgMemberHistory PRIMARY KEY(Organization, ScrapeDate) -- Clustered Index
 );
 
+CREATE TABLE tbl_GrowthRate(
+	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
+	GrowthRate Int NOT NULL,
+	FOREIGN KEY FK_GrowthRate(SID) REFERENCES tbl_Organizations(SID)
+);
+
 

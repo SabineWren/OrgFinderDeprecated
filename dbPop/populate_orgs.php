@@ -20,7 +20,8 @@
 	*			6) Execute Database Transaction
 	* 7) Close Statements
 	* 8) Recluster Tables
-	* 9) Close connection
+	* 9) rebuild growth
+	* 10) Close connection
 	*/
 	mb_internal_encoding("UTF-8");
 	
@@ -300,7 +301,7 @@
 	$prepared_insert_language->close();
 	$prepared_insert_filterlang->close();
 	
-	echo "Done inserts! Rebuilding table clustering...\n";
+	echo "Done main inserts! Rebuilding table clustering...\n";
 	
 	//8) Recluster Tables
 	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
@@ -318,7 +319,37 @@
 	$connection->query('ALTER TABLE tbl_OrgFluencies ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
 	
-	//9) Close Connection
+	//9) rebuild growth
+	echo "Done clustering... updating growth...\n";
+	
+	getGrowthRate(&$SizeArray){
+		$numElements = count($SizeArray);
+		if($numElements <= 1)return 0;
+		$total = 0;
+		foreach($SizeArray as $Size){
+			$total += $Size;
+		}
+		return ($total / $numElements);
+	}
+	
+	$prepared_init_growth = $connection->prepare("SELECT Main FROM tbl_OrgMemberHistory WHERE SID = ? ORDER BY ScrapeDate DESC LIMIT 10");
+	$prepared_init_growth->bind_param("s", $SID);
+	
+	$prepared_insert_growth = $connection->prepare("INSERT INTO tbl_GrowthRate(SID, GrowthRate) VALUES(?, ?) ON DUPLICATE UPDATE GrowthRate = ?");
+	$prepared_insert_growth->bind_param("sdd", $SID, $Growth, $Growth);
+	
+	$results = $connection->query('SELECT SID FROM tbl_Organizations');
+	while( $SID = $results->fetch_assoc() ){
+		$SizeArray = $prepared_init_growth->execute();
+		$Growth = getGrowthRate($SizeArray);
+		$prepared_insert_growth->execute();
+	}
+	
+	$prepared_init_growth->close();
+	$prepared_insert_growth->close();
+	echo "Done updating analytics!\n";
+	
+	//10) Close Connection
 	$connection->close();
 	echo "All insertions complete (total: $numberInserted)\n";
 ?>
