@@ -69,16 +69,16 @@ FROM (
 ";
 	$Values = explode( ',', $_GET['Recruiting'] );
 	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
-		if( $Values[0] == 'Yes' )     $sql .= " WHERE (FullOrgs.Organization IS NULL)";
-		else if( $Values[0] == 'No' ) $sql .= " WHERE (FullOrgs.Organization IS NOT NULL)";
+		if( $Values[0] == 'Yes' )     $sql .= "$conjunction(FullOrgs.Organization IS NULL)";
+		else if( $Values[0] == 'No' ) $sql .= "$conjunction(FullOrgs.Organization IS NOT NULL)";
 		$conjunction = ' AND ';
 	}
 	unset($Values);
 	
 	$Values = explode( ',', $_GET['Roleplay'] );
 	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
-		if( $Values[0] == 'Yes' )     $sql .= " WHERE (Roleplay.Organization IS NOT NULL)";
-		else if( $Values[0] == 'No' ) $sql .= " WHERE (Roleplay.Organization IS NULL)";
+		if( $Values[0] == 'Yes' )     $sql .= "$conjunction(Roleplay.Organization IS NOT NULL)";
+		else if( $Values[0] == 'No' ) $sql .= "$conjunction(Roleplay.Organization IS NULL)";
 		$conjunction = ' AND ';
 	}
 	unset($Values);
@@ -121,9 +121,10 @@ FROM (
 	if( strlen($Values[0]) > 0 ){
 		$Value = '%' . rawurldecode( $Values[0]) . '%';//mysql->real_escape_string and html_entity_decode do not decode %20 (space)
 		$temp = $Value . "\n" . $Values[0];
-		$sql .= $conjunction . "SID LIKE UPPER(?) OR SID IN (
+		$sql .= $conjunction . "(SID LIKE UPPER(?) OR SID IN (
 			SELECT SID FROM tbl_Organizations WHERE Name LIKE UPPER(?)
-		)";
+		))";
+		$Value = '%' . $Value . '%';
 		array_push($parameters, $Value);
 		array_push($parameters, $Value);
 		$types .= 'ss';
