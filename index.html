@@ -224,7 +224,7 @@
 					<br>Growth
 			</div></th>
 		</tr></thead>
-		<tr ng-repeat="result in orgResults.results">
+		<tr ng-repeat="result in orgResults.results" ng-class="{highlighted : result['SID'] === curSelection}">
 		<!-- Yes, the most practical way to turn a table row into a link is to apply a link to every celly individually -->
 			<td><div ng-click="loadDetails(result)" id="SID-archetype" ng-hide="StateUI.Details">
 					{{ result.Archetype }}
