@@ -102,6 +102,8 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		}
 		
 		$scope.Cog                  = false;
+		$scope.OPPF                 = false;
+		$scope.STAR                 = false;
 		$scope.slider_bar_min.value = 1;
 		$scope.slider_bar_max.value = 0;
 		//if( angular.isDefined($scope.language) )delete $scope.language;
