@@ -182,9 +182,14 @@ FROM (
 	unset($Values);
 	
 	//apply sorting
-	if( isset($_GET['nameDir']) ){
+	if( isset($_GET['Growth']) ){
+		$growthDir = $_GET['Growth'];
+		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC";
+		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC";
+		unset($growthDir);
+	}
+	else if( isset($_GET['nameDir']) ){
 		$nameDir = $_GET['nameDir'];
-		//for some reason 'Name' has to be in quotes for DESC to work, but ASC works without!?!?
 		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC";
 		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC";
 		unset($nameDir);

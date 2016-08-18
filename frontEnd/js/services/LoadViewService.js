@@ -109,7 +109,7 @@ FrontEndApp.factory('LoadViewService', function(){
 			field.SecondaryFocus = data[obj]["SecondaryFocus"];
 			field.PrimaryIcon    = icons.icons[  data[obj]["PrimaryFocus"]  ];
 			field.SecondaryIcon  = icons.icons[  data[obj]["SecondaryFocus"]  ];
-			field.GrowthRate     = data[obj]["GrowthRate"];
+			field.GrowthRate     = data[obj]["GrowthRate"].toFixed(1);
 			
 			orgResults.results.push(field);
 		}

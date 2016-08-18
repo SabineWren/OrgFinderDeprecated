@@ -353,7 +353,7 @@
 		$newestTuple = $SizeArray[0];
 		$oldestTuple = $SizeArray[$indexLast];
 		
-		$timeDifference = $newestTuple['DaysAgo'] - $oldestTuple['DaysAgo'];
+		$timeDifference = $oldestTuple['DaysAgo'] - $newestTuple['DaysAgo'];
 		$sizeDifference = $newestTuple['Main'] - $oldestTuple['Main'];
 		
 		// the 7 normalizes to weekly average
@@ -369,8 +369,29 @@
 	$results = $connection->query('SELECT SID FROM tbl_Organizations');
 	while( $result = $results->fetch_assoc() ){
 		$SID = $result['SID'];
-		$SizeArray = $prepared_init_growth->execute();
+		$prepared_init_growth->execute();
+		
+		$meta = $prepared_init_growth->result_metadata();
+	
+		while ($field = $meta->fetch_field()) {
+			$parameters[] = &$rowKeyValue[$field->name];
+		}
+		
+		call_user_func_array(array($prepared_init_growth, 'bind_result'), $parameters);
+	
+		//fetch results into $parameters, which references the values of $rowKeyValue
+		while ($prepared_init_growth->fetch()) {
+			//copy the resulting row one attribute at a time
+			//we use a loop because the contents are references
+			foreach($rowKeyValue as $key => $val) {
+				$x[$key] = $val;
+			}
+			$SizeArray[] = $x;//save the row
+		}
+		
 		$Growth = getGrowthRate($SizeArray);
+		unset($SizeArray);
+		unset($parameters);
 		$prepared_insert_growth->execute();
 	}
 	

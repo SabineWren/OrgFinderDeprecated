@@ -31,7 +31,7 @@ CREATE TABLE tbl_Organizations(
 	Name VARCHAR(30)  NOT NULL,
 	Size INT NOT NULL,
 	Main INT,
-	GrowthRate Int DEFAULT 0,
+	GrowthRate float DEFAULT 0.0,
 	CustomIcon BOOLEAN NOT NULL, -- link to RSI
 	URL  VARCHAR(100) NOT NULL -- org website (default RSI)
 );

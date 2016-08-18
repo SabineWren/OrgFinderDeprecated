@@ -28,7 +28,6 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		
 		//now load details for current org
 		$scope.curSelection   = currentRow.SID;
-		console.log($scope.curSelection);
 		
 		LoadDetailsService.loadDetails(currentRow);
 		$scope.StateUI.Details  = true;
