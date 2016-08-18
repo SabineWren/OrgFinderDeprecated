@@ -36,11 +36,12 @@
 			return $result;
 		}
 		
-		$rows = $connection->query("SELECT Size, Main, Affiliate, Hidden FROM tbl_OrgMemberHistory WHERE SID = '$SID' ORDER BY ScrapeDate DESC LIMIT 1");
+		$rows = $connection->query("SELECT Size, Main, Affiliate, Hidden FROM tbl_OrgMemberHistory WHERE Organization = '$SID' ORDER BY ScrapeDate DESC LIMIT 1");
+		$row = $rows->fetch_assoc();
 		$result = [
 			'Size'      => $row['Size'],
 			'Main'      => $row['Main'],
-			'Affiliate' => $row['Affilate'],
+			'Affiliate' => $row['Affiliate'],
 			'Hidden'    => $row['Hidden']
 		];
 		return $result;
@@ -94,7 +95,7 @@
 	}
 	if( !$connection->set_charset("utf8") )echo "Error changing connection character set\n";
 	
-	$connection->autocommit(FALSE);//accelerate inserts BUGGY
+	$connection->autocommit(FALSE);
 	
 	//2) Prepare statements
 	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, CustomIcon = ?, URL = ?");
@@ -164,24 +165,37 @@
 			//if "full inserting" or if org is new/updating, we need to get main/affiliate/hidden
 			if($getFullMemberInfo || $savedSize["Size"] != $Size){
 				//get member info
-				$memberQueryString  = "http://sc-api.com/?api_source=live&system=organizations&action=organization_members&target_id=";
-				$memberQueryString .= "$SID&start_page=1&end_page=800&expedite=0&format=pretty_json";
-				$membersArray = queryAPI($memberQueryString);
-				unset($memberQueryString);
-				if($membersArray == -1){
-					echo "\nWARNING -- unable to get member data for org $SID; skipping\n\n";
-					continue;
+				for($pageStart = 1;; $pageStart += 10){
+					$memberQueryString  = "http://sc-api.com/?api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
+					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
+					$lines = file_get_contents($memberQueryString);
+					unset($memberQueryString);
+					$dataArray = json_decode($lines, true);//json to php associated array
+					if($dataArray == false){
+						echo "failed to decode members list for SID = $SID; skipping\n";
+						continue 2;
+					}
+					unset($lines);
+					if($dataArray["data"] == null)break;//done reading data
+					
+					foreach($dataArray["data"] as $member){
+						$membersArray[] = $member;
+					}
 				}
 			
 				$total = $Main = $Affiliate = $Hidden = 0;
-				foreach($membersArray["data"] as $member){
+				foreach($membersArray as $member){
 					++$total;
 					if($member['type'] == 'main')++$Main;
 					else if($member['type'] == 'affiliate')++$Affiliate;
 					else if($member['visibility'] == 'hidden' || $member['visibility'] == 'redacted')++$Hidden;
 					else echo "WARNING: org $SID has member of unknown type\n";
 				}
-				if($total != $Size)echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
+				if($total != $Size){
+					echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
+					var_dump($membersArray);
+				}
+				unset($membersArray);
 			}
 			
 			//only query the org if it's new
@@ -233,6 +247,8 @@
 				$Manifesto      = substr($Manifesto , 0, 1024);//chop
 				//charter
 				unset($orgArray);
+				
+				echo $connection->error;
 				
 				//6) Execute Database Queries
 				$connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
@@ -329,28 +345,31 @@
 	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
 	
 	//9) rebuild growth
-	echo "Done clustering... updating growth...\n";
+	echo "Done clustering... updating growth (this will take a few minutes)...\n";
 	
-	getGrowthRate(&$SizeArray){
-		$numElements = count($SizeArray);
-		if($numElements <= 1)return 0;
-		$total = 0;
-		foreach($SizeArray as $Size){
-			$total += $Size;
-		}
-		return ($total / $numElements);
+	function getGrowthRate(&$SizeArray){
+		$indexLast = count($SizeArray) - 1;
+		if($indexLast == 0)return 0;//can't calculate growth from one scrape
+		
+		$newestTuple = $SizeArray[0];
+		$oldestTuple = $SizeArray[$indexLast];
+		
+		$timeDifference = $newestTuple['DaysAgo'] - $oldestTuple['DaysAgo'];
+		$sizeDifference = $newestTuple['Main'] - $oldestTuple['Main'];
+		
+		// the 7 normalizes to weekly average
+		return ($sizeDifference * 7 / $timeDifference);
 	}
-	/***************************
-	need to have DB return span of days to normalize growth rate
-	****************************/
-	$prepared_init_growth = $connection->prepare("SELECT Main, ScrapeDate ****FIX THIS***** FROM tbl_OrgMemberHistory WHERE SID = ? ORDER BY ScrapeDate DESC LIMIT 10");
+	
+	$prepared_init_growth = $connection->prepare("SELECT Main, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 10");
 	$prepared_init_growth->bind_param("s", $SID);
 	
-	$prepared_insert_growth = $connection->prepare("INSERT INTO tbl_GrowthRate(SID, GrowthRate) VALUES(?, ?) ON DUPLICATE UPDATE GrowthRate = ?");
-	$prepared_insert_growth->bind_param("sdd", $SID, $Growth, $Growth);
+	$prepared_insert_growth = $connection->prepare("UPDATE tbl_Organizations SET GrowthRate = ? WHERE SID = ?");
+	$prepared_insert_growth->bind_param("ds", $Growth, $SID);
 	
 	$results = $connection->query('SELECT SID FROM tbl_Organizations');
-	while( $SID = $results->fetch_assoc() ){
+	while( $result = $results->fetch_assoc() ){
+		$SID = $result['SID'];
 		$SizeArray = $prepared_init_growth->execute();
 		$Growth = getGrowthRate($SizeArray);
 		$prepared_insert_growth->execute();
@@ -358,6 +377,7 @@
 	
 	$prepared_init_growth->close();
 	$prepared_insert_growth->close();
+	echo "Clustering growth...\n";
 	$connection->query('ALTER TABLE tbl_GrowthRate ENGINE=INNODB');
 	echo "Done updating growth!\n";
 	
