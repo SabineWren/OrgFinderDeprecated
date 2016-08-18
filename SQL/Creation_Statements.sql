@@ -53,6 +53,15 @@ CREATE TABLE tbl_RepresentsCog(
 	FOREIGN KEY FK_Representative(Representative) REFERENCES tbl_Persons(Name)
 );
 
+CREATE TABLE tbl_OPPF(
+	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
+	FOREIGN KEY FK_OPPF(SID) REFERENCES tbl_Organizations(SID)
+);
+CREATE TABLE tbl_STAR(
+	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
+	FOREIGN KEY FK_STAR(SID) REFERENCES tbl_Organizations(SID)
+);
+
 -- most common use: count number of main members within an org.
 CREATE TABLE tbl_Main(
 	Organization VARCHAR(10) NOT NULL,

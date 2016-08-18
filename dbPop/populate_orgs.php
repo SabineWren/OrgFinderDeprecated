@@ -193,7 +193,6 @@
 				}
 				if($total != $Size){
 					echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
-					var_dump($membersArray);
 				}
 				unset($membersArray);
 			}

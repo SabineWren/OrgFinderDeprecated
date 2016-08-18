@@ -110,9 +110,17 @@ FROM (
 		unset($max);
 	}
 	
-	//if org in Cognition Corp
+	//Unions
 	if((int)$_GET['Cog']){
-		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_RepresentsCog))";
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_RepresentsCog)";
+		$conjunction = ' AND ';
+	}
+	if((int)$_GET['OPPF']){
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_OPPF)";
+		$conjunction = ' AND ';
+	}
+	if((int)$_GET['STAR']){
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_STAR)";
 		$conjunction = ' AND ';
 	}
 	

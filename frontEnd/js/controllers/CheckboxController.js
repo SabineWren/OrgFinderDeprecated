@@ -58,6 +58,8 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 				Min:        minSize,
 				Max:        maxSize,
 				Cog:        btoi($scope.Cog),
+				OPPF:       btoi($scope.OPPF),
+				STAR:       btoi($scope.STAR),
 				Lang:       $scope.language,
 				//numeric index break when we change order in the json -- BAD DESIGN
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
