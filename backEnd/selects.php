@@ -30,6 +30,17 @@ Members  (front end) == Size  (database)
 	$pageSize = 12;
 	$offset = $pageNum * $pageSize;
 	
+	function addParamsToQuery($Attribute, $Values, &$types, &$sql, &$conjunction, &$parameters){
+		foreach($Values as $Value){
+			if($Value == '')continue;//We might have 0 Params to add
+			$sql .= $conjunction . $Attribute . ' = ?';
+			array_push($parameters, $Value);
+			$types .= 's';
+			$conjunction = ' OR ';
+		}
+		if($conjunction === ' OR ')$conjunction = ' AND (';
+	}
+	
 	//init
 	$parameters = array();
 	$types = '';
@@ -50,32 +61,6 @@ Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus
 FROM (
 	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon, URL
 	FROM tbl_Organizations";
-
-	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
-	$sql .= " LIMIT $pageSize OFFSET ?";
-	array_push($parameters, $offset);
-	$types .= 'd';
-
-$sql .=  ") as orgs
-LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
-     JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
-LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
-LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
-LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
-LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
-LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
-	";
-	
-	function addParamsToQuery($Attribute, $Values, &$types, &$sql, &$conjunction, &$parameters){
-		foreach($Values as $Value){
-			if($Value == '')continue;//We might have 0 Params to add
-			$sql .= $conjunction . $Attribute . ' = ?';
-			array_push($parameters, $Value);
-			$types .= 's';
-			$conjunction = ' OR ';
-		}
-		if($conjunction === ' OR ')$conjunction = ' AND (';
-	}
 	
 	$Values = explode( ',', $_GET['Commitment'] );
 	addParamsToQuery('Commitment', $Values, $types, $sql, $conjunction, $parameters);
@@ -191,6 +176,21 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
 		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
 		unset($mainDir);
 	}
+
+	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
+	$sql .= " LIMIT $pageSize OFFSET ?";
+	array_push($parameters, $offset);
+	$types .= 'd';
+
+$sql .=  ") as orgs
+LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
+     JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
+LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
+LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
+LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
+LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
+LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
+	";
 	
 	//require references to array elements to bind
 	$bindParams = array();
