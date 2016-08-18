@@ -59,11 +59,12 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 				Max:        maxSize,
 				Cog:        btoi($scope.Cog),
 				Lang:       $scope.language,
+				//numeric index break when we change order in the json -- BAD DESIGN
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
-				Archetype:  $scope.checkboxModels[1].appliedFilter.toString(),
-				Commitment: $scope.checkboxModels[2].appliedFilter.toString(),
-				Recruiting: $scope.checkboxModels[3].appliedFilter.toString(),
-				Roleplay:   $scope.checkboxModels[4].appliedFilter.toString()
+				Archetype:  $scope.checkboxModels[4].appliedFilter.toString(),
+				Commitment: $scope.checkboxModels[1].appliedFilter.toString(),
+				Recruiting: $scope.checkboxModels[2].appliedFilter.toString(),
+				Roleplay:   $scope.checkboxModels[3].appliedFilter.toString()
 			}
 		} ).success(callbackParse);
 	

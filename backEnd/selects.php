@@ -31,56 +31,62 @@ Members  (front end) == Size  (database)
 	$offset = $pageNum * $pageSize;
 	
 	function addParamsToQuery($Attribute, $Values, &$types, &$sql, &$conjunction, &$parameters){
+	if($Values[0] == '')return;//no params to add
+		$conjunction .= '(';
 		foreach($Values as $Value){
-			if($Value == '')continue;//We might have 0 Params to add
 			$sql .= $conjunction . $Attribute . ' = ?';
 			array_push($parameters, $Value);
 			$types .= 's';
 			$conjunction = ' OR ';
 		}
-		if($conjunction === ' OR ')$conjunction = ' AND (';
+		$sql .= ')';
+		$conjunction = ' AND ';
 	}
 	
 	//init
 	$parameters = array();
 	$types = '';
-	$conjunction = ' WHERE (';
+	$conjunction = ' WHERE ';
 	
 	$sql = "
 SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.GrowthRate as GrowthRate, orgs.CustomIcon as CustomIcon, orgs.URL as URL,
 Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus, Commitment, Language, Archetype,
-	CASE
-		WHEN Roleplay.Organization IS NOT NULL then 'Yes'
-		ELSE 'No'
-		END AS Roleplay,
-	CASE
-		WHEN FullOrgs.Organization IS NOT NULL then 'No'
-		WHEN ExclOrgs.Organization IS NOT NULL then 'Excl.'
-		ELSE 'Yes'
-		END AS Recruiting
+CASE
+	WHEN RolePlayBool IS NOT NULL then 'Yes'
+	ELSE 'No'
+	END AS Roleplay,
+CASE
+	WHEN RecruitingBool IS NOT NULL then 'No'
+	WHEN ExclBool IS NOT NULL then 'Excl.'
+	ELSE 'Yes'
+	END AS Recruiting
 FROM (
-	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon, URL
-	FROM tbl_Organizations";
-	
-	$Values = explode( ',', $_GET['Commitment'] );
-	addParamsToQuery('Commitment', $Values, $types, $sql, $conjunction, $parameters);
-	if(strlen($Values[0]) > 0)$sql .= ')';
-	unset($Values);
-	
+	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon, URL, Roleplay.Organization as RolePlayBool, FullOrgs.Organization as RecruitingBool, ExclOrgs.Organization as ExclBool
+	FROM tbl_Organizations orgs
+	LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
+	LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
+	LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
+";
 	$Values = explode( ',', $_GET['Recruiting'] );
-	addParamsToQuery('Recruiting', $Values, $types, $sql, $conjunction, $parameters);
-	if(strlen($Values[0]) > 0)$sql .= ')';
+	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
+		if( $Values[0] == 'Yes' )     $sql .= " WHERE (FullOrgs.Organization IS NULL)";
+		else if( $Values[0] == 'No' ) $sql .= " WHERE (FullOrgs.Organization IS NOT NULL)";
+		$conjunction = ' AND ';
+	}
 	unset($Values);
 	
 	$Values = explode( ',', $_GET['Roleplay'] );
-	addParamsToQuery('Roleplay', $Values, $types, $sql, $conjunction, $parameters);
-	if(strlen($Values[0]) > 0)$sql .= ')';
+	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
+		if( $Values[0] == 'Yes' )     $sql .= " WHERE (Roleplay.Organization IS NOT NULL)";
+		else if( $Values[0] == 'No' ) $sql .= " WHERE (Roleplay.Organization IS NULL)";
+		$conjunction = ' AND ';
+	}
 	unset($Values);
 	
 	$lang = $_GET['Lang'];
 	if($lang !== "Any"){
-		$sql .= "$conjunction SID in (SELECT Organization FROM tbl_FilterFluencies WHERE Language = ?))";
-		$conjunction = ' AND (';
+		$sql .= "$conjunction SID in (SELECT Organization FROM tbl_FilterFluencies WHERE Language = ?)";
+		$conjunction = ' AND ';
 		$types .= 's';
 		array_push($parameters, $lang);
 	}
@@ -88,8 +94,8 @@ FROM (
 	
 	if(isset($_GET['Min'])){
 		$min = (int)$_GET['Min'];
-		$sql .= "$conjunction Size >= ?)";
-		$conjunction = ' AND(';
+		$sql .= "$conjunction Size >= ?";
+		$conjunction = ' AND ';
 		$types .= 'd';
 		array_push($parameters, $min);
 		unset($min);
@@ -97,8 +103,8 @@ FROM (
 	
 	if(isset($_GET['Max'])){
 		$max = (int)$_GET['Max'];
-		$sql .= "$conjunction Size <= ?)";
-		$conjunction = ' AND(';
+		$sql .= "$conjunction Size <= ?";
+		$conjunction = ' AND ';
 		$types .= 'd';
 		array_push($parameters, $max);
 		unset($max);
@@ -107,7 +113,7 @@ FROM (
 	//if org in Cognition Corp
 	if((int)$_GET['Cog']){
 		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_RepresentsCog))";
-		$conjunction = ' AND(';
+		$conjunction = ' AND ';
 	}
 	
 	//WHERE SID LIKE Value and subselect using Name
@@ -117,11 +123,11 @@ FROM (
 		$temp = $Value . "\n" . $Values[0];
 		$sql .= $conjunction . "SID LIKE UPPER(?) OR SID IN (
 			SELECT SID FROM tbl_Organizations WHERE Name LIKE UPPER(?)
-		))";
+		)";
 		array_push($parameters, $Value);
 		array_push($parameters, $Value);
 		$types .= 'ss';
-		$conjunction = ' AND (';
+		$conjunction = ' AND ';
 	}
 	unset($Values);
 	
@@ -130,7 +136,7 @@ FROM (
 	if(strlen($Activities[0]) > 0){		
 		$sql .= $conjunction;
 			//add filter and join for primary focus (activity1)
-			$sql .= 'SID IN (SELECT Organization FROM tbl_PrimaryFocus';
+			$sql .= '(SID IN (SELECT Organization FROM tbl_PrimaryFocus';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('PrimaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
 		
@@ -142,19 +148,29 @@ FROM (
 	}
 	unset($Activities);
 	
-	//subselect to filter using Archetype
-	$Archetypes = explode( ',', $_GET['Archetype'] );
-	if(strlen($Archetypes[0]) > 0){
+	//subselect to filter using Commitment
+	$Values = explode( ',', $_GET['Commitment'] );
+	if(strlen($Values[0]) > 0){
 		$sql .= $conjunction;
-		
-		//add filter and join for primary focus (activity1)
+		$sql .= 'SID IN (
+			SELECT Organization FROM tbl_Commits';
+			$conjunction = ' WHERE ';
+			addParamsToQuery('Commitment', $Values, $types, $sql, $conjunction, $parameters);
+			$sql .= ') ';
+	}
+	unset($Values);
+	
+	//subselect to filter using Archetype
+	$Values = explode( ',', $_GET['Archetype'] );
+	if(strlen($Values[0]) > 0){
+		$sql .= $conjunction;
 		$sql .= 'SID IN (
 			SELECT Organization FROM tbl_FilterArchetypes';
 			$conjunction = ' WHERE ';
-			addParamsToQuery('Archetype', $Archetypes, $types, $sql, $conjunction, $parameters);
-		$sql .= '))';
+			addParamsToQuery('Archetype', $Values, $types, $sql, $conjunction, $parameters);
+			$sql .= ') ';
 	}
-	unset($Archetypes);
+	unset($Values);
 	
 	//apply sorting
 	if( isset($_GET['nameDir']) ){
@@ -187,9 +203,6 @@ LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
      JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
 LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
 LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
-LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
-LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
-LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
 	";
 	
 	//require references to array elements to bind
