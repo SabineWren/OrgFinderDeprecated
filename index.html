@@ -29,7 +29,7 @@
 <body ng-app="FrontEndApp">
 <header>
 </header>
-<h3 style="text-align: left; color: red;">Click on an Organization to View Details</h3>
+<h2 style="text-align: center; color: red;">Click on an Organization to View Details</h2>
 
 <!-- ***************************************************************************************************** -->
 <!-- User Controls -->
@@ -113,7 +113,7 @@
 <!-- Details View with Chart instead of Controls -->
 <div ng-controller="DetailsController" ng-show="StateUI.Details" id="left-block-details" ng-style="widthDetails.data">
 	<div class="controls-details">
-		<h1 id="org-name-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(URL)</span></a></h1>
+		<h1 id="org-name-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(RSI URL)</span></a></h1>
 		<canvas id="bar" class="chart chart-line"
 			chart-data="chartData.plots" chart-labels="config.labels" chart-series="config.series"
 			chart-colors="config.colours" chart-options="config.options">

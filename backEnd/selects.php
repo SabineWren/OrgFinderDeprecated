@@ -30,11 +30,41 @@ Members  (front end) == Size  (database)
 	$pageSize = 12;
 	$offset = $pageNum * $pageSize;
 	
-	//init loop
-	$sql = "SELECT * FROM View_OrganizationsEverything";
+	//init
 	$parameters = array();
 	$types = '';
 	$conjunction = ' WHERE (';
+	
+	$sql = "
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.GrowthRate as GrowthRate, orgs.CustomIcon as CustomIcon, orgs.URL as URL,
+Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus, Commitment, Language, Archetype,
+	CASE
+		WHEN Roleplay.Organization IS NOT NULL then 'Yes'
+		ELSE 'No'
+		END AS Roleplay,
+	CASE
+		WHEN FullOrgs.Organization IS NOT NULL then 'No'
+		WHEN ExclOrgs.Organization IS NOT NULL then 'Excl.'
+		ELSE 'Yes'
+		END AS Recruiting
+FROM (
+	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon, URL
+	FROM tbl_Organizations";
+
+	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
+	$sql .= " LIMIT $pageSize OFFSET ?";
+	array_push($parameters, $offset);
+	$types .= 'd';
+
+$sql .=  ") as orgs
+LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
+     JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
+LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
+LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
+LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
+LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
+LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
+	";
 	
 	function addParamsToQuery($Attribute, $Values, &$types, &$sql, &$conjunction, &$parameters){
 		foreach($Values as $Value){
@@ -161,17 +191,6 @@ Members  (front end) == Size  (database)
 		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
 		unset($mainDir);
 	}
-	else if( isset($_GET['Growth']) ){
-		$growthDir = $_GET['Growth'];
-		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC";
-		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC";
-		unset($growthDir);
-	}
-	
-	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
-	$sql .= " LIMIT $pageSize OFFSET ?";
-	array_push($parameters, $offset);
-	$types .= 'd';
 	
 	//require references to array elements to bind
 	$bindParams = array();

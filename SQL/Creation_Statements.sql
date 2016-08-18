@@ -31,11 +31,14 @@ CREATE TABLE tbl_Organizations(
 	Name VARCHAR(30)  NOT NULL,
 	Size INT NOT NULL,
 	Main INT,
+	GrowthRate Int DEFAULT 0,
 	CustomIcon BOOLEAN NOT NULL, -- link to RSI
 	URL  VARCHAR(100) NOT NULL -- org website (default RSI)
 );
-ALTER TABLE tbl_Organizations ADD INDEX(Size, SID);
 ALTER TABLE tbl_Organizations ADD INDEX(Name, SID);
+ALTER TABLE tbl_Organizations ADD INDEX(Size, SID);
+ALTER TABLE tbl_Organizations ADD INDEX(Main, SID);
+CREATE INDEX `Growth_SID` ON `tbl_Organizations` (GrowthRate, SID);
 
 CREATE TABLE tbl_IconURLs(
 	Organization  VARCHAR(10), -- Clustered Index
@@ -198,12 +201,6 @@ CREATE TABLE tbl_OrgMemberHistory(
 	Hidden INT NOT NULL,
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	CONSTRAINT PK_OrgMemberHistory PRIMARY KEY(Organization, ScrapeDate) -- Clustered Index
-);
-
-CREATE TABLE tbl_GrowthRate(
-	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
-	GrowthRate Int NOT NULL,
-	FOREIGN KEY FK_GrowthRate(SID) REFERENCES tbl_Organizations(SID)
 );
 
 CREATE TABLE tbl_OrgDescription(
