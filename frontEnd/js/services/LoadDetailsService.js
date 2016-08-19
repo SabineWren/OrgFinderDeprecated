@@ -12,7 +12,7 @@
 FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	
 	var chartData = {
-		plots: []
+		plots: [],
 	}
 	
 	var descriptionData = {
@@ -29,11 +29,25 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		var Main      = [];
 		var Affiliate = [];
 		var Hidden    = [];
+		var axisLabels = [];
+		
+		var i = 11;
 		for(date in history_json){
+			var days = history_json[date].DaysAgo;
+			//interpolate with last known value (or today's if it's the first)
+			while(i !== days && i >= 0){
+				Size.push( history_json[date].Size );
+				Main.push( history_json[date].Main );
+				Affiliate.push( history_json[date].Affiliate );
+				Hidden.push( history_json[date].Hidden );
+				--i;
+			}
+			//add today
 			Size.push( history_json[date].Size );
 			Main.push( history_json[date].Main );
 			Affiliate.push( history_json[date].Affiliate );
 			Hidden.push( history_json[date].Hidden );
+			--i;
 		}
 		chartData.plots = [
 			Size,

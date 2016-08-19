@@ -31,7 +31,7 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	
 	$scope.config = {
 		series:  ['Size', 'Main', 'Affiliate', 'Hidden'],
-		labels:  ["Past", "Current"],
+		labels: ['10', '', '8', '', '6', '', '4', '', '2', '', '0'],
 		colours: ["#FFFFFF", "#FFAA44", "#00FF00", "#FF0000"],
 		options: {
 			responsive: true,
