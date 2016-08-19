@@ -86,12 +86,19 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		}
 	};
 	
+	var gridWidthModifer = {
+		data: {
+			"width" : document.getElementById('gridViewResults').offsetWidth.toString() + "px"
+		}
+	};
+	
 	return {
 		chartData,
 		descriptionData,
 		rowData,
 		loadDetails,
-		widthDetails
+		widthDetails,
+		gridWidthModifer
 	};
 	
 }]);

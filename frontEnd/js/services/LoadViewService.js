@@ -72,8 +72,7 @@ FrontEndApp.factory('LoadViewService', function(){
 	}
 	
 	var loadStatus = {
-		isLoading: false,
-		listViewTF: true
+		isLoading: false
 	};
 	
 	function callbackParseSelection(data){

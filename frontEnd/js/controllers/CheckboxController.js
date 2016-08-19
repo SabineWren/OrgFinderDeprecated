@@ -80,7 +80,6 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 	$scope.Cog  = false;
 	$scope.OPPF = false;
 	$scope.STAR = false;
-	$scope.listViewTF = true;
 	
 	$scope.clearResults = LoadViewService.clearResults;
 	$scope.sortStatus   = LoadViewService.sortStatus;
@@ -183,8 +182,8 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 	});
 	
 	$scope.toggleView = function(){
-		if($scope.loadStatus.listViewTF)$scope.loadStatus.listViewTF = false;
-		else $scope.loadStatus.listViewTF = true;
+		if($scope.StateUI.listViewTF)$scope.StateUI.listViewTF = false;
+		else $scope.StateUI.listViewTF = true;
 	};
 	
 	//ViewController can set sorting, which requires refiltering

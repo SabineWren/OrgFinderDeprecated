@@ -15,10 +15,20 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	$scope.exitDetails = function(){
 		$scope.StateUI.Details  = false;
 		$scope.StateUI.Controls = true;
+		
+		//if in grid view, reset grid with
+		if(!$scope.StateUI.listViewTF){
+			var widthBasis = document.getElementById('gridViewResults').offsetWidth;
+			var widthExtension = document.getElementById('cellWidthJS').offsetWidth;
+			$scope.gridWidthModifer.data = {
+				"width" : ( widthBasis + widthExtension ).toString() + "px"
+			};
+		}
 	}
 	
 	$scope.StateUI = GlobalStateUI.StateUI;
-	$scope.widthDetails = LoadDetailsService.widthDetails;
+	$scope.widthDetails     = LoadDetailsService.widthDetails;
+	$scope.gridWidthModifer = LoadDetailsService.gridWidthModifer;
 	
 	$scope.chartData   = LoadDetailsService.chartData;
 	$scope.rowData     = LoadDetailsService.rowData;
@@ -38,7 +48,7 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 			legend: {
 				display: true,
 				position: 'top',
-				fullWidth: false,
+				fullWidth: true,
 				labels: {
 					fontColor: '#FFFFFF',
 					fontStyle: 'bold',

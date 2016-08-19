@@ -33,7 +33,7 @@
 
 <!-- ***************************************************************************************************** -->
 <!-- User Controls -->
-<div ng-controller="CheckboxController" ng-show="StateUI.Controls" class="left-block-controls">
+<div ng-controller="CheckboxController" ng-show="StateUI.Controls" id="left-block-controls">
 <div class="controls-details">
 <div class="checkboxCategories">
 	<!-- contents in /data/Checkboxes.json -->
@@ -79,8 +79,8 @@
 			<div id="filter-name-SID">
 				Enter a Name or SID:
 				<input class=filter type="text" ng-model="filterName"><br>
-				<input class="filter-button" type="button" ng-show="loadStatus.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
-				<input class="filter-button" type="button" ng-hide="loadStatus.listViewTF" ng-click="toggleView()" value="Enable List View"/>
+				<input class="filter-button" type="button" ng-show="StateUI.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
+				<input class="filter-button" type="button" ng-hide="StateUI.listViewTF" ng-click="toggleView()" value="Enable List View"/>
 			</div>
 			<div id="filter-name-SID">
 				<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
@@ -134,7 +134,7 @@
 	<!-- List View -->
 <div ng-controller="ViewController" class="view-controller">
 <div class="list-view">
-	<div ng-show="loadStatus.listViewTF" id="list-view-results">
+	<div ng-show="StateUI.listViewTF" id="list-view-results">
 		<table>
 		<thead align="left"><tr id="first">
 			<th><div ng-hide="StateUI.Details" id="SID-archetype">
@@ -265,16 +265,17 @@
 </div>
 <!-- ***************************************************************************************************** -->
 <!-- Grid View -->
-<div ng-hide="loadStatus.listViewTF" class="gridViewResults">
-	<div class="cell" ng-repeat="result in orgResults.results">
-		<div class="cell-contents">
+<div ng-hide="StateUI.listViewTF" id="gridViewResults" ng-style="gridWidthModifer.data">
+	<div class="cell" ng-repeat="result in orgResults.results" ng-class="{highlighted : result['SID'] === curSelection}">
+		<div ng-click="loadDetails(result)" class="cell-contents">
 			<figcaption>
 				{{ result.Name }}
 			</figcaption>
 			<img class=gridIcon ng-src="{{ result.Icon }}"></a>
 			<figcaption>
-				{{ result.PrimaryFocus }}, {{ result.SecondaryFocus }}<br>
-				Member Count: {{ result.Members }}
+				{{ result.PrimaryFocus }}
+				<br>{{ result.SecondaryFocus }}
+				<br>Size: {{ result.Size }}
 			</figcaption>
 		</div>
 	</div>
@@ -284,8 +285,9 @@
 </div>
 </div>
 
-	<!-- this is a cheap hack to save a variable in CSS; it allows for modifying the widthDetails variable using only CSS -->
+	<!-- this is a cheap hack to save a variable in CSS, so we can modify widthDetails using only CSS -->
 	<div style="visibility: hidden;" id="raw-block-width"></div>
+	<div style="visibility: hidden;" id="cellWidthJS"></div>
 	
 	<div><a href="jslicense.html" data-jslicense="1"></a></div>
 	

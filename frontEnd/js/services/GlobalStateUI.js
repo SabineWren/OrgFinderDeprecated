@@ -13,7 +13,8 @@ FrontEndApp.factory('GlobalStateUI', function(){
 	
 	var StateUI = {
 		Controls: true,
-		Details:  false
+		Details:  false,
+		listViewTF: true
 	};
 	
 	return {

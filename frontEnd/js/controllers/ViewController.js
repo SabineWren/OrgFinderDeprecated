@@ -18,13 +18,37 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 	
 	$scope.loadDetails = function(currentRow){
 		//calculate width of details window from width of elements it's replacing
-		if( document.getElementById('commitment-language').offsetWidth !== 0 ){
-			widthLanguage = document.getElementById('commitment-language').offsetWidth;
+		var widthBasis     = 0;
+		var widthExtension = 0;
+		
+		//list view
+		if($scope.StateUI.listViewTF){
+			if( document.getElementById('commitment-language').offsetWidth !== 0 ){
+				widthBasis     = document.getElementById('raw-block-width').offsetWidth;
+				widthExtension = document.getElementById('commitment-language').offsetWidth;
+				$scope.widthDetails.data = {
+					"width" : ( widthExtension + widthBasis ).toString() + "px"
+				};
+			};
 		}
-		widthRaw = document.getElementById('raw-block-width').offsetWidth;
-		$scope.widthDetails.data = {
-			"width" : ( widthLanguage + widthRaw ).toString() + "px"
-		};
+		//grid view
+		else {
+			if(widthBasis = document.getElementById('left-block-controls').offsetWidth !== 0){
+				widthBasis     = document.getElementById('left-block-controls').offsetWidth;
+				widthExtension = document.getElementById('cellWidthJS').offsetWidth;
+				$scope.widthDetails.data = {
+					"width" : ( widthExtension + widthBasis ).toString() + "px"
+				};
+			}
+			
+			//adjust width of grid if we pushed it right
+			if(!$scope.StateUI.Details){
+				widthBasis = document.getElementById('gridViewResults').offsetWidth;
+				$scope.gridWidthModifer.data = {
+					"width" : ( widthBasis - widthExtension ).toString() + "px"
+				};
+			}
+		}
 		
 		//now load details for current org
 		$scope.curSelection   = currentRow.SID;
@@ -122,8 +146,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		$scope.loadMoreOrgs();
 	}
 	
-	var widthRaw;
-	var widthLanguage;
-	$scope.widthDetails = LoadDetailsService.widthDetails;
+	$scope.widthDetails     = LoadDetailsService.widthDetails;
+	$scope.gridWidthModifer = LoadDetailsService.gridWidthModifer;
 }]);
 

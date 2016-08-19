@@ -15,23 +15,6 @@ body {
 	white-space: nowrap;
 }
 
-.cell:hover{
-	background-color: rgba(95, 116, 131, 0.7);
-	border-width: 5px;
-	border-style: ridge;
-	border-radius: 10px;
-	border-color: #4b5c68;
-}
-
-.cell{
-	background-color: rgba(42, 54, 186, 0.7);
-	border-width: 5px;
-	border-style: ridge;
-	border-radius: 10px;
-	border-color: #2A36BA;
-	margin: 5px;
-}
-
 .controls-details {
 	display: inline-block;
 	position: relative;

@@ -139,7 +139,7 @@ td a {
 
 /* Grid View */
 
-.gridViewResults{
+#gridViewResults{
 	display: inline-block;
 	position: relative;
 	vertical-align: top;
@@ -149,13 +149,18 @@ td a {
 	width: 1200px;
 }
 
-@media only screen and (max-width: 1500px){
-	.gridViewResults{
-		width: 1000px;
+@media only screen and (max-width: 1600px){
+	#gridViewResults{
+		width: 1100px;
+	}
+}
+@media only screen and (max-width: 1400px){
+	#gridViewResults{
+		width: 900px;
 	}
 }
 @media only screen and (max-width: 1200px){
-	.gridViewResults{
+	#gridViewResults{
 		width: 700px;
 	}
 }
@@ -167,19 +172,24 @@ loadButtonGrid{
 
 .cell:before {
 	display: inline-block;
-	padding-top: 90%;
+	padding-top: 243px;
 	content:'';
 }
 
 .cell {
 	display: inline-block;
 	position: relative;
-	width: 15%;
-	border-style: solid;
-	border-width: 2px;
+	width: 180px;
+	border-style: ridge;
+	border-width: 5px;
 	border-color: black;
 	text-align: center;
+	background-color: rgba(42, 54, 186, 0.7);
+	border-radius: 10px;
+	border-color: #2A36BA;
+	margin: 3px;
 }
+#cellWidthJS{width:180px;}
 
 .cell-contents {
 	position: absolute;
@@ -189,20 +199,22 @@ loadButtonGrid{
 	bottom: 0;
 	left: 0;
 	right: 0;
+	white-space: nowrap;
+	line-height: 14px;
 }
 
-.cell:nth-of-type(1n) {
-	margin-right: 4px;
-}
-
-.cell:nth-of-type(6n) {
-	margin-right: 0;
+.cell:hover{
+	background-color: rgba(95, 116, 131, 0.7);
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #4b5c68;
 }
 
 .gridIcon{
 	border-radius: 10px;
-	height: 60%;
-	width: 60%;
+	height: 75%;
+	width: 100%;
 }
 
 .lowerBlock {
