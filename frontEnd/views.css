@@ -4,14 +4,18 @@
 	}
 }*/
 
-/* List View */
-
-.list-view {
+.view-controller {
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
 	margin: 0;
 	padding: 0;
+}
+
+/* List View */
+
+.list-view {
+	width: 100%;
 }
 
 #list-view-results {
@@ -136,18 +140,55 @@ td a {
 /* Grid View */
 
 .gridViewResults{
-	display: flex;
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
 	flex-wrap: wrap;
-	text-align: center;
+	white-space: normal;
+	height: 50%;
+	width: 1200px;
+}
+
+@media only screen and (max-width: 1500px){
+	.gridViewResults{
+		width: 1000px;
+	}
+}
+@media only screen and (max-width: 1200px){
+	.gridViewResults{
+		width: 700px;
+	}
+}
+
+
+loadButtonGrid{
+	position: static;
+}
+
+.cell:before {
+	display: inline-block;
+	padding-top: 90%;
+	content:'';
 }
 
 .cell {
-	width: calc(16.6666% - 47.3333px);
-	padding: 20px;
-	margin-top: 8px;
+	display: inline-block;
+	position: relative;
+	width: 15%;
 	border-style: solid;
 	border-width: 2px;
 	border-color: black;
+	text-align: center;
+}
+
+.cell-contents {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
 .cell:nth-of-type(1n) {
@@ -158,9 +199,10 @@ td a {
 	margin-right: 0;
 }
 
-.gridIcon {
-	width:  200px;
-	height: 200px;
+.gridIcon{
+	border-radius: 10px;
+	height: 60%;
+	width: 60%;
 }
 
 .lowerBlock {
@@ -184,6 +226,10 @@ td a {
 	right: 100px;
 	bottom: -130px;
 	size: 40%;
+}
+#coglogoGrid{
+	position: static;
+	float: left;
 }
 
 

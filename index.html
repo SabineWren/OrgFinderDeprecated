@@ -132,7 +132,8 @@
 	
 	<!-- ***************************************************************************************************** -->
 	<!-- List View -->
-<div ng-controller="ViewController" class="list-view">
+<div ng-controller="ViewController" class="view-controller">
+<div class="list-view">
 	<div ng-show="loadStatus.listViewTF" id="list-view-results">
 		<table>
 		<thead align="left"><tr id="first">
@@ -257,11 +258,16 @@
 			</div></td>
 		</tr>
 		</table>
+	<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+	<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
+	<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
 	</div>
-	<!-- ***************************************************************************************************** -->
-	<!-- Grid View -->
-	<div ng-hide="loadStatus.listViewTF" class="gridViewResults">
-		<div class=cell ng-repeat="result in orgResults.results">
+</div>
+<!-- ***************************************************************************************************** -->
+<!-- Grid View -->
+<div ng-hide="loadStatus.listViewTF" class="gridViewResults">
+	<div class="cell" ng-repeat="result in orgResults.results">
+		<div class="cell-contents">
 			<figcaption>
 				{{ result.Name }}
 			</figcaption>
@@ -272,11 +278,10 @@
 			</figcaption>
 		</div>
 	</div>
-	
-	<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
-	<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
-	
-	<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
+	<input class="loadButtonGrid" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+	<input class="loadButtonGrid" ng-show="loadStatus.isLoading" type="button" value="loading..." />
+	<img id="coglogoGrid" src="frontEnd/images/favicon.png" alt="cog logo"/>
+</div>
 </div>
 
 	<!-- this is a cheap hack to save a variable in CSS; it allows for modifying the widthDetails variable using only CSS -->

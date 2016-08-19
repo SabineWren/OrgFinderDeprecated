@@ -14,21 +14,6 @@ body {
 	overflow-x:auto;
 	white-space: nowrap;
 }
-.gridViewResults{
-	float: center;
-	height: 70%;
-	width: 80%;
-}
-
-input.loadButton{
-	float: left;
-	position: static;
-}
-
-#coglogo{
-	position: static;
-	float: left;
-}
 
 .cell:hover{
 	background-color: rgba(95, 116, 131, 0.7);
@@ -45,12 +30,6 @@ input.loadButton{
 	border-radius: 10px;
 	border-color: #2A36BA;
 	margin: 5px;
-}
-
-.gridIcon{
-	border-radius: 10px;
-	height: 150px;
-	width: 150px;
 }
 
 .controls-details {
