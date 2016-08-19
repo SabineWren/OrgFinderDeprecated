@@ -357,7 +357,15 @@
 		$sizeDifference = $newestTuple['Main'] - $oldestTuple['Main'];
 		
 		// the 7 normalizes to weekly average
-		return ($sizeDifference * 7 / $timeDifference);
+		try{
+			return ($sizeDifference * 7 / $timeDifference);
+		}
+		catch(Exception $e){
+			var_dump($SizeArray);
+			var_dump($newestTuple);
+			var_dump($oldestTuple);
+			throw $e;
+		}
 	}
 	
 	$prepared_init_growth = $connection->prepare("SELECT Main, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 10");
@@ -366,7 +374,7 @@
 	$prepared_insert_growth = $connection->prepare("UPDATE tbl_Organizations SET GrowthRate = ? WHERE SID = ?");
 	$prepared_insert_growth->bind_param("ds", $Growth, $SID);
 	
-	$results = $connection->query('SELECT SID FROM tbl_Organizations');
+	$results = $connection->query("SELECT SID FROM tbl_Organizations");
 	while( $result = $results->fetch_assoc() ){
 		$SID = $result['SID'];
 		$prepared_init_growth->execute();
@@ -388,8 +396,15 @@
 			}
 			$SizeArray[] = $x;//save the row
 		}
-		
-		$Growth = getGrowthRate($SizeArray);
+		try{
+			$Growth = getGrowthRate($SizeArray);
+		}
+		catch(Exception $e){
+			$prepared_init_growth->close();
+			$prepared_insert_growth->close();
+			$connection->close();
+			exit("debug exit\n");
+		}
 		unset($SizeArray);
 		unset($parameters);
 		$prepared_insert_growth->execute();
