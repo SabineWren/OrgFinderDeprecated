@@ -17,7 +17,7 @@ FrontEndApp.factory('LoadViewService', function(){
 		this.Size = Size;
 		this.Main = Main;
 		this.Icon = Icon;
-		this.URL  = URL;
+		this.URL  = "https://robertsspaceindustries.com/orgs/" + SID;
 	};
 	
 	var orgResults = {
@@ -90,8 +90,7 @@ FrontEndApp.factory('LoadViewService', function(){
 				data[obj]["Name"],
 				data[obj]["Size"],
 				data[obj]["Main"],
-				icon,
-				data[obj]["URL"]
+				icon
 			);
 			
 			field.Commitment     = data[obj]["Commitment"];

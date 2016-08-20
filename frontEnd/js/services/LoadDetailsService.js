@@ -11,6 +11,65 @@
 
 FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	
+	//we only label up to 12 points, so pick which ones
+	function getNextValue(currentValue, domainSizeMinusOne){
+		var numPointsToSkip = Math.floor(domainSizeMinusOne / 12);
+		return (currentValue - numPointsToSkip - 1);
+	}
+	
+	//build a list of 1 to 12 labels, with blanks inserted to fill out the data points
+	function setDomainLabels(AgeOfOrg, MostRecentScrape){
+	
+		var currentValue = AgeOfOrg;
+		var nextValue    = 0;
+		var skippedValues= 0;
+		var newLabels    = [];
+		
+		newLabels.push( currentValue.toString() );
+		for(; currentValue > MostRecentScrape; currentValue = nextValue){
+			nextValue = getNextValue(currentValue, AgeOfOrg);
+			for(skippedValues = currentValue - nextValue - 1; skippedValues > 0; --skippedValues){
+				newLabels.push('');
+			}
+			newLabels.push( nextValue.toString() );
+		}
+		
+		config.labels = newLabels;
+	}
+	
+	var config = {
+		series:  ['Size', 'Main', 'Affiliate', 'Hidden'],
+		labels: [],
+		colours: ["#FFFFFF", "#FFAA44", "#00FF00", "#FF0000"],
+		options: {
+			responsive: true,
+			legend: {
+				display: true,
+				position: 'top',
+				fullWidth: true,
+				labels: {
+					fontColor: '#FFFFFF',
+					fontStyle: 'bold',
+					fontSize: 20,
+					boxWidth: 50,
+				}
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						suggestedMin: 0,
+						stepSize: 1,
+						callback: function(tickValue, index, ticks) {
+							if(!(index % parseInt(ticks.length / 5))) {
+								return tickValue;
+							}
+						}
+					}
+				}]
+			}
+		}
+	}
+	
 	var chartData = {
 		plots: [],
 	}
@@ -25,29 +84,44 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	};
 	
 	var parseHistory = function(history_json){
+		var DaysAgoValue = history_json[0].DaysAgo;
+		setDomainLabels(DaysAgoValue, history_json[history_json.length - 1].DaysAgo);
+		
 		var Size      = [];
 		var Main      = [];
 		var Affiliate = [];
 		var Hidden    = [];
 		var axisLabels = [];
 		
-		var i = 11;
+		var interpolateValues = {
+			Size: 0,
+			Main: 0,
+			Affiliate: 0,
+			Hidden: 0
+		}
+		//replace chart data
 		for(date in history_json){
-			var days = history_json[date].DaysAgo;
-			//interpolate with last known value (or today's if it's the first)
-			while(i !== days && i >= 0){
-				Size.push( history_json[date].Size );
-				Main.push( history_json[date].Main );
-				Affiliate.push( history_json[date].Affiliate );
-				Hidden.push( history_json[date].Hidden );
-				--i;
+			var days = history_json[date].DaysAgo;//when this data entry was scraped
+			//interpolate missing data entries with last known value (or 0 if it predates first scrape)
+			while(DaysAgoValue !== days && DaysAgoValue >= 0){
+				Size.push(      interpolateValues.Size );
+				Main.push(      interpolateValues.Main );
+				Affiliate.push( interpolateValues.Affiliate );
+				Hidden.push(    interpolateValues.Hidden  );
+				--DaysAgoValue;
 			}
 			//add today
 			Size.push( history_json[date].Size );
 			Main.push( history_json[date].Main );
 			Affiliate.push( history_json[date].Affiliate );
 			Hidden.push( history_json[date].Hidden );
-			--i;
+			
+			interpolateValues.Size      = history_json[date].Size;
+			interpolateValues.Main      = history_json[date].Main;
+			interpolateValues.Affiliate = history_json[date].Affiliate;
+			interpolateValues.Hidden    = history_json[date].Hidden;
+			
+			--DaysAgoValue;
 		}
 		chartData.plots = [
 			Size,
@@ -93,6 +167,7 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	};
 	
 	return {
+		config,
 		chartData,
 		descriptionData,
 		rowData,

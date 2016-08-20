@@ -32,8 +32,7 @@ CREATE TABLE tbl_Organizations(
 	Size INT NOT NULL,
 	Main INT,
 	GrowthRate float DEFAULT 0.0,
-	CustomIcon BOOLEAN NOT NULL, -- link to RSI
-	URL  VARCHAR(100) NOT NULL -- org website (default RSI)
+	CustomIcon BOOLEAN NOT NULL -- whether or not we need to scrape icon
 );
 ALTER TABLE tbl_Organizations ADD INDEX(Name, SID);
 ALTER TABLE tbl_Organizations ADD INDEX(Size, SID);

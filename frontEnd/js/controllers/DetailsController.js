@@ -30,6 +30,7 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	$scope.widthDetails     = LoadDetailsService.widthDetails;
 	$scope.gridWidthModifer = LoadDetailsService.gridWidthModifer;
 	
+	$scope.config = LoadDetailsService.config;
 	$scope.chartData   = LoadDetailsService.chartData;
 	$scope.rowData     = LoadDetailsService.rowData;
 	$scope.loadDetails = LoadDetailsService.loadDetails;
@@ -38,38 +39,5 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	
 	Chart.defaults.global.defaultFontColor = '#ffffff';
 	Chart.defaults.global.defaultFontSize = 18;
-	
-	$scope.config = {
-		series:  ['Size', 'Main', 'Affiliate', 'Hidden'],
-		labels: ['10', '', '8', '', '6', '', '4', '', '2', '', '0'],
-		colours: ["#FFFFFF", "#FFAA44", "#00FF00", "#FF0000"],
-		options: {
-			responsive: true,
-			legend: {
-				display: true,
-				position: 'top',
-				fullWidth: true,
-				labels: {
-					fontColor: '#FFFFFF',
-					fontStyle: 'bold',
-					fontSize: 20,
-					boxWidth: 50,
-				}
-			},
-			scales: {
-				yAxes: [{
-					ticks: {
-						suggestedMin: 0,
-						stepSize: 1,
-						callback: function(tickValue, index, ticks) {
-							if(!(index % parseInt(ticks.length / 5))) {
-								return tickValue;
-							}
-						}
-					}
-				}]
-			}
-		}
-	}
 	
 }]);

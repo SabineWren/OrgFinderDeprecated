@@ -1,6 +1,7 @@
 
 DB Population:
 	* delete orgs that no longer exist
+	***** fix weekly growth calculation
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
@@ -9,5 +10,4 @@ Front End:
 	build a webgl version of the cube
 	add banner/footer
 	*** improve fonts
-	* add grid view
 

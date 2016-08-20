@@ -98,9 +98,9 @@
 	$connection->autocommit(FALSE);
 	
 	//2) Prepare statements
-	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon, URL) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, CustomIcon = ?, URL = ?");
+	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, CustomIcon = ?");
 	$prepared_update_org  = $connection->prepare("UPDATE tbl_Organizations SET Size = ?, Main = ? WHERE SID = ?");
-	$prepared_insert_org ->bind_param("ssssdssssds", $SID, $Name, $Size, $Main, $CustomIcon, $URL, $Name, $Size, $Main, $CustomIcon, $URL);
+	$prepared_insert_org ->bind_param("ssdddsddd", $SID, $Name, $Size, $Main, $CustomIcon, $Name, $Size, $Main, $CustomIcon);
 	$prepared_update_org ->bind_param("dds", $Size, $Main, $SID);
 	
 	$prepared_insert_date  = $connection->prepare("INSERT INTO tbl_OrgMemberHistory (Organization, ScrapeDate, Size, Main, Affiliate, Hidden) VALUES (?, CURDATE(), ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ScrapeDate = CURDATE(), Size = ?, Main = ?, Affiliate = ?, Hidden = ?");
@@ -230,7 +230,6 @@
 				)$CustomIcon = 0;
 				else $CustomIcon = 1;
 				
-				$URL            = 'https://robertsspaceindustries.com/orgs/' . $SID;
 				$Recruiting     = $orgArray['data']['recruiting'];
 				$Archetype      = $orgArray['data']['archetype'];
 				$Commitment     = $orgArray['data']['commitment'];
