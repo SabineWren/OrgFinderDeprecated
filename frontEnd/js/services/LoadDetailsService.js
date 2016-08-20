@@ -40,8 +40,13 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	var config = {
 		series:  ['Size', 'Main', 'Affiliate', 'Hidden'],
 		labels: [],
-		colours: ["#FFFFFF", "#FFAA44", "#00FF00", "#FF0000"],
 		options: {
+			elements: {
+				line: {
+					fill: false,
+					borderWidth: 4
+				}
+			},
 			responsive: true,
 			legend: {
 				display: true,
@@ -56,6 +61,11 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 			},
 			scales: {
 				yAxes: [{
+					gridLines:{
+						color: "rgba(255,255,255,1.0)",
+						drawOnChartArea: false,
+						zeroLineWidth: 2
+					},
 					ticks: {
 						suggestedMin: 0,
 						stepSize: 1,
@@ -64,6 +74,12 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 								return tickValue;
 							}
 						}
+					}
+				}],
+				xAxes: [{
+					gridLines:{
+						color: "rgba(255,255,255,1.0)",
+						drawOnChartArea: false
 					}
 				}]
 			}

@@ -34,6 +34,7 @@
 <!-- ***************************************************************************************************** -->
 <!-- User Controls -->
 <div ng-controller="CheckboxController" ng-show="StateUI.Controls" id="left-block-controls">
+
 <div class="controls-details">
 <div class="checkboxCategories">
 	<!-- contents in /data/Checkboxes.json -->
@@ -116,8 +117,11 @@
 		<h1 id="org-name-details"><a ng-href="{{ rowData.result.URL }}" target="_blank">{{ rowData.result.Name }} <span style="color: orange;">(RSI URL)</span></a></h1>
 		<canvas id="bar" class="chart chart-line"
 			chart-data="chartData.plots" chart-labels="config.labels" chart-series="config.series"
-			chart-colors="config.colours" chart-options="config.options">
+			chart-colors="colourConfig.colours" chart-options="config.options">
 		</canvas>
+		
+		<h4 id="chart-X-label">Scrape Date [Days Ago]</h4>
+		<hr style="font-size:12px;color:orange;">
 		
 		<h2 id="org-greeting">{{ descriptionData.Headline }}</h2>
 		

@@ -357,6 +357,7 @@
 		
 		// the 7 normalizes to weekly average
 		try{
+			if(!$timeDifference)throw new Exception("Divide By Zero");
 			return ($sizeDifference * 7 / $timeDifference);
 		}
 		catch(Exception $e){

@@ -38,6 +38,15 @@
 	position: relative;
 	width: 69%;
 	margin: 0;
-	padding: 0
+	padding: 0;
+	color: white;
 }
 
+#chart-X-label {
+	display: block;
+	position: relative;
+	margin: auto;
+	margin-top: -10px;
+	text-align: center;
+	color: white;
+}

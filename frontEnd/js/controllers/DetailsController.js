@@ -40,4 +40,13 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	Chart.defaults.global.defaultFontColor = '#ffffff';
 	Chart.defaults.global.defaultFontSize = 18;
 	
+	$scope.colourConfig ={
+		"colours": [
+			"#FFFFFF",
+			"#FFA500",
+			"#88FF00",
+			"#FF0000"
+		]
+	};
+
 }]);
