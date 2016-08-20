@@ -25,7 +25,7 @@ Members  (front end) == Size  (database)
 	//get parameters from query string
 	if( isset($_GET['SID']) )$SID = $_GET['SID'];
 	
-	$prepared_select = $connection->prepare("SELECT Size, Main, Affiliate, Hidden, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? AND (ScrapeDate > CURDATE() - 11 ) ORDER BY DaysAgo DESC");
+	$prepared_select = $connection->prepare("SELECT Size, Main, Affiliate, Hidden, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY DaysAgo DESC");
 	$prepared_select->bind_param("s", $SID);
 	$prepared_select->execute();
 	

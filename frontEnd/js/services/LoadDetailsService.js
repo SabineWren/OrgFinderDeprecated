@@ -11,27 +11,33 @@
 
 FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	
-	//we only label up to 12 points, so pick which ones
+	//we only label up to 7 points, so pick which ones
 	function getNextValue(currentValue, domainSizeMinusOne){
-		var numPointsToSkip = Math.floor(domainSizeMinusOne / 12);
+		var numPointsToSkip = Math.floor(domainSizeMinusOne / 7);
 		return (currentValue - numPointsToSkip - 1);
 	}
 	
-	//build a list of 1 to 12 labels, with blanks inserted to fill out the data points
+	//build a list of 1 to 7 labels, with blanks inserted to fill out the data points
 	function setDomainLabels(AgeOfOrg, MostRecentScrape){
 	
-		var currentValue = AgeOfOrg;
-		var nextValue    = 0;
-		var skippedValues= 0;
-		var newLabels    = [];
+		var currentValue  = AgeOfOrg;
+		var nextValue     = 0;
+		var skippedValues = 0;
+		var drawElement   = true;
+		var newLabels     = [];
 		
 		newLabels.push( currentValue.toString() );
 		for(; currentValue > MostRecentScrape; currentValue = nextValue){
 			nextValue = getNextValue(currentValue, AgeOfOrg);
+			if(nextValue < 0){
+				drawElement = false;
+				nextValue = 0;
+			}
 			for(skippedValues = currentValue - nextValue - 1; skippedValues > 0; --skippedValues){
 				newLabels.push('');
 			}
-			newLabels.push( nextValue.toString() );
+			if(drawElement)newLabels.push( nextValue.toString() );
+			else newLabels.push("");
 		}
 		
 		config.labels = newLabels;
@@ -79,7 +85,8 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 				xAxes: [{
 					gridLines:{
 						color: "rgba(255,255,255,1.0)",
-						drawOnChartArea: false
+						drawOnChartArea: false,
+						drawTicks: false
 					}
 				}]
 			}
