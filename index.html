@@ -78,7 +78,7 @@
 		<div id="first-layer">
 			<div id="filter-name-SID">
 				Enter a Name or SID:
-				<input class=filter type="text" ng-model="filterName"><br>
+				<form ng-submit="reapplyFilters()"><input class=filter type="text" ng-model="filterName"><br></form>
 				<input class="filter-button" type="button" ng-show="StateUI.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
 				<input class="filter-button" type="button" ng-hide="StateUI.listViewTF" ng-click="toggleView()" value="Enable List View"/>
 			</div>
