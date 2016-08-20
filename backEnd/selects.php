@@ -49,7 +49,7 @@ Members  (front end) == Size  (database)
 	$conjunction = ' WHERE ';
 	
 	$sql = "
-SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.GrowthRate as GrowthRate, orgs.CustomIcon as CustomIcon, orgs.URL as URL,
+SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.GrowthRate as GrowthRate, orgs.CustomIcon as CustomIcon,
 Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus, Commitment, Language, Archetype,
 CASE
 	WHEN RolePlayBool IS NOT NULL then 'Yes'
@@ -61,7 +61,7 @@ CASE
 	ELSE 'Yes'
 	END AS Recruiting
 FROM (
-	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon, URL, Roleplay.Organization as RolePlayBool, FullOrgs.Organization as RecruitingBool, ExclOrgs.Organization as ExclBool
+	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon, Roleplay.Organization as RolePlayBool, FullOrgs.Organization as RecruitingBool, ExclOrgs.Organization as ExclBool
 	FROM tbl_Organizations orgs
 	LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
 	LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
