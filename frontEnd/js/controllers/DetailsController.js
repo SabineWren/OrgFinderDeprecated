@@ -30,12 +30,10 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 	$scope.widthDetails     = LoadDetailsService.widthDetails;
 	$scope.gridWidthModifer = LoadDetailsService.gridWidthModifer;
 	
-	$scope.config = LoadDetailsService.config;
+	$scope.config      = LoadDetailsService.config;
 	$scope.chartData   = LoadDetailsService.chartData;
 	$scope.rowData     = LoadDetailsService.rowData;
 	$scope.loadDetails = LoadDetailsService.loadDetails;
-	
-	$scope.descriptionData = LoadDetailsService.descriptionData;
 	
 	Chart.defaults.global.defaultFontColor = '#ffffff';
 	Chart.defaults.global.defaultFontSize = 18;

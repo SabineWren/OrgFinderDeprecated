@@ -25,13 +25,22 @@
 	*/
 	mb_internal_encoding("UTF-8");
 	
+	//Obviously this is not safe for user input,
+	//but the html data comes from RSI via sc-api,
+	//so it 'should' be safe if RSI purified it.
+	//Long term we should purify it ourselves and allow whitelisted URLs.
+	$AllowedTags = '<br><p><h2><h3><h4><h5>';
+	$LotsOfNewlines = "/\n\n\n+/";
+	
 	function getOrgSize(&$SID, &$connection){
 //THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)
 //but the input is from the sc-api, not from a regular user
 		$rows = $connection->query("SELECT Size, Main FROM tbl_Organizations WHERE SID = '$SID'");
 		$row = $rows->fetch_assoc();
-		if($row == null){
-			echo "NOT FOUND Org SID = $SID\n";
+		//IN THE FUTURE, USE DATABASE CONFLICT VIEWS INSTEAD OF COMPARING SIZE TO MAIN!!!!!!
+		if($row == null || $row['Main'] > $row['Size']){
+			if($row == null)echo "NOT FOUND Org SID = $SID\n";
+			else echo "Data integrity error for $SID; fixing\n";
 			$result = ['Size' => 0];
 			return $result;
 		}
@@ -195,10 +204,6 @@
 					echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
 				}
 				unset($membersArray);
-			}
-			
-			//only query the org if it's new
-			if( $savedSize["Size"] == 0 ){
 				//note sc-api does not provide language information on live results
 				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=';
 				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
@@ -236,14 +241,22 @@
 				$Roleplay       = $orgArray['data']['roleplay'];
 				$PrimaryFocus   = $orgArray['data']['primary_focus'];
 				$SecondaryFocus = $orgArray['data']['secondary_focus'];
-				$Language       = html_entity_decode( $org['lang'] );//live query for single org always has null language
+				$Language       = html_entity_decode( $org['lang'] );//live query for single ors might have null language
+				
 				//banner
-				$Headline       = $orgArray['data']['headline'];//max size limited by current VARCHAR size
-				$Headline       = substr($Headline , 0, 100);//chop
 				//history
-				$Manifesto      = $orgArray['data']['manifesto'];//max size limited by current VARCHAR size
-				$Manifesto      = substr($Manifesto , 0, 1024);//chop
 				//charter
+				
+				$Headline = $orgArray['data']['headline'];//max size limited by current VARCHAR size
+				$Headline = strip_tags($Headline, $AllowedTags);
+				$Headline = preg_replace($LotsOfNewlines, "\n\n", $Headline);
+				$Headline = substr($Headline , 0, 512);
+	
+				$Manifesto = $orgArray['data']['manifesto'];//max size limited by current VARCHAR size
+				$Manifesto = strip_tags($Manifesto, $AllowedTags);
+				$Manifesto = preg_replace($LotsOfNewlines, "\n\n", $Manifesto);
+				$Manifesto = substr($Manifesto , 0, 4096);
+				
 				unset($orgArray);
 				
 				echo $connection->error;
@@ -292,8 +305,8 @@
 				$Affiliate = $savedSize["Affiliate"];
 				$Hidden    = $savedSize["Hidden"];
 			}
-			//always insert a scrape date with member info
-			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
+			//always insert a scrape date with member info NEXTRUN UNCOMMENT
+			//attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
 			$connection->commit();
 		}
 		echo $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
@@ -341,9 +354,11 @@
 	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgFluencies ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_OrgDescription ENGINE=INNODB');
 	
-	//9) rebuild growth
+	//9) rebuild growth DISABLED DUE TO BUGS... USING temp.php INSTEAD
 	echo "Done clustering... updating growth (this will take a few minutes)...\n";
+	echo "ONLY TRYING ONCE; USE temp.php FOR ACTUAL INSERTS";
 	
 	function getGrowthRate(&$SizeArray){
 		$indexLast = count($SizeArray) - 1;
@@ -403,7 +418,7 @@
 			$prepared_init_growth->close();
 			$prepared_insert_growth->close();
 			$connection->close();
-			exit("debug exit\n");
+			exit("debug exit (no resource leak)\n");
 		}
 		unset($SizeArray);
 		unset($parameters);

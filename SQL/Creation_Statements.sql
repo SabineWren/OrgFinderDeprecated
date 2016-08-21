@@ -213,8 +213,8 @@ CREATE TABLE tbl_OrgMemberHistory(
 
 CREATE TABLE tbl_OrgDescription(
 	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
-	Headline VARCHAR(100) NOT NULL,
-	Manifesto VARCHAR(1024) NOT NULL,
+	Headline VARCHAR(512) NOT NULL,
+	Manifesto VARCHAR(4096) NOT NULL,
 	FOREIGN KEY FK_GrowthRate(SID) REFERENCES tbl_Organizations(SID)
 );
 

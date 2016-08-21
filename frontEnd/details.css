@@ -42,6 +42,15 @@
 	color: white;
 }
 
+#org-manifesto {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	color: white;
+}
+
 #chart-X-label {
 	display: block;
 	position: relative;

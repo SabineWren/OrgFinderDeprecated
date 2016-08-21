@@ -10,7 +10,6 @@
 	@license-end
 	*/
 	
-	//Connect to DB
 	if( sizeof($argv) < 3){
 		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
 		exit();
@@ -42,10 +41,10 @@
 
 			$fp = fopen( ( $PathToImages . $SID ), 'w' );
 			fwrite($fp, $image);
+			echo "saved icon for SID = $SID\n";
 			fclose($fp);
 		}
 	}
 	
-	$prepared_update->close();
 	$connection->close();
 ?>

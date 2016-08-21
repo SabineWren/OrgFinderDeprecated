@@ -26,7 +26,7 @@
 		$oldestTuple = $SizeArray[$indexLast];
 		
 		$timeDifference = $oldestTuple['DaysAgo'] - $newestTuple['DaysAgo'];
-		$sizeDifference = $newestTuple['Main'] - $oldestTuple['Main'];
+		$sizeDifference = $newestTuple['Size'] - $oldestTuple['Size'];
 		
 		// the 7 normalizes to weekly average
 		try{
@@ -41,7 +41,7 @@
 		}
 	}
 	
-	$prepared_init_growth = $connection->prepare("SELECT Main, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 10");
+	$prepared_init_growth = $connection->prepare("SELECT Size, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 7");
 	$prepared_init_growth->bind_param("s", $SID);
 	
 	$prepared_insert_growth = $connection->prepare("UPDATE tbl_Organizations SET GrowthRate = ? WHERE SID = ?");
