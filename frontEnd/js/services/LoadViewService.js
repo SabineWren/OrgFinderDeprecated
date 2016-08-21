@@ -76,7 +76,8 @@ FrontEndApp.factory('LoadViewService', function(){
 	};
 	
 	function callbackParseSelection(data){
-		if(data === "null"){
+		if(data === "null\n"){
+			console.log(data);
 			console.log("No more orgs found!\n");
 			alert("No more orgs found!\n");
 		}

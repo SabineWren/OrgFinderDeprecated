@@ -1,7 +1,6 @@
 
 DB Population:
-	* delete orgs that no longer exist
-	***** fix weekly growth calculation
+	* delete orgs that no longer exist (maybe keep them on a deleted list instead?)
 
 Misc:
 	the SC-API does not seem to scrape exclusive status (need workaround)
