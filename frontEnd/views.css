@@ -118,10 +118,18 @@ td a {
 	white-space: normal;
 	word-wrap: break-word;
 }
+tr #Name {
+	font-family: Georgia, serif;
+	font-size: 16px;
+}
 
 #focuses {
 	width: 120px;
 	text-align: left;
+}
+tr #focuses {
+	font-family: Georgia, serif;
+	font-size: 16px;
 }
 
 #SID-archetype {
@@ -132,9 +140,17 @@ td a {
 #commitment-language {
 	text-align: left;
 }
+tr #commitment-language {
+	font-family: Georgia, serif;
+	font-size: 16px;
+}
 
 #recruiting-roleplay {
 	width: 55px;
+}
+tr #recruiting-roleplay {
+	font-family: Georgia, serif;
+	font-size: 16px;
 }
 
 /* Grid View */

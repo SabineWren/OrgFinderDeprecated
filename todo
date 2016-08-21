@@ -8,7 +8,6 @@ Misc:
 Front End:
 	build a webgl version of the cube
 	add banner/footer
-	*** improve fonts
 
 Constraints:
 	CHECK( Size == Main + Affiliate + Hidden )
