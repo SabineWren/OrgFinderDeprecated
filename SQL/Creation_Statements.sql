@@ -30,7 +30,7 @@ CREATE TABLE tbl_Organizations(
 	SID  VARCHAR(10) PRIMARY KEY, -- Clustered Index
 	Name VARCHAR(30)  NOT NULL,
 	Size INT NOT NULL,
-	Main INT,
+	Main INT NOT NULL,
 	GrowthRate float DEFAULT 0.0,
 	CustomIcon BOOLEAN NOT NULL -- whether or not we need to scrape icon
 );

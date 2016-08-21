@@ -10,3 +10,5 @@ Front End:
 	add banner/footer
 	*** improve fonts
 
+Constraints:
+	CHECK( Size == Main + Affiliate + Hidden )

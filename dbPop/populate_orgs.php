@@ -35,7 +35,7 @@
 	function getOrgSize(&$SID, &$connection){
 //THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)
 //but the input is from the sc-api, not from a regular user
-		$rows = $connection->query("SELECT Size, Main FROM tbl_Organizations WHERE SID = '$SID'");
+		$rows = $connection->query("SELECT Size, Main, GrowthRate FROM tbl_Organizations WHERE SID = '$SID'");
 		$row = $rows->fetch_assoc();
 		//IN THE FUTURE, USE DATABASE CONFLICT VIEWS INSTEAD OF COMPARING SIZE TO MAIN!!!!!!
 		if($row == null || $row['Main'] > $row['Size']){
@@ -44,8 +44,20 @@
 			$result = ['Size' => 0];
 			return $result;
 		}
+		if($row['GrowthRate'] == null){
+			echo "GrowthRate null\n";
+			$result = ['Size' => 0];
+			return $result;
+		}
 		
 		$rows = $connection->query("SELECT Size, Main, Affiliate, Hidden FROM tbl_OrgMemberHistory WHERE Organization = '$SID' ORDER BY ScrapeDate DESC LIMIT 1");
+		
+		if($rows == null){
+			echo "Error: existing org not in history; treating it as new\n";
+			$result = ['Size' => 0];
+			return $result;
+		}
+		
 		$row = $rows->fetch_assoc();
 		$result = [
 			'Size'      => $row['Size'],
@@ -179,15 +191,15 @@
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
 					$lines = file_get_contents($memberQueryString);
 					unset($memberQueryString);
-					$dataArray = json_decode($lines, true);//json to php associated array
-					if($dataArray == false){
+					$memberDataArray = json_decode($lines, true);//json to php associated array
+					if($memberDataArray == false){
 						echo "failed to decode members list for SID = $SID; skipping\n";
 						continue 2;
 					}
 					unset($lines);
-					if($dataArray["data"] == null)break;//done reading data
+					if($memberDataArray["data"] == null)break;//done reading data
 					
-					foreach($dataArray["data"] as $member){
+					foreach($memberDataArray["data"] as $member){
 						$membersArray[] = $member;
 					}
 				}
@@ -305,12 +317,13 @@
 				$Affiliate = $savedSize["Affiliate"];
 				$Hidden    = $savedSize["Hidden"];
 			}
-			//always insert a scrape date with member info NEXTRUN UNCOMMENT
-			//attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
+			//always insert a scrape date with member info
+			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
 			$connection->commit();
 		}
 		echo $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
 	}
+	unset($x);
 	
 	echo "Finished...\n";
 	echo "Inserted $numberInserted Orgs\n";
@@ -383,15 +396,22 @@
 		}
 	}
 	
-	$prepared_init_growth = $connection->prepare("SELECT Main, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 10");
+	$prepared_init_growth = $connection->prepare("SELECT Main, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 7");
 	$prepared_init_growth->bind_param("s", $SID);
 	
 	$prepared_insert_growth = $connection->prepare("UPDATE tbl_Organizations SET GrowthRate = ? WHERE SID = ?");
 	$prepared_insert_growth->bind_param("ds", $Growth, $SID);
 	
+	//get a complete list of saved orgs to recalculate
 	$results = $connection->query("SELECT SID FROM tbl_Organizations");
+	$AllOrgsToUpdate = array();
 	while( $result = $results->fetch_assoc() ){
-		$SID = $result['SID'];
+		$AllOrgsToUpdate[] = $result['SID'];
+	}
+	unset($results);
+	
+	//get data needed to recalculate growth
+	foreach($AllOrgsToUpdate as $SID){
 		$prepared_init_growth->execute();
 		
 		$meta = $prepared_init_growth->result_metadata();
@@ -403,14 +423,18 @@
 		call_user_func_array(array($prepared_init_growth, 'bind_result'), $parameters);
 	
 		//fetch results into $parameters, which references the values of $rowKeyValue
+		$row = array();
 		while ($prepared_init_growth->fetch()) {
 			//copy the resulting row one attribute at a time
 			//we use a loop because the contents are references
 			foreach($rowKeyValue as $key => $val) {
-				$x[$key] = $val;
+				$row[$key] = $val;
 			}
-			$SizeArray[] = $x;//save the row
+			$SizeArray[] = $row;
 		}
+		unset($row);
+		
+		//recalculate growth
 		try{
 			$Growth = getGrowthRate($SizeArray);
 		}
