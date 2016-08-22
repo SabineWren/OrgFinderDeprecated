@@ -43,7 +43,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 			
 			//adjust width of grid if we pushed it right
 			if(!$scope.StateUI.Details){
-				widthBasis = document.getElementById('gridViewResults').offsetWidth;
+				widthBasis = document.getElementById('grid-view-results').offsetWidth;
 				$scope.gridWidthModifer.data = {
 					"width" : ( widthBasis - widthExtension ).toString() + "px"
 				};

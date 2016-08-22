@@ -18,7 +18,7 @@ function ($scope, LoadDetailsService, GlobalStateUI) {
 		
 		//if in grid view, reset grid with
 		if(!$scope.StateUI.listViewTF){
-			var widthBasis = document.getElementById('gridViewResults').offsetWidth;
+			var widthBasis = document.getElementById('grid-view-results').offsetWidth;
 			var widthExtension = document.getElementById('cellWidthJS').offsetWidth;
 			$scope.gridWidthModifer.data = {
 				"width" : ( widthBasis + widthExtension ).toString() + "px"

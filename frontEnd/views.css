@@ -155,7 +155,7 @@ tr #recruiting-roleplay {
 
 /* Grid View */
 
-#gridViewResults{
+#grid-view-results {
 	display: inline-block;
 	position: relative;
 	vertical-align: top;
@@ -181,21 +181,16 @@ tr #recruiting-roleplay {
 	}
 }
 
-
-loadButtonGrid{
-	position: static;
-}
-
 .cell:before {
 	display: inline-block;
-	padding-top: 243px;
+	padding-top: 263px;
 	content:'';
 }
 
 .cell {
 	display: inline-block;
 	position: relative;
-	width: 180px;
+	width: 270px;
 	border-style: ridge;
 	border-width: 5px;
 	border-color: black;
@@ -205,7 +200,7 @@ loadButtonGrid{
 	border-color: #2A36BA;
 	margin: 3px;
 }
-#cellWidthJS{width:180px;}
+#cellWidthJS{width:270px;}
 
 .cell-contents {
 	position: absolute;
@@ -216,7 +211,8 @@ loadButtonGrid{
 	left: 0;
 	right: 0;
 	white-space: nowrap;
-	line-height: 14px;
+	line-height: 21px;
+	font-size: 17px;
 }
 
 .cell:hover{
@@ -241,15 +237,22 @@ loadButtonGrid{
 }
 
 .loadButton {
-	position: absolute;
-	right: 260px;
-	bottom: -50px;
+	display: block;
 	font-size: 22px;
 	width: 300px;
 }
 
-/* used to buffer the data list to make room for the Load More button*/
-#coglogo{
+.list-view .loadButton {
+	position: absolute;
+	right: 260px;
+}
+
+#grid-view-results .loadButton {
+	position: relative;
+	clear: left;
+}
+
+/*#coglogo{
 	position: absolute;
 	right: 100px;
 	bottom: -130px;
@@ -258,6 +261,6 @@ loadButtonGrid{
 #coglogoGrid{
 	position: static;
 	float: left;
-}
+}*/
 
 

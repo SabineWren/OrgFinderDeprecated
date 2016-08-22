@@ -180,7 +180,7 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 	
 	var gridWidthModifer = {
 		data: {
-			"width" : document.getElementById('gridViewResults').offsetWidth.toString() + "px"
+			"width" : document.getElementById('grid-view-results').offsetWidth.toString() + "px"
 		}
 	};
 	

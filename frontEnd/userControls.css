@@ -13,20 +13,17 @@
 
 .checkboxCategories /*.Commitment .Roleplay .Archetype .Activities .Recruiting*/{
 	display: inline-block;
-	position: relative;
 	width: 100%;
 	padding: 0%;
 }
 
 #control-columns {
 	display: inline-block;
-	position: relative;
 	width: 100%;
 	padding-bottom: 0;
 }
 
 .columnLeft {
-	position: relative;
 	width: 38%;
 	padding: 1%;
 	padding-left: 3%;
@@ -42,7 +39,6 @@
 }
 
 .checkboxModels {
-	position: relative;
 	z-index: 2;
 }
 
@@ -63,11 +59,9 @@
 
 #filterCount{
 	width: 100%;
-	position: relative;
 }
 
 .other-filters {
-	position: relative;
 	line-height: 16px;
 	width: 100%;
 	margin-top: 10px;
@@ -81,7 +75,6 @@ input[type=number]{
 }
 
 #first-layer {
-	position: relative;
 	display: inline-block;
 	vertical-align: top;
 	width: 100%;

@@ -262,14 +262,14 @@
 			</div></td>
 		</tr>
 		</table>
-	<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
-	<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
-	<img id="coglogo" src="frontEnd/images/favicon.png" alt="cog logo"/>
+		<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+		<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
+		<!--img id="coglogoGrid" src="frontEnd/images/favicon.png" alt="cog logo"/-->
 	</div>
 </div>
 <!-- ***************************************************************************************************** -->
 <!-- Grid View -->
-<div ng-hide="StateUI.listViewTF" id="gridViewResults" ng-style="gridWidthModifer.data">
+<div ng-hide="StateUI.listViewTF" id="grid-view-results" ng-style="gridWidthModifer.data">
 	<div class="cell" ng-repeat="result in orgResults.results" ng-class="{highlighted : result['SID'] === curSelection}">
 		<div ng-click="loadDetails(result)" class="cell-contents">
 			<figcaption>
@@ -277,15 +277,14 @@
 			</figcaption>
 			<img class=gridIcon ng-src="{{ result.Icon }}"></a>
 			<figcaption>
-				{{ result.PrimaryFocus }}
-				<br>{{ result.SecondaryFocus }}
-				<br>Size: {{ result.Size }}
+				<span class="alternate">{{ result.PrimaryFocus }},</span> {{ result.SecondaryFocus }}
+				<br>Size: {{ result.Size }}, <span class="alternate">Main: {{ result.Main }}</span>
 			</figcaption>
 		</div>
 	</div>
-	<input class="loadButtonGrid" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
-	<input class="loadButtonGrid" ng-show="loadStatus.isLoading" type="button" value="loading..." />
-	<img id="coglogoGrid" src="frontEnd/images/favicon.png" alt="cog logo"/>
+	<input class="loadButton" ng-hide="loadStatus.isLoading" type="button" value="Load More Results"ng-click="loadMoreOrgs()" />
+	<input class="loadButton" ng-show="loadStatus.isLoading" type="button" value="loading..." />
+	<!--img id="coglogoGrid" src="frontEnd/images/favicon.png" alt="cog logo"/-->
 </div>
 </div>
 
