@@ -183,14 +183,14 @@ tr #recruiting-roleplay {
 
 .cell:before {
 	display: inline-block;
-	padding-top: 263px;
+	padding-top: 290px;
 	content:'';
 }
 
 .cell {
 	display: inline-block;
 	position: relative;
-	width: 270px;
+	width: 250px;
 	border-style: ridge;
 	border-width: 5px;
 	border-color: black;
@@ -200,7 +200,7 @@ tr #recruiting-roleplay {
 	border-color: #2A36BA;
 	margin: 3px;
 }
-#cellWidthJS{width:270px;}
+#cellWidthJS{width:250px;}
 
 .cell-contents {
 	position: absolute;

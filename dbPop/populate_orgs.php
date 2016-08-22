@@ -60,6 +60,14 @@
 			return $result;
 		}
 		
+		$rows = $connection->query("SELECT * FROM tbl_OrgDescription WHERE SID = '$SID'");
+		$row = $rows->fetch_assoc();
+		if($row === null){
+			echo "NO DESCRIPTION Org SID = $SID\n";
+			$result = ['Size' => 0];
+			return $result;
+		}
+		
 		$rows = $connection->query("SELECT Size, Main, Affiliate, Hidden FROM tbl_OrgMemberHistory WHERE Organization = '$SID' ORDER BY ScrapeDate DESC LIMIT 1");
 		
 		if($rows == null){
