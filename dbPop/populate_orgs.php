@@ -29,22 +29,32 @@
 	//but the html data comes from RSI via sc-api,
 	//so it 'should' be safe if RSI purified it.
 	//Long term we should purify it ourselves and allow whitelisted URLs.
-	$AllowedTags = '<br><p><h2><h3><h4><h5>';
+	$AllowedTags = '<a><br><p><h2><h3><h4><h5><span>';
 	$LotsOfNewlines = "/\n\n\n+/";
+	$ChopLongDashes = "/(-|—){10,}/";
 	
 	function getOrgSize(&$SID, &$connection){
 //THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)
 //but the input is from the sc-api, not from a regular user
 		$rows = $connection->query("SELECT Size, Main, GrowthRate FROM tbl_Organizations WHERE SID = '$SID'");
 		$row = $rows->fetch_assoc();
-		//IN THE FUTURE, USE DATABASE CONFLICT VIEWS INSTEAD OF COMPARING SIZE TO MAIN!!!!!!
-		if($row == null || $row['Main'] > $row['Size']){
-			if($row == null)echo "NOT FOUND Org SID = $SID\n";
-			else echo "Data integrity error for $SID; fixing\n";
+		//IN THE FUTURE, USE DATABASE CONSTRAINTS INSTEAD OF COMPARING THINGS!!!!!!
+		if($row === null){
+			echo "NOT FOUND Org SID = $SID\n";
 			$result = ['Size' => 0];
 			return $result;
 		}
-		if($row['GrowthRate'] == null){
+		if($row['Main'] === null){
+			echo "Main is null\n";
+			$result = ['Size' => 0];
+			return $result;
+		}
+		if($row['Main'] > $row['Size']){
+			echo "Data integrity error (Main > Size) for $SID; fixing\n";
+			$result = ['Size' => 0];
+			return $result;
+		}
+		if($row['GrowthRate'] === null){
 			echo "GrowthRate null\n";
 			$result = ['Size' => 0];
 			return $result;
@@ -216,7 +226,7 @@
 					echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
 				}
 				unset($membersArray);
-				//note sc-api does not provide language information on live results
+				//note sc-api does not always provide language information on live results
 				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=';
 				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
 				$orgArray = queryAPI($subqueryString);
@@ -262,11 +272,13 @@
 				$Headline = $orgArray['data']['headline'];//max size limited by current VARCHAR size
 				$Headline = strip_tags($Headline, $AllowedTags);
 				$Headline = preg_replace($LotsOfNewlines, "\n\n", $Headline);
+				$Headline = preg_replace($ChopLongDashes, "————————————————————————————————————————\n", $Headline);
 				$Headline = substr($Headline , 0, 512);
 	
 				$Manifesto = $orgArray['data']['manifesto'];//max size limited by current VARCHAR size
 				$Manifesto = strip_tags($Manifesto, $AllowedTags);
 				$Manifesto = preg_replace($LotsOfNewlines, "\n\n", $Manifesto);
+				$Manifesto = preg_replace($ChopLongDashes, "————————————————————————————————————————\n", $Manifesto);
 				$Manifesto = substr($Manifesto , 0, 4096);
 				
 				unset($orgArray);
@@ -276,6 +288,7 @@
 				//6) Execute Database Queries
 				$connection->query('SET foreign_key_checks = 0');//speed up inserting into hub table);
 				attemptInsert($SID, $Name, $prepared_insert_org, $connection);
+				if($Main === null)echo "ERROR: Inserting NULL value\n";
 				$connection->query('SET foreign_key_checks = 1');
 				
 				attemptInsert($SID, $IconURL,      $prepared_insert_icon, $connection);
@@ -371,7 +384,6 @@
 	
 	//9) rebuild growth DISABLED DUE TO BUGS... USING temp.php INSTEAD
 	echo "Done clustering... updating growth (this will take a few minutes)...\n";
-	echo "ONLY TRYING ONCE; USE temp.php FOR ACTUAL INSERTS";
 	
 	function getGrowthRate(&$SizeArray){
 		$indexLast = count($SizeArray) - 1;
