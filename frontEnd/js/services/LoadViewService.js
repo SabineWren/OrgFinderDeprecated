@@ -94,6 +94,10 @@ FrontEndApp.factory('LoadViewService', function(){
 				icon
 			);
 			
+			//temporary code to handle database errors; only the 'else' part is needed once the DB works properly
+			if( typeof data[obj]["GrowthRate"] === 'undefined' || data[obj]["GrowthRate"] === null )field.GrowthRate = "NA";
+			else field.GrowthRate = data[obj]["GrowthRate"].toFixed(1);
+			
 			field.Commitment     = data[obj]["Commitment"];
 			
 			field.Recruiting     = data[obj]["Recruiting"];
@@ -108,7 +112,6 @@ FrontEndApp.factory('LoadViewService', function(){
 			field.SecondaryFocus = data[obj]["SecondaryFocus"];
 			field.PrimaryIcon    = icons.icons[  data[obj]["PrimaryFocus"]  ];
 			field.SecondaryIcon  = icons.icons[  data[obj]["SecondaryFocus"]  ];
-			field.GrowthRate     = data[obj]["GrowthRate"].toFixed(1);
 			
 			orgResults.results.push(field);
 		}

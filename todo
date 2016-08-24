@@ -1,13 +1,14 @@
 
 DB Population:
 	* delete orgs that no longer exist (maybe keep them on a deleted list instead?)
+	* calculate growth rate on the fly
 
 Misc:
-	the SC-API does not seem to scrape exclusive status (need workaround)
+	the SC-API does not scrape exclusive status (need workaround)
 	
 Front End:
-	build a webgl version of the cube
+	add WebGL effects
 	add banner/footer
 
 Constraints:
-	CHECK( Size == Main + Affiliate + Hidden )
+	CHECK( Size == Main + Affiliate + Hidden )//RSI does not have data integrity, so size is often +- 1

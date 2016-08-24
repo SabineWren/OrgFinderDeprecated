@@ -54,11 +54,11 @@
 			$result = ['Size' => 0];
 			return $result;
 		}
-		if($row['GrowthRate'] === null){
+		/*if($row['GrowthRate'] === null){
 			echo "GrowthRate null\n";
 			$result = ['Size' => 0];
 			return $result;
-		}
+		}*/
 		
 		$rows = $connection->query("SELECT * FROM tbl_OrgDescription WHERE SID = '$SID'");
 		$row = $rows->fetch_assoc();
@@ -81,7 +81,8 @@
 			'Size'      => $row['Size'],
 			'Main'      => $row['Main'],
 			'Affiliate' => $row['Affiliate'],
-			'Hidden'    => $row['Hidden']
+			'Hidden'    => $row['Hidden'],
+			'GrowthRate'=> $row['GrowthRate']
 		];
 		return $result;
 	}
@@ -137,9 +138,9 @@
 	$connection->autocommit(FALSE);
 	
 	//2) Prepare statements
-	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, CustomIcon = ?");
+	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon, GrowthRate) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, CustomIcon = ?, GrowthRate = ?");
 	$prepared_update_org  = $connection->prepare("UPDATE tbl_Organizations SET Size = ?, Main = ? WHERE SID = ?");
-	$prepared_insert_org ->bind_param("ssdddsddd", $SID, $Name, $Size, $Main, $CustomIcon, $Name, $Size, $Main, $CustomIcon);
+	$prepared_insert_org ->bind_param("ssddddsdddd", $SID, $Name, $Size, $Main, $CustomIcon, $GrowthRate, $Name, $Size, $Main, $CustomIcon, $GrowthRate);
 	$prepared_update_org ->bind_param("dds", $Size, $Main, $SID);
 	
 	$prepared_insert_date  = $connection->prepare("INSERT INTO tbl_OrgMemberHistory (Organization, ScrapeDate, Size, Main, Affiliate, Hidden) VALUES (?, CURDATE(), ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ScrapeDate = CURDATE(), Size = ?, Main = ?, Affiliate = ?, Hidden = ?");
@@ -233,6 +234,10 @@
 				if($total != $Size){
 					echo "WARNING: org $SID has size $Size on main query, but size $total from adding members\n";
 				}
+				
+				if($savedSize["Size"] == 0)$GrowthRate = 0.0;
+				else $GrowthRate = $savedSize["GrowthRate"];
+				
 				unset($membersArray);
 				//note sc-api does not always provide language information on live results
 				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=';
