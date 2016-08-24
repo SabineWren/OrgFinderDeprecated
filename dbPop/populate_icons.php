@@ -10,8 +10,8 @@
 	@license-end
 	*/
 	
-	if( sizeof($argv) < 3){
-		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
+	if( sizeof($argv) < 4){
+		echo "Correct usage: php " . $argv[0] . " <db username> <db password> <path to save icons (no trailing slash)>\n";
 		exit();
 	}
 	
@@ -20,7 +20,7 @@
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
 	
-	$PathToImages = "/media/usb_mysql/org_icons/";
+	$PathToImages = $argv[3] . '/';
 	$rows = $connection->query("SELECT Organization, Icon FROM tbl_IconURLs");
 	if(!$rows)die('Failed to SELECT from database');
 	

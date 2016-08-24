@@ -1,44 +1,41 @@
-# Cognition.corp
-Cognition Corp website and database (live Alpha -- more to come!)
+# What is this I don't even
 
-Technology stack (GASP/LAMP):
+Website Database for players to find organizations.
 
-- GNU+Linux server
+Live hosted at www.sabinewren.space
 
-- Apache2
+To host the app yousrelf, add and run dependencies. You can export our database from www.sabinewren.space/phpmyadmin. Debian-based GNU distributions provide easy installation:
 
-- MySQL database
+sudo bash
 
-- PHP5 back-end
+apt-get install mysql-server
 
-- AngularJS front-end (deprecated)
+apt-get install phpmyadmin (optional)
 
-- we interface with sc-api to scrape data from RSI
+apt-get install apache2 (included with phpmyadmin)
 
-Current hardware:
+run the creation .SQL scripts
 
-- 900MHz quad-core ARM Cortex-A7
+you can export our database via sabinewren.space/phpmyadmin
 
-- 1GiB DDR3
+// username=publicselect password=public
 
-- 8GB USB flash stick (stores database and pictures)
+apt-get install php5-cli (for localhosting)
 
-To host the app, add and run dependencies. Debian-based GNU distributions keep it simple:
+cd /var/www/html
 
-1) git clone <repository url>
-
-2) install MySQL-Server
-
-3) run the creation .SQL scripts
+git clone <repository url> .
 
 //test it locally
 
-4) php -S localhost:8000
+php -S localhost:8000
 
 //navigate to localhost:8000/frontEnd.html
 
-5) for GASP/LAMP server, install Apache2
+To scrape org icons, run /dbPop/populate_icons.php. The front end assumes you save to /org_icons, so provide an Apache alias if necessary under 000-default.conf. Icons are stored locally and separately from the database.
 
-6) clone into /var/www/html
+To live host, set up port forwarding on your router
 
-//navigate to <yourIP>/index.html
+//navigate to <your_public_IP>/index.html
+
+
