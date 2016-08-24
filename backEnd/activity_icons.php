@@ -11,7 +11,7 @@
 	*/
 	
 	//password convenient because some security settings by default require a password
-	$connection = new mysqli("192.168.0.105","publicselect","public", "cognitiondb");
+	$connection = new mysqli("localhost","publicselect","public", "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
