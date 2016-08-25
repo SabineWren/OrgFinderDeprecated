@@ -49,48 +49,22 @@ Members  (front end) == Size  (database)
 	$conjunction = ' WHERE ';
 	
 	$sql = "
-SELECT orgs.SID as SID, orgs.Name as Name, orgs.Size as Size, orgs.Main as Main, orgs.GrowthRate as GrowthRate, orgs.CustomIcon as CustomIcon,
-Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus, Commitment, Language, Archetype,
+SELECT SID, Name, Size, Main, GrowthRate, CustomIcon,
+Performs.PrimaryFocus as PrimaryFocus, Performs.SecondaryFocus as SecondaryFocus,
+Commitment, Language, Archetype,
 CASE
-	WHEN RolePlayBool IS NOT NULL then 'Yes'
+	WHEN Roleplay.Organization IS NOT NULL then 'Yes'
 	ELSE 'No'
 	END AS Roleplay,
 CASE
-	WHEN RecruitingBool IS NOT NULL then 'No'
-	WHEN ExclBool IS NOT NULL then 'Excl.'
+	WHEN FullOrgs.Organization IS NOT NULL then 'No'
+	WHEN ExclOrgs.Organization IS NOT NULL then 'Excl.'
 	ELSE 'Yes'
 	END AS Recruiting
 FROM (
-	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon, Roleplay.Organization as RolePlayBool, FullOrgs.Organization as RecruitingBool, ExclOrgs.Organization as ExclBool
-	FROM tbl_Organizations orgs
-	LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON orgs.SID = Roleplay.Organization
-	LEFT JOIN tbl_FullOrgs       FullOrgs  ON orgs.SID = FullOrgs.Organization
-	LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON orgs.SID = ExclOrgs.Organization
+	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon
+	FROM tbl_Organizations FORCE INDEX(Growth_SID)
 ";
-	$Values = explode( ',', $_GET['Recruiting'] );
-	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
-		if( $Values[0] == 'Yes' )     $sql .= "$conjunction(FullOrgs.Organization IS NULL)";
-		else if( $Values[0] == 'No' ) $sql .= "$conjunction(FullOrgs.Organization IS NOT NULL)";
-		$conjunction = ' AND ';
-	}
-	unset($Values);
-	
-	$Values = explode( ',', $_GET['Roleplay'] );
-	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
-		if( $Values[0] == 'Yes' )     $sql .= "$conjunction(Roleplay.Organization IS NOT NULL)";
-		else if( $Values[0] == 'No' ) $sql .= "$conjunction(Roleplay.Organization IS NULL)";
-		$conjunction = ' AND ';
-	}
-	unset($Values);
-	
-	$lang = $_GET['Lang'];
-	if($lang !== "Any"){
-		$sql .= "$conjunction SID in (SELECT Organization FROM tbl_FilterFluencies WHERE Language = ?)";
-		$conjunction = ' AND ';
-		$types .= 's';
-		array_push($parameters, $lang);
-	}
-	unset($lang);
 	
 	if(isset($_GET['Min'])){
 		$min = (int)$_GET['Min'];
@@ -140,6 +114,67 @@ FROM (
 	}
 	unset($Values);
 	
+	//apply sorting
+	if( isset($_GET['Growth']) ){
+		$growthDir = $_GET['Growth'];
+		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC";
+		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC";
+		unset($growthDir);
+	}
+	else if( isset($_GET['nameDir']) ){
+		$nameDir = $_GET['nameDir'];
+		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC";
+		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC";
+		unset($nameDir);
+	}
+	else if( isset($_GET['sizeDir']) ){
+		$sizeDir = $_GET['sizeDir'];
+		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC";
+		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC";
+		unset($sizeDir);
+	}
+	else if( isset($_GET['mainDir']) ){
+		$mainDir = $_GET['mainDir'];
+		if($mainDir == 'down')    $sql .= " ORDER BY Main DESC";
+		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
+		unset($mainDir);
+	}
+
+$sql .=  ") as derived_orgs
+LEFT JOIN tbl_Performs       Performs  ON derived_orgs.SID = Performs.Organization
+     JOIN tbl_Commits        Commits   ON derived_orgs.SID = Commits.Organization
+LEFT JOIN tbl_OrgFluencies   Language  ON derived_orgs.SID = Language.Organization
+     JOIN tbl_OrgArchetypes  Archetype ON derived_orgs.SID = Archetype.Organization
+LEFT JOIN tbl_RolePlayOrgs   Roleplay  ON derived_orgs.SID = Roleplay.Organization
+LEFT JOIN tbl_FullOrgs       FullOrgs  ON derived_orgs.SID = FullOrgs.Organization
+LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON derived_orgs.SID = ExclOrgs.Organization
+	";
+	
+	$Values = explode( ',', $_GET['Recruiting'] );
+	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
+		if( $Values[0] == 'Yes' )     $sql .= "$conjunction(FullOrgs.Organization IS NULL)";
+		else if( $Values[0] == 'No' ) $sql .= "$conjunction(FullOrgs.Organization IS NOT NULL)";
+		$conjunction = ' AND ';
+	}
+	unset($Values);
+	
+	$Values = explode( ',', $_GET['Roleplay'] );
+	if( isset($Values[0]) && $Values[0] != "" && !isset($Values[1]) ){
+		if( $Values[0] == 'Yes' )     $sql .= "$conjunction(Roleplay.Organization IS NOT NULL)";
+		else if( $Values[0] == 'No' ) $sql .= "$conjunction(Roleplay.Organization IS NULL)";
+		$conjunction = ' AND ';
+	}
+	unset($Values);
+	
+	$lang = $_GET['Lang'];
+	if($lang !== "Any"){
+		$sql .= "$conjunction SID in (SELECT Organization FROM tbl_FilterFluencies WHERE Language = ?)";
+		$conjunction = ' AND ';
+		$types .= 's';
+		array_push($parameters, $lang);
+	}
+	unset($lang);
+	
 	//subselect to filter using Activity
 	$Activities = explode( ',', $_GET['Activity'] );
 	if(strlen($Activities[0]) > 0){		
@@ -181,43 +216,10 @@ FROM (
 	}
 	unset($Values);
 	
-	//apply sorting
-	if( isset($_GET['Growth']) ){
-		$growthDir = $_GET['Growth'];
-		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC";
-		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC";
-		unset($growthDir);
-	}
-	else if( isset($_GET['nameDir']) ){
-		$nameDir = $_GET['nameDir'];
-		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC";
-		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC";
-		unset($nameDir);
-	}
-	else if( isset($_GET['sizeDir']) ){
-		$sizeDir = $_GET['sizeDir'];
-		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC";
-		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC";
-		unset($sizeDir);
-	}
-	else if( isset($_GET['mainDir']) ){
-		$mainDir = $_GET['mainDir'];
-		if($mainDir == 'down')    $sql .= " ORDER BY Main DESC";
-		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
-		unset($mainDir);
-	}
-
 	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
 	$sql .= " LIMIT $pageSize OFFSET ?";
 	array_push($parameters, $offset);
 	$types .= 'd';
-
-$sql .=  ") as orgs
-LEFT JOIN tbl_Performs       Performs  ON orgs.SID = Performs.Organization
-     JOIN tbl_Commits        Commits   ON orgs.SID = Commits.Organization
-LEFT JOIN tbl_OrgFluencies   Language  ON orgs.SID = Language.Organization
-LEFT JOIN tbl_OrgArchetypes  Archetype ON orgs.SID = Archetype.Organization
-	";
 	
 	//require references to array elements to bind
 	$bindParams = array();
