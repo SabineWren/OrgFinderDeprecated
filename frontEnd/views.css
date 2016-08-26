@@ -40,6 +40,7 @@
 }
 
 #list-view-results {
+	margin-left: 10px;
 	position: relative;
 	display: inline-block;
 	width: 100%;
@@ -188,6 +189,7 @@ tr td #recruiting-roleplay {
 #grid-view-results {
 	display: inline-block;
 	position: relative;
+	margin-left: 10px;
 	vertical-align: top;
 	flex-wrap: wrap;
 	white-space: normal;

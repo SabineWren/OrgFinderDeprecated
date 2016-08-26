@@ -9,14 +9,25 @@
 	@license-end
 */
 #left-block-controls {
-	display: inline-block;
-	position: relative;
+	float: left;
+	position: fixed;
 	vertical-align: top;
 	width: 400px;
 	margin: 0;
 	margin-right: 10px;
 	overflow-x: visible;
 	white-space: normal;
+	z-index: 50;
+}
+
+#spacer{
+	float: left;
+	position: relative;
+	vertical-align: top;
+	width: 400px;
+	margin: 0;
+	padding: 1px;
+	overflow-x: hidden;
 	z-index: 50;
 }
 
