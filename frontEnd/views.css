@@ -24,6 +24,7 @@
 	src: url("images/Neuton-Extrabold.ttf");
 }
 
+
 .view-controller {
 	position: relative;
 	display: inline-block;
@@ -50,6 +51,12 @@ table {
 	border-style: ridge;
 	border-radius: 10px;
 	border-color: #00394d;
+}
+
+thead th {
+	line-height: 20px;
+	/*font-family: exo2 !important;*/
+	font-weight: bold;
 }
 
 th {
@@ -147,7 +154,7 @@ tr #Name {
 	width: 120px;
 	text-align: left;
 }
-tr #focuses {
+tr td #focuses {
 	font-family: serif-font;
 	font-size: 18px;
 }
@@ -156,11 +163,14 @@ tr #focuses {
 	width: 100px;
 	text-align: left;
 }
+tr td #SID-archetype {
+	font-family: serif-font;
+}
 
 #commitment-language {
 	text-align: left;
 }
-tr #commitment-language {
+tr td #commitment-language {
 	font-family: serif-font;
 	font-size: 18px;
 }
@@ -168,7 +178,7 @@ tr #commitment-language {
 #recruiting-roleplay {
 	width: 55px;
 }
-tr #recruiting-roleplay {
+tr td #recruiting-roleplay {
 	font-family: serif-font;
 	font-size: 18px;
 }

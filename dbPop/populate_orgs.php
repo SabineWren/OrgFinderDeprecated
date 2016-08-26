@@ -273,7 +273,7 @@
 				$Roleplay       = $orgArray['data']['roleplay'];
 				$PrimaryFocus   = $orgArray['data']['primary_focus'];
 				$SecondaryFocus = $orgArray['data']['secondary_focus'];
-				$Language       = html_entity_decode( $org['lang'] );//live query for single ors might have null language
+				$Language       = html_entity_decode( $org['lang'] );//live query for single orgs might have null language
 				
 				//banner
 				//history
@@ -301,8 +301,8 @@
 				if($Main === null)echo "ERROR: Inserting NULL value\n";
 				$connection->query('SET foreign_key_checks = 1');
 				
-				attemptInsert($SID, $IconURL,      $prepared_insert_icon, $connection);
-				attemptInsert($SID, $Commitment,   $prepared_insert_commits, $connection);
+				if($CustomIcon)attemptInsert($SID, $IconURL, $prepared_insert_icon, $connection);
+				attemptInsert($SID, $Commitment, $prepared_insert_commits, $connection);
 				
 				if( $Recruiting === "No" )attemptInsert($SID, $Recruiting, $prepared_insert_full, $connection);
 				else                      attemptInsert($SID, $Recruiting, $prepared_delete_full, $connection);
