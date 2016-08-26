@@ -281,4 +281,9 @@ tr td #recruiting-roleplay {
 	clear: left;
 }
 
+.list-view .loadButton {
+    position: absolute;
+    right: 260px;
+}
+
 
