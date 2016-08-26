@@ -15,7 +15,7 @@
 		exit();
 	}
 	
-	$connection = new mysqli("192.168.0.105",$argv[1],$argv[2], "cognitiondb");
+	$connection = new mysqli("localhost",$argv[1],$argv[2], "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
