@@ -271,13 +271,10 @@ tr td #recruiting-roleplay {
 .loadButton {
 	display: block;
 	font-size: 22px;
+	margin: auto;
 	width: 300px;
 }
 
-.list-view .loadButton {
-	position: absolute;
-	right: 260px;
-}
 
 #grid-view-results .loadButton {
 	position: relative;
