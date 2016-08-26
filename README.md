@@ -4,7 +4,7 @@ Website Database for players to find organizations.
 
 Live hosted at www.sabinewren.space
 
-To host the app yousrelf, add and run dependencies. You can export our database from www.sabinewren.space/phpmyadmin. Debian-based GNU distributions provide easy installation:
+To host the app yousrelf, add and run dependencies. Debian-based GNU distributions provide easy installation:
 
 sudo bash
 
@@ -15,8 +15,6 @@ apt-get install phpmyadmin (optional)
 apt-get install apache2 (included with phpmyadmin)
 
 run the creation .SQL scripts
-
-you can export our database via sabinewren.space/phpmyadmin
 
 // username=publicselect password=public
 
