@@ -65,80 +65,6 @@ FROM (
 	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon
 	FROM tbl_Organizations FORCE INDEX(Growth_SID)
 ";
-	
-	if(isset($_GET['Min'])){
-		$min = (int)$_GET['Min'];
-		$sql .= "$conjunction Size >= ?";
-		$conjunction = ' AND ';
-		$types .= 'd';
-		array_push($parameters, $min);
-		unset($min);
-	}
-	
-	if(isset($_GET['Max'])){
-		$max = (int)$_GET['Max'];
-		$sql .= "$conjunction Size <= ?";
-		$conjunction = ' AND ';
-		$types .= 'd';
-		array_push($parameters, $max);
-		unset($max);
-	}
-	
-	//Unions
-	if((int)$_GET['Cog']){
-		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_RepresentsCog)";
-		$conjunction = ' AND ';
-	}
-	if((int)$_GET['OPPF']){
-		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_OPPF)";
-		$conjunction = ' AND ';
-	}
-	if((int)$_GET['STAR']){
-		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_STAR)";
-		$conjunction = ' AND ';
-	}
-	
-	//WHERE SID LIKE Value and subselect using Name
-	$Values = explode( ',', $_GET['NameOrSID'] );
-	if( strlen($Values[0]) > 0 ){
-		$Value = '%' . rawurldecode( $Values[0]) . '%';//mysql->real_escape_string and html_entity_decode do not decode %20 (space)
-		$temp = $Value . "\n" . $Values[0];
-		$sql .= $conjunction . "(SID LIKE UPPER(?) OR SID IN (
-			SELECT SID FROM tbl_Organizations WHERE Name LIKE UPPER(?)
-		))";
-		$Value = '%' . $Value . '%';
-		array_push($parameters, $Value);
-		array_push($parameters, $Value);
-		$types .= 'ss';
-		$conjunction = ' AND ';
-	}
-	unset($Values);
-	
-	//apply sorting
-	if( isset($_GET['Growth']) ){
-		$growthDir = $_GET['Growth'];
-		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC";
-		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC";
-		unset($growthDir);
-	}
-	else if( isset($_GET['nameDir']) ){
-		$nameDir = $_GET['nameDir'];
-		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC";
-		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC";
-		unset($nameDir);
-	}
-	else if( isset($_GET['sizeDir']) ){
-		$sizeDir = $_GET['sizeDir'];
-		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC";
-		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC";
-		unset($sizeDir);
-	}
-	else if( isset($_GET['mainDir']) ){
-		$mainDir = $_GET['mainDir'];
-		if($mainDir == 'down')    $sql .= " ORDER BY Main DESC";
-		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
-		unset($mainDir);
-	}
 
 $sql .=  ") as derived_orgs
 LEFT JOIN tbl_Performs       Performs  ON derived_orgs.SID = Performs.Organization
@@ -215,6 +141,80 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON derived_orgs.SID = ExclOrgs.Organizati
 			$sql .= ') ';
 	}
 	unset($Values);
+	
+	if(isset($_GET['Min'])){
+		$min = (int)$_GET['Min'];
+		$sql .= "$conjunction Size >= ?";
+		$conjunction = ' AND ';
+		$types .= 'd';
+		array_push($parameters, $min);
+		unset($min);
+	}
+	
+	if(isset($_GET['Max'])){
+		$max = (int)$_GET['Max'];
+		$sql .= "$conjunction Size <= ?";
+		$conjunction = ' AND ';
+		$types .= 'd';
+		array_push($parameters, $max);
+		unset($max);
+	}
+	
+	//Unions
+	if((int)$_GET['Cog']){
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_RepresentsCog)";
+		$conjunction = ' AND ';
+	}
+	if((int)$_GET['OPPF']){
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_OPPF)";
+		$conjunction = ' AND ';
+	}
+	if((int)$_GET['STAR']){
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_STAR)";
+		$conjunction = ' AND ';
+	}
+	
+	//WHERE SID LIKE Value and subselect using Name
+	$Values = explode( ',', $_GET['NameOrSID'] );
+	if( strlen($Values[0]) > 0 ){
+		$Value = '%' . rawurldecode( $Values[0]) . '%';//mysql->real_escape_string and html_entity_decode do not decode %20 (space)
+		$temp = $Value . "\n" . $Values[0];
+		$sql .= $conjunction . "(SID LIKE UPPER(?) OR SID IN (
+			SELECT SID FROM tbl_Organizations WHERE Name LIKE UPPER(?)
+		))";
+		$Value = '%' . $Value . '%';
+		array_push($parameters, $Value);
+		array_push($parameters, $Value);
+		$types .= 'ss';
+		$conjunction = ' AND ';
+	}
+	unset($Values);
+	
+	//apply sorting
+	if( isset($_GET['Growth']) ){
+		$growthDir = $_GET['Growth'];
+		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC";
+		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC";
+		unset($growthDir);
+	}
+	else if( isset($_GET['nameDir']) ){
+		$nameDir = $_GET['nameDir'];
+		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC";
+		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC";
+		unset($nameDir);
+	}
+	else if( isset($_GET['sizeDir']) ){
+		$sizeDir = $_GET['sizeDir'];
+		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC";
+		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC";
+		unset($sizeDir);
+	}
+	else if( isset($_GET['mainDir']) ){
+		$mainDir = $_GET['mainDir'];
+		if($mainDir == 'down')    $sql .= " ORDER BY Main DESC";
+		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
+		unset($mainDir);
+	}
 	
 	//we use a bound param so guarantee at least one param in our statement (otherwise the function call breaks)
 	$sql .= " LIMIT $pageSize OFFSET ?";
