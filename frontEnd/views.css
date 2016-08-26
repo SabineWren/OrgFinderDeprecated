@@ -140,7 +140,7 @@ td a {
 }
 tr #Name {
 	font-family: serif-font;
-	font-size: 16px;
+	font-size: 18px;
 }
 
 #focuses {
@@ -149,7 +149,7 @@ tr #Name {
 }
 tr #focuses {
 	font-family: serif-font;
-	font-size: 16px;
+	font-size: 18px;
 }
 
 #SID-archetype {
@@ -162,7 +162,7 @@ tr #focuses {
 }
 tr #commitment-language {
 	font-family: serif-font;
-	font-size: 16px;
+	font-size: 18px;
 }
 
 #recruiting-roleplay {
@@ -170,7 +170,7 @@ tr #commitment-language {
 }
 tr #recruiting-roleplay {
 	font-family: serif-font;
-	font-size: 16px;
+	font-size: 18px;
 }
 
 /* Grid View */
