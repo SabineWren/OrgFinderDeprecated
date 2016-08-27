@@ -63,11 +63,12 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 	//init
 	$scope.StateUI = GlobalStateUI.StateUI;
 	
-	$scope.sortstatus     = LoadViewService.sortStatus;
-	$scope.clearSorting   = LoadViewService.clearSorting;
-	$scope.loadStatus     = LoadViewService.loadStatus;
-	$scope.orgResults     = LoadViewService.orgResults;
-	$scope.curSelection   = "";
+	$scope.focusFilterType = LoadViewService.focusFilterType;
+	$scope.sortstatus      = LoadViewService.sortStatus;
+	$scope.clearSorting    = LoadViewService.clearSorting;
+	$scope.loadStatus      = LoadViewService.loadStatus;
+	$scope.orgResults      = LoadViewService.orgResults;
+	$scope.curSelection    = "";
 	
 	//sort name
 	$scope.clickName = function(){
@@ -87,7 +88,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		//reapply filters
 		$scope.clearResults();
 		$scope.loadMoreOrgs();
-	}
+	};
 	//sort size
 	$scope.clickSize = function(){
 		if($scope.sortstatus.sizeDouble){
@@ -106,7 +107,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		//reapply filters
 		$scope.clearResults();
 		$scope.loadMoreOrgs();
-	}
+	};
 	//sort main
 	$scope.clickMain = function(){
 		if($scope.sortstatus.mainDouble){
@@ -125,7 +126,7 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		//reapply filters
 		$scope.clearResults();
 		$scope.loadMoreOrgs();
-	}
+	};
 	//sort growth
 	$scope.clickGrowth = function(){
 		if($scope.sortstatus.growthDescending){
@@ -144,7 +145,12 @@ function($scope, $rootScope, LoadViewService, LoadDetailsService, GlobalStateUI)
 		//reapply filters
 		$scope.clearResults();
 		$scope.loadMoreOrgs();
-	}
+	};
+	
+	$scope.focusFilterTypeToggle = function(){
+		if($scope.focusFilterType.restrictToPrimary)$scope.focusFilterType.restrictToPrimary = false;
+		else $scope.focusFilterType.restrictToPrimary = true;
+	};
 	
 	$scope.widthDetails     = LoadDetailsService.widthDetails;
 	$scope.gridWidthModifer = LoadDetailsService.gridWidthModifer;

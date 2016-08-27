@@ -46,10 +46,15 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		var directionGrowth = null;
 		if($scope.sortStatus.growthAscending)directionGrowth = 'up';
 		else if($scope.sortStatus.growthDescending)directionGrowth = 'down';
+		
+		//optionally ignore secondary focus
+		var restrictToPrimary = 0;
+		if($scope.focusFilterType.restrictToPrimary)restrictToPrimary = 1;
 	
 		$http.get('/backEnd/selects.php', { 
 			params:{
 				pagenum:    $scope.orgResults.nextPage,
+				primary:    restrictToPrimary,
 				NameOrSID:  encodeURI( $scope.filterName ),
 				nameDir:    directionName,
 				sizeDir:    directionSize,
@@ -81,10 +86,11 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 	$scope.OPPF = false;
 	$scope.STAR = false;
 	
-	$scope.clearResults = LoadViewService.clearResults;
-	$scope.sortStatus   = LoadViewService.sortStatus;
-	$scope.loadStatus   = LoadViewService.loadStatus;
-	$scope.orgResults   = LoadViewService.orgResults;
+	$scope.clearResults    = LoadViewService.clearResults;
+	$scope.focusFilterType = LoadViewService.focusFilterType;
+	$scope.sortStatus      = LoadViewService.sortStatus;
+	$scope.loadStatus      = LoadViewService.loadStatus;
+	$scope.orgResults      = LoadViewService.orgResults;
 	
 	$scope.reapplyFilters = function(){
 		$scope.clearResults();

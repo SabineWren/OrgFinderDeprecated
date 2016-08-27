@@ -103,18 +103,28 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON derived_orgs.SID = ExclOrgs.Organizati
 	
 	//subselect to filter using Activity
 	$Activities = explode( ',', $_GET['Activity'] );
-	if(strlen($Activities[0]) > 0){		
+	if(strlen($Activities[0]) > 0){
 		$sql .= $conjunction;
+		//filter by only primary
+		if((int)$_GET['primary']){
+			$sql .= 'SID IN (SELECT Organization FROM tbl_PrimaryFocus';
+			$conjunction = ' WHERE ';
+			addParamsToQuery('PrimaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
+			$sql .= ')';
+		}
+		//filter by both
+		else{
 			//add filter and join for primary focus (activity1)
 			$sql .= '(SID IN (SELECT Organization FROM tbl_PrimaryFocus';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('PrimaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
-		
+	
 			//add filter and join for secondary focus (activity2)
-			$sql .= ') OR SID IN (SELECT Organization from tbl_SecondaryFocus';
+			$sql .= ') OR SID IN (SELECT Organization FROM tbl_SecondaryFocus';
 			$conjunction = ' WHERE ';
 			addParamsToQuery('SecondaryFocus', $Activities, $types, $sql, $conjunction, $parameters);
-		$sql .= ')) ';
+			$sql .= ')) ';
+		}
 	}
 	unset($Activities);
 	

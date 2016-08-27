@@ -75,6 +75,10 @@ FrontEndApp.factory('LoadViewService', function(){
 		isLoading: false
 	};
 	
+	var focusFilterType = {
+		restrictToPrimary: false
+	};
+	
 	function callbackParseSelection(data){
 		if(data === "null\n"){
 			console.log(data);
@@ -122,6 +126,7 @@ FrontEndApp.factory('LoadViewService', function(){
 		callbackParseSelection,
 		orgResults,
 		loadStatus,
+		focusFilterType,
 		sortStatus,
 		clearSorting,
 		clearResults,
