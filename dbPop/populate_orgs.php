@@ -377,6 +377,9 @@
 	
 	//8) Recluster Tables
 	$connection->query('ALTER TABLE tbl_Organizations ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_Performs ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_PrimaryFocus ENGINE=INNODB');
+	$connection->query('ALTER TABLE tbl_SecondaryFocus ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgMemberHistory ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_IconURLs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_Commits ENGINE=INNODB');
@@ -385,9 +388,6 @@
 	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FullOrgs ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_ExclusiveOrgs ENGINE=INNODB');
-	$connection->query('ALTER TABLE tbl_PrimaryFocus ENGINE=INNODB');
-	$connection->query('ALTER TABLE tbl_SecondaryFocus ENGINE=INNODB');
-	$connection->query('ALTER TABLE tbl_FilterArchetypes ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgFluencies ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgDescription ENGINE=INNODB');

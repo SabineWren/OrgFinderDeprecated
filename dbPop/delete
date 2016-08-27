@@ -1,0 +1,19 @@
+
+DELETE FROM tbl_RepresentsCog    WHERE SID = "";
+DELETE FROM tbl_OPPF             WHERE SID = "";
+DELETE FROM tbl_STAR             WHERE SID = "";
+DELETE FROM tbl_IconURLs         where Organization = "";
+DELETE FROM tbl_Commits          where Organization = "";
+DELETE FROM tbl_RolePlayOrgs     where Organization = "";
+DELETE FROM tbl_OrgArchetypes    where Organization = "";
+DELETE FROM tbl_FilterArchetypes where Organization = "";
+DELETE FROM tbl_FullOrgs         where Organization = "";
+DELETE FROM tbl_ExclusiveOrgs    where Organization = "";
+DELETE FROM tbl_OrgFluencies     where Organization = "";
+DELETE FROM tbl_FilterFluencies  where Organization = "";
+DELETE FROM tbl_OrgDescription   where SID = "";
+DELETE FROM tbl_Performs         where Organization = "";
+DELETE FROM tbl_PrimaryFocus     where Organization = "";
+DELETE FROM tbl_SecondaryFocus   where Organization = "";
+DELETE FROM tbl_OrgMemberHistory where Organization = "";
+DELETE FROM tbl_Organizations    where SID = "";

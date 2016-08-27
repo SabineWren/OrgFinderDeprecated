@@ -48,7 +48,7 @@ CREATE TABLE tbl_IconURLs(
 CREATE TABLE tbl_RepresentsCog(
 	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
 	Representative VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_SID(SID) REFERENCES tbl_Organizations(SID),
+	FOREIGN KEY FK_SID(SID) REFERENCES tbl_Organizations(SID) ON DELETE CASCADE,
 	FOREIGN KEY FK_Representative(Representative) REFERENCES tbl_Persons(Name)
 );
 
