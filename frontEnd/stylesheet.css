@@ -29,6 +29,16 @@ body {
 	white-space: nowrap;
 }
 
+#headerimg{
+	width: 100%;
+	height: auto;
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #00394d;
+	margin-bottom: 20px;
+}
+
 .controls-details {
 	display: inline-block;
 	position: relative;
