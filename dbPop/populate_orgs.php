@@ -392,7 +392,16 @@
 	$connection->query('ALTER TABLE tbl_FilterFluencies ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OrgDescription ENGINE=INNODB');
 	
-	//9) rebuild growth DISABLED DUE TO BUGS... USING temp.php INSTEAD
+	/* 9)
+	 * Look at the last 8 days (including today):
+	 * i.e. 7 days of growing past the start point
+	 * so start (7) minus current (0) = 7 days of growth
+	 *
+	 * if only one day (today) then return 0.0
+	 * else normalize to one week of growth
+	 *
+	 * if some scrapes were skipped, we look further back in time to still get at least 7 days of growth (no interpolation)
+	 */
 	echo "Done clustering... updating growth (this will take a few minutes)...\n";
 	
 	function getGrowthRate(&$SizeArray){
@@ -403,7 +412,7 @@
 		$oldestTuple = $SizeArray[$indexLast];
 		
 		$timeDifference = $oldestTuple['DaysAgo'] - $newestTuple['DaysAgo'];
-		$sizeDifference = $newestTuple['Main'] - $oldestTuple['Main'];
+		$sizeDifference = $newestTuple['Size'] - $oldestTuple['Size'];
 		
 		// the 7 normalizes to weekly average
 		try{
@@ -418,7 +427,7 @@
 		}
 	}
 	
-	$prepared_init_growth = $connection->prepare("SELECT Main, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 7");
+	$prepared_init_growth = $connection->prepare("SELECT Size, abs( DATE(ScrapeDate) - DATE(CURDATE()) ) as DaysAgo FROM tbl_OrgMemberHistory WHERE Organization = ? ORDER BY ScrapeDate DESC LIMIT 8");
 	$prepared_init_growth->bind_param("s", $SID);
 	
 	$prepared_insert_growth = $connection->prepare("UPDATE tbl_Organizations SET GrowthRate = ? WHERE SID = ?");
