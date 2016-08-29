@@ -101,6 +101,11 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		result: {}
 	};
 	
+	function linearInterpolate(oldValue, newValue, daysApart){
+		var dailyGrowth = (newValue - oldValue) / daysApart;
+		return dailyGrowth + oldValue;
+	}
+	
 	var parseHistory = function(history_json){
 		var DaysAgoValue = history_json[0].DaysAgo;
 		setDomainLabels(DaysAgoValue, history_json[history_json.length - 1].DaysAgo);
@@ -111,21 +116,30 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		var Hidden    = [];
 		var axisLabels = [];
 		
-		var interpolateValues = {
+		var oldValues = {
 			Size: 0,
 			Main: 0,
 			Affiliate: 0,
-			Hidden: 0
+			Hidden: 0,
+			lastDay: history_json[0].DaysAgo
 		}
 		//replace chart data
 		for(date in history_json){
 			var days = history_json[date].DaysAgo;//when this data entry was scraped
-			//interpolate missing data entries with last known value (or 0 if it predates first scrape)
+			
+			//linearly interpolate missing data entries
 			while(DaysAgoValue !== days && DaysAgoValue >= 0){
-				Size.push(      interpolateValues.Size );
-				Main.push(      interpolateValues.Main );
-				Affiliate.push( interpolateValues.Affiliate );
-				Hidden.push(    interpolateValues.Hidden  );
+				oldValues.Size      = (linearInterpolate( oldValues.Size,      history_json[date].Size,      (oldValues.lastDay - days) )  );
+				oldValues.Main      = (linearInterpolate( oldValues.Main,      history_json[date].Main,      (oldValues.lastDay - days) )  );
+				oldValues.Affiliate = (linearInterpolate( oldValues.Affiliate, history_json[date].Affiliate, (oldValues.lastDay - days) )  );
+				oldValues.Hidden    = (linearInterpolate( oldValues.Hidden,     history_json[date].Hidden,    (oldValues.lastDay - days) )  );
+				
+				Size.push(     oldValues.Size);
+				Main.push(     oldValues.Main);
+				Affiliate.push(oldValues.Affiliate);
+				Hidden.push(   oldValues.Hidden);
+				
+				oldValues.lastDay = DaysAgoValue;
 				--DaysAgoValue;
 			}
 			//add today
@@ -134,10 +148,11 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 			Affiliate.push( history_json[date].Affiliate );
 			Hidden.push( history_json[date].Hidden );
 			
-			interpolateValues.Size      = history_json[date].Size;
-			interpolateValues.Main      = history_json[date].Main;
-			interpolateValues.Affiliate = history_json[date].Affiliate;
-			interpolateValues.Hidden    = history_json[date].Hidden;
+			oldValues.Size      = history_json[date].Size;
+			oldValues.Main      = history_json[date].Main;
+			oldValues.Affiliate = history_json[date].Affiliate;
+			oldValues.Hidden    = history_json[date].Hidden;
+			oldValues.lastDay   = DaysAgoValue;
 			
 			--DaysAgoValue;
 		}
