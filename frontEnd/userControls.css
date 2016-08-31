@@ -10,7 +10,8 @@
 */
 #left-block-controls {
 	float: left;
-	position: fixed;
+	/*position: fixed; CONFLICTS WITH BANNER*/
+	position: relative;
 	vertical-align: top;
 	width: 400px;
 	margin: 0;
@@ -24,7 +25,7 @@
 	float: left;
 	position: relative;
 	vertical-align: top;
-	width: 400px;
+	width: 400px;/* if you change this, update banner width accordingly */
 	height: 710px;
 	margin: 0;
 	padding: 1px;
