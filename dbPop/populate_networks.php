@@ -18,7 +18,7 @@
 		exit();
 	}
 	
-	$connection = new mysqli("192.168.0.105",$argv[1],$argv[2], "cognitiondb");
+	$connection = new mysqli("localhost",$argv[1],$argv[2], "cognitiondb");
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
@@ -28,29 +28,18 @@
 	
 	//Cognition Corp *************************************************
 	echo "Cog\n";
-	$prepared_insert_rep    = $connection->prepare("INSERT INTO tbl_Persons (Name) VALUES (?) ON DUPLICATE KEY UPDATE Name = ?");
-	$prepared_insert_repcog = $connection->prepare("INSERT INTO tbl_RepresentsCog (SID, Representative) VALUES (?, ?) ON DUPLICATE KEY UPDATE Representative = ?");
-	$prepared_insert_rep    ->bind_param("ss",  $rep, $rep);
-	$prepared_insert_repcog ->bind_param("sss", $SID, $rep, $rep);
-	
-	$repsFile  = file_get_contents('./reps');
-	$repsLines = explode("\n", $repsFile);
-	unset($repsFile);
+	$prepared_insert_cog = $connection->prepare("INSERT INTO tbl_Cog (SID) VALUES (?) ON DUPLICATE KEY UPDATE SID = ?");
+	$prepared_insert_cog ->bind_param("ss", $SID, $SID);
 	
 	$orgsFile = file_get_contents('./cog');
 	$orgsLines = explode("\n", $orgsFile);
 	unset($orgsFile);
 	
-	//Insert
-	foreach($repsLines as $rep){
-		if(!$prepared_insert_rep   ->execute())echo "Failed to insert Person with name == $rep\n";
-	}
-	$connection->commit();
+	//Cog
 	
 	for($i = 0; $i < sizeof($orgsLines); ++$i){
-		$rep = $repsLines[$i];
 		$SID = $orgsLines[$i];
-		if(!$prepared_insert_repcog->execute())echo "Failed to insert Org == $SID with rep == $rep\n";
+		if(!$prepared_insert_cog->execute())echo "Failed to insert Org == $SID\n";
 	}
 	unset($orgsLines);
 	$connection->commit();
@@ -91,10 +80,10 @@
 	
 	//Close Connection
 	$connection->autocommit(TRUE);
-	$prepared_insert_rep   ->close();
-	$prepared_insert_repcog->close();
-	$connection->query('ALTER TABLE tbl_Persons ENGINE=INNODB');//recluster tables
-	$connection->query('ALTER TABLE tbl_RepresentsCog ENGINE=INNODB');
+	$prepared_insert_cog ->close();
+	$prepared_insert_oppf->close();
+	$prepared_insert_star->close();
+	$connection->query('ALTER TABLE tbl_Cog ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_OPPF ENGINE=INNODB');
 	$connection->query('ALTER TABLE tbl_STAR ENGINE=INNODB');
 

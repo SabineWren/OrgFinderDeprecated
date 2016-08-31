@@ -13,18 +13,6 @@ CREATE TABLE tbl_Countries(
 	Name VARCHAR(30) PRIMARY KEY -- Clustered Index
 );
 
--- Second most important table - many tables FK to it
-CREATE TABLE tbl_Persons(
-	Name VARCHAR(30) PRIMARY KEY -- Clustered Index
-);
-
-CREATE TABLE tbl_FromCountry(
-	Person  VARCHAR(30) UNIQUE NOT NULL, -- Clustered Index
-	Country VARCHAR(30)        NOT NULL,
-	FOREIGN KEY FK_Person(Person)   REFERENCES tbl_Persons(Name),
-	FOREIGN KEY FK_Country(Country) REFERENCES tbl_Countries(Name)
-);
-
 -- Most important table - most tables FK to it
 CREATE TABLE tbl_Organizations(
 	SID  VARCHAR(10) PRIMARY KEY, -- Clustered Index
@@ -45,11 +33,9 @@ CREATE TABLE tbl_IconURLs(
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID)
 );
 
-CREATE TABLE tbl_RepresentsCog(
+CREATE TABLE tbl_Cog(
 	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
-	Representative VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_SID(SID) REFERENCES tbl_Organizations(SID) ON DELETE CASCADE,
-	FOREIGN KEY FK_Representative(Representative) REFERENCES tbl_Persons(Name)
+	FOREIGN KEY FK_SID(SID) REFERENCES tbl_Organizations(SID) ON DELETE CASCADE
 );
 
 CREATE TABLE tbl_OPPF(
@@ -59,25 +45,6 @@ CREATE TABLE tbl_OPPF(
 CREATE TABLE tbl_STAR(
 	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
 	FOREIGN KEY FK_STAR(SID) REFERENCES tbl_Organizations(SID)
-);
-
--- most common use: count number of main members within an org.
-CREATE TABLE tbl_Main(
-	Organization VARCHAR(10) NOT NULL,
-	Person       VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
-	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
-	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person), -- Clustered Index
-	CONSTRAINT UNIQUE(Person) -- Player can only have 1 main
-);
-
--- most common use: count the number of affliate members within an org
-CREATE TABLE tbl_Affiliated(
-	Organization VARCHAR(10) NOT NULL,
-	Person VARCHAR(30) NOT NULL,
-	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
-	FOREIGN KEY FK_Person(Person) REFERENCES tbl_Persons(Name),
-	CONSTRAINT PK_Main PRIMARY KEY (Organization, Person) -- Clustered Index
 );
 
 CREATE TABLE tbl_RolePlayOrgs(
@@ -173,9 +140,6 @@ CREATE TABLE tbl_FilterFluencies(
 	CONSTRAINT PK_FilterFluencies PRIMARY KEY(Language, Organization), -- Clustered Index
 	CONSTRAINT UNIQUE(Organization) -- only one language per og
 );
-
-
--- optionally add PersonFluencies as well??
 
 CREATE TABLE tbl_Archetypes(
 	Archetype VARCHAR(12) PRIMARY KEY-- Clustered Index

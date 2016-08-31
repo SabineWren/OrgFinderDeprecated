@@ -172,7 +172,7 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON derived_orgs.SID = ExclOrgs.Organizati
 	
 	//Unions
 	if((int)$_GET['Cog']){
-		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_RepresentsCog)";
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_Cog)";
 		$conjunction = ' AND ';
 	}
 	if((int)$_GET['OPPF']){
