@@ -490,3 +490,4 @@
 	$connection->close();
 	echo "All insertions complete (total: $numberInserted)\n";
 ?>
+
