@@ -19,7 +19,8 @@
 }
 
 body {
-	background-image: url("images/bg_small.png");
+	/*background-image: url("images/bg_small.png");*/
+	background-image: url("http://i.imgur.com/eiifUOm.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-attachment: fixed;
