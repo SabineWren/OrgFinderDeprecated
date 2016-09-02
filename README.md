@@ -1,8 +1,8 @@
-# What is this I don't even
+# Cognition Corp
 
 Website Database for players to find organizations.
 
-Live hosted at www.sabinewren.space
+Live hosted at www.cognitioncorp.net
 
 To host the app yousrelf, add and run dependencies. Debian-based GNU distributions provide easy installation:
 
