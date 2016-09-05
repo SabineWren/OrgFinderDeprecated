@@ -56,6 +56,7 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 				pagenum:    $scope.orgResults.nextPage,
 				primary:    restrictToPrimary,
 				NameOrSID:  encodeURI( $scope.filterName ),
+				Manifesto:  encodeURI( $scope.filterManifesto ),
 				nameDir:    directionName,
 				sizeDir:    directionSize,
 				mainDir:    directionMain,
@@ -114,12 +115,14 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		//if( angular.isDefined($scope.language) )delete $scope.language;
 		$scope.language             = "Any";
 		$scope.filterName           = "";
+		$scope.filterManifesto      = "";
 	};
 	
 	$scope.checkboxModels = [];
 	$scope.language = "Any";
 	$scope.langs = [];
 	$scope.filterName = "";
+	$scope.filterManifesto = "";
 	
 	//END INIT ****************************************************************************************************
 	

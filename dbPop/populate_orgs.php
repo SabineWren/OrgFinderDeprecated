@@ -441,6 +441,9 @@
 	}
 	unset($results);
 	
+	echo "Done building list of SIDs\n";
+	$x = 0;
+	
 	//get data needed to recalculate growth
 	foreach($AllOrgsToUpdate as $SID){
 		$prepared_init_growth->execute();
@@ -478,6 +481,8 @@
 		unset($SizeArray);
 		unset($parameters);
 		$prepared_insert_growth->execute();
+		++$x;
+		if($x%1024 === 0)echo "recalculated $x organizations\n";
 	}
 	
 	$prepared_init_growth->close();

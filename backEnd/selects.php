@@ -200,6 +200,19 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON derived_orgs.SID = ExclOrgs.Organizati
 	}
 	unset($Values);
 	
+	//subselect using Manifesto LIKE Value
+	$Values = explode( ',', $_GET['Manifesto'] );
+	if( strlen($Values[0]) > 0 ){
+		$Value = '%' . rawurldecode( $Values[0]) . '%';//mysql->real_escape_string and html_entity_decode do not decode %20 (space)
+		$temp = $Value . "\n" . $Values[0];
+		$sql .= $conjunction . "SID in (SELECT SID FROM tbl_OrgDescription WHERE Manifesto LIKE ?)";
+		$Value = '%' . $Value . '%';
+		array_push($parameters, $Value);
+		$types .= 's';
+		$conjunction = ' AND ';
+	}
+	unset($Values);
+	
 	//apply sorting
 	if( isset($_GET['Growth']) ){
 		$growthDir = $_GET['Growth'];

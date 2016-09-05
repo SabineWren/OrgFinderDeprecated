@@ -1,3 +1,14 @@
 User-Agent: *
 Disallow: /backEnd
+Disallow: /old
+Disallow: /joom
+Disallow: /new
+Disallow: /shop
+Disallow: /portal
+Disallow: /site
+Disallow: /wp
+Disallow: /blog
+Disallow: /wordpress
+Disallow: /images
+Disallow: favicon.ico
 

@@ -83,12 +83,6 @@
 	width: 100%;
 }
 
-.other-filters {
-	line-height: 16px;
-	width: 100%;
-	margin-top: 10px;
-}
-
 input[type=number]{
 	border-style: solid;
 	border-color: orange;
@@ -101,7 +95,6 @@ input[type=number]{
 	vertical-align: top;
 	width: 100%;
 	white-space: normal;
-	margin-top: -10px;
 }
 
 #second-layer {
@@ -120,7 +113,17 @@ input[type=number]{
 .filter {
 	width: 95%;
 	margin-bottom: 0;
-	padding-bottom: 5px;
+	text-indent: 6px;
+}
+
+#apply-reset {
+	vertical-align: top;
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	width: 47%;
+	padding: 0;
+	padding-left: 2%;
 }
 
 .filter-button {
@@ -150,20 +153,52 @@ input[type=number]{
 	width: 49%-20px;
 }
 
-.language {
-	position: relative;
-	display: inline-block;
-	padding: 0;
-	padding-top: 4px;
-	margin: 0;
-	margin-bottom: -2px;
-	width: 100%;
-	bottom: 0;
-	left: 0;
+#languages {
+	width: 95%;
+	margin-left: 2.5%;
 }
 
-#languages {
-	width: 90%;
+label {
+	height: 19px;
+	padding-bottom: 1px;
+}
+.unhighlight {
+	height: 21px;
+}
+.highlight {
+	height: 21px;
+}
+
+.other-filters {
+	line-height: 16px;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.other-filters form {
+	height: 25px;
+}
+.other-filters form input {
+	height: 25px;
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+select, option {
+    font-size:15px;
+    height:19px;
+    line-height: 100%;
+}
+
+select {
+	height: 30px;
+	padding: 0px;
+}
+
+input {
+	height: 15px;
+	width: 15px;
 }
 
 

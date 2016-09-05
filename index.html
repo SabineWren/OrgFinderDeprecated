@@ -59,7 +59,7 @@
 				<span ng-class="{highlight: checkstar, unhighlight: !checkstar}" ng-mouseenter="checkstar=true" ng-mouseleave="checkstar=false">STAR Alliance</span>
 			</label>
 			<!-- Unions END -->
-			<div ng-if="!$last" style="height:75px;font-size:75px;">&nbsp;</div><!-- TEMPORARY <br>-->
+			<div ng-if="!$last" style="height:40px;font-size:40px;">&nbsp;</div><!-- TEMPORARY <br>-->
 			<div ng-class="checkboxModels" ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 1">
 				<print-checkbox></print-checkbox>
 				<div ng-if="!$last" style="height:5px;font-size:5px;">&nbsp;</div><!-- tiny <br>-->
@@ -70,12 +70,6 @@
 				<print-checkbox></print-checkbox>
 				<div ng-if="!$last" style="height:5px;font-size:5px;">&nbsp;</div><!-- tiny <br>-->
 			</div>
-			<div class="language">
-				<select id="languages" ng-model="language">
-					<option value="Any" style="display: none;"> -- Language --</option>
-					<option ng-repeat="lang in langs">{{ lang }}</option>
-				</select>
-			</div>
 		</div>
 	</div>
 	<!-- Extra Filter Options-->
@@ -84,10 +78,16 @@
 			<div id="filter-name-SID">
 				Enter a Name or SID:
 				<form ng-submit="reapplyFilters()"><input class=filter type="text" ng-model="filterName"><br></form>
+				Search Manifesto:
+				<form ng-submit="reapplyFilters()"><input class=filter type="text" ng-model="filterManifesto"><br></form>
 				<input class="filter-button" type="button" ng-show="StateUI.listViewTF" ng-click="toggleView()" value="Enable Grid View"/>
 				<input class="filter-button" type="button" ng-hide="StateUI.listViewTF" ng-click="toggleView()" value="Enable List View"/>
 			</div>
-			<div id="filter-name-SID">
+			<div id="apply-reset">
+				<select id="languages" ng-model="language">
+					<option value="Any" style="display: none;"> -- Language --</option>
+					<option ng-repeat="lang in langs">{{ lang }}</option>
+				</select>
 				<input class="filter-button" type="button" ng-click="reapplyFilters()" value="Apply Filters"/>
 				<input class="filter-button" type="button" ng-click="resetFilters()" value="Reset Filters"/>
 			</div>
