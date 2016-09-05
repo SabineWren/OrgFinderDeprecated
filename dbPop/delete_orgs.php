@@ -48,6 +48,7 @@ function closure(&$connection){
 $execute = closure($connection);
 
 foreach($to_delete as $SID){
+	$execute("DELETE FROM tbl_Cog              WHERE SID = '$SID'");
 	$execute("DELETE FROM tbl_OPPF             WHERE SID = '$SID'");
 	$execute("DELETE FROM tbl_STAR             WHERE SID = '$SID'");
 	$execute("DELETE FROM tbl_IconURLs         where Organization = '$SID'");

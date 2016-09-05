@@ -1,7 +1,4 @@
 
-DB Population:
-	* delete orgs that no longer exist (maybe keep them on a deleted list instead?)
-
 Misc:
 	the SC-API does not scrape exclusive status (need workaround)
 	

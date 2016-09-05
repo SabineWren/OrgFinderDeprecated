@@ -3,9 +3,8 @@ mb_internal_encoding("UTF-8");
 
 function getSID($index){
 	$currentSID = 'SID' . $index;
-	if( isset($_POST[$currentSID]) ){
+	if( isset($_POST[$currentSID]) && $_POST[$currentSID] !== "" ){
 		$SID = $_POST[$currentSID];
-		if($SID === $currentSID)return 0;
 		return $SID;
 	}
 	return 0;
@@ -20,19 +19,26 @@ if( mysqli_connect_errno() ){
 if( !$connection->set_charset("utf8") )echo "Error changing connection character set\n";
 
 $prepared_insert_cog = $connection->prepare("INSERT INTO tbl_Cog(SID) VALUES(?) ON DUPLICATE KEY UPDATE SID = ?");
-echo $connection->error . "<br>";
 $prepared_insert_cog ->bind_param("ss", $SID, $SID);
-echo $connection->error . "<br>";
+$prepared_delete_cog = $connection->prepare("DELETE FROM tbl_Cog WHERE SID = ?");
+$prepared_delete_cog ->bind_param("s", $SID);
 
-for($i = 0; $i < 7; ++$i){
+for($i = 0; $i < 8; ++$i){
 	$SID = getSID($i);
 	if($SID === 0)continue;
 	
-	if(!$prepared_insert_cog->execute())echo "Failed to insert Org == $SID<br>";
-	else echo "inserted " . $SID . "<br>";
+	if($i < 5){
+		if(!$prepared_insert_cog->execute())echo "Failed to insert Org == $SID into cog<br>";
+		else echo "inserted " . $SID . " into cog<br>";
+	}
+	else{
+		if(!$prepared_delete_cog->execute())echo "Failed to remove Org == $SID from cog<br>";
+		else echo "removed " . $SID . " from cog<br>";
+	}
 }
 
 $prepared_insert_cog->close();
+$prepared_delete_cog->close();
 $connection->close();
 
 ?>
