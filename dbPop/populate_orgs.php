@@ -95,7 +95,7 @@
 		for($failCounter = 0; $failCounter < 4; ++$failCounter){
 			$lines = file_get_contents($queryString);
 			if(!$lines){
-				sleep(1);
+				sleep(4);
 				continue;//try again
 			}
 			
@@ -182,11 +182,11 @@
 	$numberInserted = 0;
 	$numberUpdated  = 0;
 	
-	for($x = 1;; $x = $x + 8){//$x is current page number in query string
+	for($x = 1;; $x = $x + 4){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
-		//the +3 means query eight pages at a time
+		//the +3 means query four pages at a time
 		$queryString  = "http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
-		$queryString .="&end_page=" . ($x+7) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
+		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
 		$dataArray = queryAPI($queryString);
 		unset($queryString);
 		if($dataArray == -1)break;
