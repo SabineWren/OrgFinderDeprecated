@@ -28,7 +28,7 @@ ALTER TABLE tbl_Organizations ADD INDEX(Main, SID);
 CREATE INDEX `Growth_SID` ON `tbl_Organizations` (GrowthRate, SID);
 
 CREATE TABLE tbl_IconURLs(
-	Organization  VARCHAR(10), -- Clustered Index
+	Organization  VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
 	Icon VARCHAR(100) NOT NULL, -- link to RSI
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID)
 );

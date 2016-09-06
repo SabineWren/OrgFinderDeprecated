@@ -26,39 +26,14 @@
 	if(!$rows)die('Failed to SELECT from database');
 	$orgs_with_icons = array();
 	while ($row = $rows->fetch_assoc()) {
-		if( $row['CustomIcon'] )$orgs_with_icons []= $row['SID'];
+		if( !$row['CustomIcon'] )$orgs_with_icons []= $row['SID'];
 	}
 	unset($rows);
 	
-	$get_url = $connection->prepare("SELECT Icon FROM tbl_IconURLs WHERE Organization = ?");
-	$get_url ->bind_param("s", $SID);
-	
 	foreach($orgs_with_icons as $SID) {
 	
-		if( !$get_url->execute() ){
-			echo "failed to query for SID = $SID\n";
-			echo $connection->error . "\n";
-			continue;
-		};
-		
-		$get_url->bind_result($IconURL);
-		$get_url->fetch();
-		
-		//download image
-		if(  !file_exists( $PathToImages . $SID )  ){
-			$image = file_get_contents($IconURL);
-			if($image === FALSE){
-				//Possibly a dead URL
-				echo "Failed to download image for SID = $SID\n";
-				continue;
-			}
-				//example of dead link:
-				//http://robertsspaceindustries.com/media/t713kgg9mniiar/logo/PHG-Logo.jpg
-
-			$fp = fopen( ( $PathToImages . $SID ), 'w' );
-			fwrite($fp, $image);
-			echo "saved icon for SID = $SID\n";
-			fclose($fp);
+		if( file_exists( $PathToImages . $SID )  ){
+			unlink ( $PathToImages . $SID );
 		}
 	}
 	

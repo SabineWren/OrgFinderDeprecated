@@ -18,7 +18,7 @@ $x = 0;
 while($row = $result->fetch_assoc()){
 	$SID    = $row['SID'];
 	$scrape = $row['scrape'];
-	if($scrape > 1){
+	if($scrape > 0){
 		echo "checking SID = $SID\n";
 		$lines = file_get_contents("http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=$SID&expedite=0&format=pretty_json");
 		usleep(450000);//0.45 seconds
