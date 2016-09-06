@@ -49,18 +49,22 @@
 			<h3 id="union-header">Networks</h3>
 			<label>
 				<input type="checkbox" ng-model="Cog" />
-				<span ng-class="{highlight: checkcog, unhighlight: !checkcog}" ng-mouseenter="checkcog=true" ng-mouseleave="checkcog=false">Cognition Corp</span><br>
+				<span ng-class="{highlight: checkcog, unhighlight: !checkcog}" ng-mouseenter="checkcog=true" ng-mouseleave="checkcog=false">Cognition Corp</span>
 			</label>
-			<label>
+			<br><label>
 				<input type="checkbox" ng-model="OPPF" />
-				<span ng-class="{highlight: checkoppf, unhighlight: !checkoppf}" ng-mouseenter="checkoppf=true" ng-mouseleave="checkoppf=false">OPPF</span><br>
+				<span ng-class="{highlight: checkoppf, unhighlight: !checkoppf}" ng-mouseenter="checkoppf=true" ng-mouseleave="checkoppf=false">OPPF</span>
 			</label>
-			<label>
+			<br><label>
+				<input type="checkbox" ng-model="Reddit" />
+				<span ng-class="{highlight: checkreddit, unhighlight: !checkreddit}" ng-mouseenter="checkreddit=true" ng-mouseleave="checkreddit=false">Reddit Orgs</span>
+			</label>
+			<br><label>
 				<input type="checkbox" ng-model="STAR" />
 				<span ng-class="{highlight: checkstar, unhighlight: !checkstar}" ng-mouseenter="checkstar=true" ng-mouseleave="checkstar=false">STAR Alliance</span>
 			</label>
 			<!-- Unions END -->
-			<div ng-if="!$last" style="height:40px;font-size:40px;">&nbsp;</div><!-- TEMPORARY <br>-->
+			<div ng-if="!$last" style="height:20px;font-size:20px;">&nbsp;</div><!-- TEMPORARY <br>-->
 			<div ng-class="checkboxModels" ng-repeat="checkboxModel in checkboxModels" ng-if="$index > 1">
 				<print-checkbox></print-checkbox>
 				<div ng-if="!$last" style="height:5px;font-size:5px;">&nbsp;</div><!-- tiny <br>-->

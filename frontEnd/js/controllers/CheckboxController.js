@@ -66,6 +66,7 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 				Cog:        btoi($scope.Cog),
 				OPPF:       btoi($scope.OPPF),
 				STAR:       btoi($scope.STAR),
+				Reddit:     btoi($scope.Reddit),
 				Lang:       $scope.language,
 				//numeric index break when we change order in the json -- BAD DESIGN
 				Activity:   $scope.checkboxModels[0].appliedFilter.toString(),
@@ -83,9 +84,10 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 	$scope.StateUI = GlobalStateUI.StateUI;
 	
 	$scope.pageSize = 12;
-	$scope.Cog  = false;
-	$scope.OPPF = false;
-	$scope.STAR = false;
+	$scope.Cog    = false;
+	$scope.OPPF   = false;
+	$scope.STAR   = false;
+	$scope.Reddit = false;
 	
 	$scope.clearResults    = LoadViewService.clearResults;
 	$scope.focusFilterType = LoadViewService.focusFilterType;
@@ -110,6 +112,7 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		$scope.Cog                  = false;
 		$scope.OPPF                 = false;
 		$scope.STAR                 = false;
+		$scope.Reddit               = false;
 		$scope.slider_bar_min.value = 1;
 		$scope.slider_bar_max.value = 0;
 		//if( angular.isDefined($scope.language) )delete $scope.language;

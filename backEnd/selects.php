@@ -183,6 +183,10 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON derived_orgs.SID = ExclOrgs.Organizati
 		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_STAR)";
 		$conjunction = ' AND ';
 	}
+	if((int)$_GET['Reddit']){
+		$sql .= "$conjunction SID IN (SELECT SID FROM tbl_Reddit)";
+		$conjunction = ' AND ';
+	}
 	
 	//WHERE SID LIKE Value and subselect using Name
 	$Values = explode( ',', $_GET['NameOrSID'] );
