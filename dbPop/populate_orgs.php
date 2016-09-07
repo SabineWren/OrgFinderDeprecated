@@ -95,7 +95,8 @@
 		for($failCounter = 0; $failCounter < 4; ++$failCounter){
 			$lines = file_get_contents($queryString);
 			if(!$lines){
-				sleep(4);
+				echo "failCount == $failCount (zero to three); sleeping 60 seconds\n";
+				sleep(60);
 				continue;//try again
 			}
 			
@@ -205,14 +206,8 @@
 				for($pageStart = 1;; $pageStart += 10){
 					$memberQueryString  = "http://sc-api.com/?api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
-					$lines = file_get_contents($memberQueryString);
+					$memberDataArray = queryAPI($memberQueryString);
 					unset($memberQueryString);
-					$memberDataArray = json_decode($lines, true);//json to php associated array
-					if($memberDataArray == false){
-						echo "failed to decode members list for SID = $SID; skipping\n";
-						continue 2;
-					}
-					unset($lines);
 					if($memberDataArray["data"] == null)break;//done reading data
 					
 					foreach($memberDataArray["data"] as $member){
@@ -223,9 +218,9 @@
 				$total = $Main = $Affiliate = $Hidden = 0;
 				foreach($membersArray as $member){
 					++$total;
-					if($member['type'] == 'main')++$Main;
-					else if($member['type'] == 'affiliate')++$Affiliate;
-					else if($member['visibility'] == 'hidden' || $member['visibility'] == 'redacted')++$Hidden;
+					if($member['type'] === 'main')++$Main;
+					else if($member['type'] === 'affiliate')++$Affiliate;
+					else if($member['visibility'] === 'hidden' || $member['visibility'] == 'redacted')++$Hidden;
 					else echo "WARNING: org $SID has member of unknown type\n";
 				}
 				if($total != $Size){
@@ -326,6 +321,7 @@
 				
 				++$numberInserted;
 				echo "inserted SID = $SID\n";
+				usleep(500000);
 			}
 			//we can run this script with 'full' option to update all org sizes (slow), or just look for ones that changed total size and update those
 			//without 'full', we don't account for members changing between 'main' and 'affiliate'
