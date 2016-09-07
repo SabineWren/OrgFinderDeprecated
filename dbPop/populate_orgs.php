@@ -93,9 +93,9 @@
 	
 	function queryAPI(&$queryString){
 		for($failCounter = 0; $failCounter < 4; ++$failCounter){
-			$lines = file_get_contents($queryString);
+			$lines = shell_exec("php5 ../sc_api/index.php '$queryString'");
 			if(!$lines){
-				echo "failCount == $failCount (zero to three); sleeping 60 seconds\n";
+				echo "failCount == $failCounter (zero to three); sleeping 60 seconds\n";
 				sleep(60);
 				continue;//try again
 			}
@@ -108,13 +108,16 @@
 			unset($lines);
 			
 			if($dataArray["data"] == null){
-				echo "Query returned null; failCounter == $failCounter\n";
-				continue;//try again; we might be done
+				//we are done (no members left)
+				return 1;
 			}
 			break;
 		}
 		
-		if($failCounter >= 4)return -1;
+		if($failCounter >= 4){
+			echo "Query failed\n";
+			return -1;
+		}
 		return $dataArray;
 	}
 	
@@ -186,7 +189,7 @@
 	for($x = 1;; $x = $x + 4){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
 		//the +3 means query four pages at a time
-		$queryString  = "http://sc-api.com/?api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
+		$queryString  = "api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
 		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
 		$dataArray = queryAPI($queryString);
 		unset($queryString);
@@ -204,9 +207,17 @@
 			if($getFullMemberInfo || $savedSize["Size"] != $Size){
 				//get member info
 				for($pageStart = 1;; $pageStart += 10){
-					$memberQueryString  = "http://sc-api.com/?api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
+					$memberQueryString  = "api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
 					$memberDataArray = queryAPI($memberQueryString);
+					if(!$memberDataArray){
+						sleep(120);
+						$memberDataArray = queryAPI($memberQueryString);
+					}
+					if(!$memberDataArray){
+						echo "FAILED to query members for SID == $SID; skipping org\n";
+						continue 2;
+					}
 					unset($memberQueryString);
 					if($memberDataArray["data"] == null)break;//done reading data
 					
@@ -232,7 +243,7 @@
 				
 				unset($membersArray);
 				//note sc-api does not always provide language information on live results
-				$subqueryString  ='http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=';
+				$subqueryString  ='api_source=live&system=organizations&action=single_organization&target_id=';
 				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
 				$orgArray = queryAPI($subqueryString);
 				unset($subqueryString);

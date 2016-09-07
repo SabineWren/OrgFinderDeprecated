@@ -1,0 +1,185 @@
+@charset "utf-8";
+
+html
+{
+    margin:0;
+    padding:0;
+}
+
+body
+{
+    height:100%;
+    color:rgb(255,255,255);
+    background-color:rgb(0,0,0);
+    background-image:url('http://thalos.org/images/pinhole_small.jpg');
+    background-position:center center;
+    background-attachment:fixed;
+    background-size:fit;
+    font-family:Electrolize, Verdana, Helvetica, Arial, sans-serif;
+    margin:0;
+    padding:0;
+    position:relative;
+    z-index:-2;
+}
+
+.bounds_container
+{
+    width:960px;
+    min-width:650px;
+    min-height:100%;
+    padding:0;
+    margin:0 auto;
+}
+
+bounds
+{
+    width:100%;
+    min-height:100%;
+    float:left;
+    min-height:50px;
+    margin:0;
+    padding:0;
+    positon:relative;
+}
+
+.content_container
+{
+    max-width:939px;
+    min-height:100%;
+    float:left;
+    positon:relative;
+    margin:0px;
+    padding:0px;
+}
+
+p
+{
+    padding-left: 30px;
+}
+
+.glowy_text
+{
+    text-shadow:0px 0px 5px #44FFFF;
+    text-decoration:none;
+}
+
+.extra_glowy_text
+{
+    text-shadow:0px 0px 5px #00EEFF;
+    text-decoration:none;
+}
+
+.rounded
+{
+    border-radius:10px 10px 10px 10px;
+}
+
+a
+{
+    color:#FFFFFF;
+    text-shadow:none;
+    border:none;
+    font-size:90%;
+}
+
+.panel
+{
+    position:relative;
+    background-color: #282828;
+    background-color:#303030;
+    width:900px;
+    margin:0;
+    padding:30px;
+    padding-bottom:30px;
+    margin-bottom:30px;
+    border-radius:0px 0px 5px 100px;
+
+    top:-5px;
+
+    -webkit-box-shadow: -5px 5px 5px 0px #00C0FF;
+       -moz-box-shadow: -5px 5px 5px 0px #00C0FF;
+            box-shadow: -5px 5px 5px 0px #00C0FF;
+}
+
+.panel .content
+{
+    width:98%;
+    margin:0;
+    padding:10px;
+    padding-bottom:0px;
+    border-left:3px solid transparent;
+
+    -webkit-transition-duration: 0.5s; 
+       -moz-transition-duration: 0.5s; 
+        -ms-transition-duration: 0.5s; 
+         -o-transition-duration: 0.5s; 
+            transition-duration: 0.5s;
+}
+
+.panel .content:hover
+{
+    border:none;
+    border-left:3px solid white;
+
+    -webkit-box-shadow: -8px 0px 7px -8px white;
+       -moz-box-shadow: -8px 0px 7px -8px white;
+            box-shadow: -8px 0px 7px -8px white;
+
+    -webkit-transition-duration: 0.5s; 
+       -moz-transition-duration: 0.5s; 
+        -ms-transition-duration: 0.5s; 
+         -o-transition-duration: 0.5s; 
+            transition-duration: 0.5s;
+}
+
+.panel .no_left_border, .panel .no_left_border:hover
+{
+    border:none;
+    -webkit-box-shadow: 0px 0px 0px 0px white;
+       -moz-box-shadow: 0px 0px 0px 0px white;
+            box-shadow: 0px 0px 0px 0px white;
+}
+
+.panel td
+{
+    background-color:rgb(75,75,75);
+    vertical-align:top;
+    padding:15px;
+}
+
+.panel td>p
+{
+    padding:0;
+}
+
+.panel h1, .panel h2, .panel h3, .panel h4
+{
+    margin:0;
+    padding:0;
+    text-shadow:0px 0px 10px #00AADD;
+}
+
+.logo
+{
+    width:100px;
+    float:left;
+    margin-bottom:10px;
+    position:relative;
+    left:-101px;
+    top:9px;
+}
+
+.logo_background
+{
+    width:120px;
+    height:120px;
+    float:left;
+    position:relative;
+    background-color:rgb(175,175,175);
+    border-radius:60px;
+    left:10px;
+
+    -webkit-box-shadow: 0px 0px 5px 4px #00C0FF;
+       -moz-box-shadow: 0px 0px 5px 4px #00C0FF;
+            box-shadow: 0px 0px 5px 4px #00C0FF;
+}
