@@ -1,4 +1,7 @@
 
+Images:
+	***use RSI URL on grid view for higher quality images
+
 Misc:
 	the SC-API does not scrape exclusive status (need workaround)
 	
@@ -6,5 +9,3 @@ Front End:
 	add WebGL effects
 	add banner/footer
 
-Constraints:
-	CHECK( Size == Main + Affiliate + Hidden )//RSI does not have data integrity, so size is often +- 1

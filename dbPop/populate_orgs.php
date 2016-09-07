@@ -143,8 +143,8 @@
 	$prepared_insert_date  = $connection->prepare("INSERT INTO tbl_OrgMemberHistory (Organization, ScrapeDate, Size, Main, Affiliate, Hidden) VALUES (?, CURDATE(), ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ScrapeDate = CURDATE(), Size = ?, Main = ?, Affiliate = ?, Hidden = ?");
 	$prepared_insert_date ->bind_param("sdddddddd", $SID, $Size, $Main, $Affiliate, $Hidden, $Size, $Main, $Affiliate, $Hidden);
 	
-	$prepared_insert_icon = $connection->prepare("INSERT INTO tbl_IconURLs(Organization, Icon) VALUES (?, ?)");
-	$prepared_insert_icon->bind_param("ss", $SID, $IconURL);
+	$prepared_insert_icon = $connection->prepare("INSERT INTO tbl_IconURLs(Organization, Icon) VALUES (?, ?) ON DUPLICATE KEY UPDATE Icon = ?");
+	$prepared_insert_icon->bind_param("sss", $SID, $IconURL, $IconURL);
 	
 	$prepared_insert_commits = $connection->prepare("INSERT INTO tbl_Commits(Organization, Commitment) VALUES (?, ?) ON DUPLICATE KEY UPDATE Commitment = ?");
 	$prepared_insert_commits->bind_param("sss", $SID, $Commitment, $Commitment);
