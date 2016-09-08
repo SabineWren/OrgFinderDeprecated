@@ -91,38 +91,8 @@
 		}
 	}
 	
-	function queryAPI(&$queryString){
-		for($failCounter = 0; $failCounter < 4; ++$failCounter){
-			$lines = shell_exec("php5 /var/www/html/sc_api/index.php '$queryString'");
-			if( preg_match("/Could not open input file/",$lines) ){
-				die($lines . "\n\n");
-			}
-			if(!$lines){
-				echo "failCount == $failCounter (zero to three); sleeping 60 seconds\n";
-				sleep(60);
-				continue;//try again
-			}
-			
-			$dataArray = json_decode($lines, true);//json to php associated array
-			if($dataArray == false){
-				echo "failed to decode\n";
-				return -1;
-			}
-			unset($lines);
-			
-			if($dataArray["data"] == null){
-				//we are done (no members left)
-				return 1;
-			}
-			break;
-		}
-		
-		if($failCounter >= 4){
-			echo "Query failed\n";
-			return -1;
-		}
-		return $dataArray;
-	}
+	require_once('functions.php');
+	$queryAPI = queryAPI_closure();
 	
 	//1) Connect to DB
 	if( sizeof($argv) < 3){
@@ -194,7 +164,7 @@
 		//the +3 means query four pages at a time
 		$queryString  = "api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
 		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
-		$dataArray = queryAPI($queryString);
+		$dataArray = $queryAPI($queryString);
 		unset($queryString);
 		if($dataArray == -1)break;
 		
@@ -212,7 +182,7 @@
 				for($pageStart = 1;; $pageStart += 10){
 					$memberQueryString  = "api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
-					$memberDataArray = queryAPI($memberQueryString);
+					$memberDataArray = $queryAPI($memberQueryString);
 					if(!$memberDataArray){
 						echo "FAILED to query members for SID == $SID; skipping org\n";
 						continue 2;
@@ -244,7 +214,7 @@
 				//note sc-api does not always provide language information on live results
 				$subqueryString  ='api_source=live&system=organizations&action=single_organization&target_id=';
 				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
-				$orgArray = queryAPI($subqueryString);
+				$orgArray = $queryAPI($subqueryString);
 				unset($subqueryString);
 				if($orgArray == -1){
 					echo "\nWARNING -- unable to query org $SID; skipping\n\n";
