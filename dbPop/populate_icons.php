@@ -43,7 +43,7 @@
 		$get_url->fetch();
 		
 		//download image
-		if(  !file_exists( __dir__ . '/../org_icons_fullsize' . $SID )  ){
+		if(  !file_exists( __dir__ . '/../org_icons_fullsize/' . $SID )  ){
 			$image = file_get_contents($IconURL);
 			if($image === FALSE){
 				//Possibly a dead URL
