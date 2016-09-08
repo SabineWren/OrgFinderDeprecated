@@ -159,15 +159,18 @@
 	$numberInserted = 0;
 	$numberUpdated  = 0;
 	
-	for($x = 1;; $x = $x + 4){//$x is current page number in query string
+	for($x = 1393;; $x = $x + 4){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
 		//the +3 means query four pages at a time
 		$queryString  = "api_source=live&system=organizations&action=all_organizations&source=rsi&start_page=$x";
 		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
+		//var_dump($queryString);
 		$dataArray = $queryAPI($queryString);
 		unset($queryString);
-		if($dataArray === -1)break;
+		if($dataArray == -1)break;
+		if($dataArray === -1 || $dataArray["data"] === null)break;
 		
+		var_dump($dataArray);
 		//4) Sub-query Org (more data)
 		foreach ($dataArray["data"] as $org){
 			//5a) Bind data from outer query

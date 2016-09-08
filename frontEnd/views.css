@@ -273,6 +273,7 @@ tr td #recruiting-roleplay {
 	font-size: 22px;
 	margin: auto;
 	width: 300px;
+	z-index: 50;
 }
 
 

@@ -106,3 +106,11 @@ a {
 	font-size: 22px;
 }
 
+#footerimg {
+	display:block;
+	width:100%;
+	position:relative;
+	margin: 0px;
+	padding: 0px;
+}
+
