@@ -93,7 +93,10 @@
 	
 	function queryAPI(&$queryString){
 		for($failCounter = 0; $failCounter < 4; ++$failCounter){
-			$lines = shell_exec("php5 ../sc_api/index.php '$queryString'");
+			$lines = shell_exec("php5 /var/www/html/sc_api/index.php '$queryString'");
+			if( preg_match("/Could not open input file/",$lines) ){
+				die($lines . "\n\n");
+			}
 			if(!$lines){
 				echo "failCount == $failCounter (zero to three); sleeping 60 seconds\n";
 				sleep(60);
@@ -210,10 +213,6 @@
 					$memberQueryString  = "api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
 					$memberDataArray = queryAPI($memberQueryString);
-					if(!$memberDataArray){
-						sleep(120);
-						$memberDataArray = queryAPI($memberQueryString);
-					}
 					if(!$memberDataArray){
 						echo "FAILED to query members for SID == $SID; skipping org\n";
 						continue 2;
