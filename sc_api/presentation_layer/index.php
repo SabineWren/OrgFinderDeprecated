@@ -11,7 +11,7 @@ header('Content-type: application/json');
 $TRACE = FALSE;
 
 $parsed_url = parse_url($argv[1]);
-if( isset($query_portion['query']) ){
+if( isset($parsed_url['query']) ){
 	$query_portion = $parsed_url['query'];
 	parse_str($query_portion, $query_array);
 }
