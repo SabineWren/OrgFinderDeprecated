@@ -10,8 +10,8 @@
 	@license-end
 	*/
 	
-	if( sizeof($argv) < 4){
-		echo "Correct usage: php " . $argv[0] . " <db username> <db password> <path to save icons (no trailing slash)>\n";
+	if( sizeof($argv) < 3){
+		echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
 		exit();
 	}
 	
@@ -19,8 +19,6 @@
 	if( mysqli_connect_errno() ){
 		die( "Connection failed: " . mysqli_connect_error() );
 	}
-	
-	$PathToImages = $argv[3] . '/';
 	
 	$rows = $connection->query("SELECT SID, CustomIcon FROM tbl_Organizations");
 	if(!$rows)die('Failed to SELECT from database');
@@ -45,7 +43,7 @@
 		$get_url->fetch();
 		
 		//download image
-		if(  !file_exists( $PathToImages . $SID )  ){
+		if(  !file_exists( __dir__ . '/../org_icons_fullsize' . $SID )  ){
 			$image = file_get_contents($IconURL);
 			if($image === FALSE){
 				//Possibly a dead URL
@@ -55,7 +53,7 @@
 				//example of dead link:
 				//http://robertsspaceindustries.com/media/t713kgg9mniiar/logo/PHG-Logo.jpg
 
-			$fp = fopen( ( $PathToImages . $SID ), 'w' );
+			$fp = fopen( ( __dir__ . '/../org_icons_new/' . $SID ), 'w' );
 			fwrite($fp, $image);
 			echo "saved icon for SID = $SID\n";
 			fclose($fp);
