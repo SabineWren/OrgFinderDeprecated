@@ -64,9 +64,7 @@ CASE
 FROM (
 	SELECT SID, Name, Size, Main, GrowthRate, CustomIcon
 	FROM tbl_Organizations FORCE INDEX(Growth_SID)
-";
-
-$sql .=  ") as derived_orgs
+	) as derived_orgs
 LEFT JOIN tbl_Performs       Performs  ON derived_orgs.SID = Performs.Organization
      JOIN tbl_Commits        Commits   ON derived_orgs.SID = Commits.Organization
 LEFT JOIN tbl_OrgFluencies   Language  ON derived_orgs.SID = Language.Organization

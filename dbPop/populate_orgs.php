@@ -49,21 +49,8 @@
 			$result = ['Size' => 0];
 			return $result;
 		}
-		if($row['Main'] > $row['Size']){
-			echo "Data integrity error (Main > Size) for $SID; fixing\n";
-			$result = ['Size' => 0];
-			return $result;
-		}
 		
 		$GrowthRate = $row['GrowthRate'];
-		
-		$rows = $connection->query("SELECT * FROM tbl_OrgDescription WHERE SID = '$SID'");
-		$row = $rows->fetch_assoc();
-		if($row === null){
-			echo "NO DESCRIPTION Org SID = $SID\n";
-			$result = ['Size' => 0];
-			return $result;
-		}
 		
 		$rows = $connection->query("SELECT Size, Main, Affiliate, Hidden FROM tbl_OrgMemberHistory WHERE Organization = '$SID' ORDER BY ScrapeDate DESC LIMIT 1");
 		
@@ -113,9 +100,7 @@
 	
 	//2) Prepare statements
 	$prepared_insert_org  = $connection->prepare("INSERT INTO tbl_Organizations (SID, Name, Size, Main, CustomIcon, GrowthRate) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = ?, Size = ?, Main = ?, CustomIcon = ?, GrowthRate = ?");
-	$prepared_update_org  = $connection->prepare("UPDATE tbl_Organizations SET Size = ?, Main = ? WHERE SID = ?");
 	$prepared_insert_org ->bind_param("ssddddsdddd", $SID, $Name, $Size, $Main, $CustomIcon, $GrowthRate, $Name, $Size, $Main, $CustomIcon, $GrowthRate);
-	$prepared_update_org ->bind_param("dds", $Size, $Main, $SID);
 	
 	$prepared_insert_date  = $connection->prepare("INSERT INTO tbl_OrgMemberHistory (Organization, ScrapeDate, Size, Main, Affiliate, Hidden) VALUES (?, CURDATE(), ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ScrapeDate = CURDATE(), Size = ?, Main = ?, Affiliate = ?, Hidden = ?");
 	$prepared_insert_date ->bind_param("sdddddddd", $SID, $Size, $Main, $Affiliate, $Hidden, $Size, $Main, $Affiliate, $Hidden);
@@ -157,7 +142,6 @@
 	$prepared_insert_description->bind_param("sssss", $SID, $Headline, $Manifesto, $Headline, $Manifesto);
 	
 	$numberInserted = 0;
-	$numberUpdated  = 0;
 	
 	for($x = 1;; $x = $x + 4){//$x is current page number in query string
 		//3) Query SC-API (all orgs)
@@ -176,7 +160,8 @@
 			
 			$savedSize = getOrgSize($SID, $connection);
 			
-			//if "full inserting" or if org is new/updating, we need to get main/affiliate/hidden
+			//we can run this script with 'full' option to update all org sizes (slow)
+			//if org is new/changed, we need to completely repopulate it
 			if($getFullMemberInfo || $savedSize["Size"] != $Size){
 				//get member info
 				for($pageStart = 1;; $pageStart += 10){
@@ -303,13 +288,6 @@
 				echo "inserted SID = $SID\n";
 				usleep(500000);
 			}
-			//we can run this script with 'full' option to update all org sizes (slow), or just look for ones that changed total size and update those
-			//without 'full', we don't account for members changing between 'main' and 'affiliate'
-			else if ( $getFullMemberInfo || $savedSize["Size"] != $Size ){
-				attemptInsert($SID, 'update org',  $prepared_update_org,  $connection);
-				++$numberUpdated;
-				echo "updated SID = $SID\n";
-			}
 			//if we didn't update any size information
 			else{
 				$Main      = $savedSize["Main"];
@@ -320,19 +298,17 @@
 			attemptInsert($SID, 'insert date', $prepared_insert_date, $connection);
 			$connection->commit();
 		}
-		echo $x * 32 . " Orgs looped; total inserted == $numberInserted; total updated == $numberUpdated\n";
+		echo $x * 32 . " Orgs looped; total inserted == $numberInserted\n";
 	}
 	unset($x);
 	
 	echo "Finished...\n";
 	echo "Inserted $numberInserted Orgs\n";
-	echo "Updated  $numberUpdated Orgs\n";
 	
 	//7) Close Connection
 	$connection->autocommit(TRUE);
 	
 	$prepared_insert_org->close();
-	$prepared_update_org->close();
 	$prepared_insert_date->close();
 	$prepared_insert_icon->close();
 	$prepared_insert_commits->close();
