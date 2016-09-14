@@ -6,10 +6,11 @@ Live hosted at www.cognitioncorp.net
 
 The scraper was built from Siegen's sc-api.
 
-To host the app yousrelf, add and run dependencies. Caveat -- PHP sucks with relative paths, so the scripts in /dbPop have /var/www/html hard coded for path. Debian-based GNU distributions provide easy installation:
+To host the app yousrelf, add and run dependencies. Debian-based GNU+Linux distributions provide easy installation:
 
+``` javascript
 sudo bash
-
+```
 If using an ARM CPU, you will need to use the stretch repo for MySQL5.6.
 ```javascript
 nano /etc/apt/sources.list
