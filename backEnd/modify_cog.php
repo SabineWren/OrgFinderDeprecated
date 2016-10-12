@@ -23,11 +23,17 @@ $prepared_insert_cog ->bind_param("ss", $SID, $SID);
 $prepared_delete_cog = $connection->prepare("DELETE FROM tbl_Cog WHERE SID = ?");
 $prepared_delete_cog ->bind_param("s", $SID);
 
+$path = __dir__ . '/../dbPop';
+$path = $path . '/manual_update.php';
+
 for($i = 0; $i < 8; ++$i){
 	$SID = getSID($i);
 	if($SID === 0)continue;
 	
 	if($i < 5){
+		$update = shell_exec("php5 $path insert_cog $password $SID");
+		//echo "php5 $path insert_cog $password $SID<br>";
+		if(!$update)echo "Failed to update SID == $SID prior to inserting<br>";
 		if(!$prepared_insert_cog->execute())echo "Failed to insert Org == $SID into cog<br>";
 		else echo "inserted " . $SID . " into cog<br>";
 	}
