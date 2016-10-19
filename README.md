@@ -1,8 +1,8 @@
-# Cognition Corp
+# Sabine Wren
 
 Website Database for players to find organizations.
 
-Live hosted at www.cognitioncorp.net
+Live hosted at www.sabinewren.space
 
 The scraper was built from Siegen's sc-api.
 
