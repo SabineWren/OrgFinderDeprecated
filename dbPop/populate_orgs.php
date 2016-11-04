@@ -164,6 +164,7 @@
 			//if org is new/changed, we need to completely repopulate it
 			if($getFullMemberInfo || $savedSize["Size"] != $Size){
 				//get member info
+				$membersArray = array();
 				for($pageStart = 1;; $pageStart += 10){
 					$memberQueryString  = "api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
@@ -178,6 +179,8 @@
 					foreach($memberDataArray["data"] as $member){
 						$membersArray[] = $member;
 					}
+					$currentMemberCount = count($membersArray);
+					echo "$currentMemberCount members\n";
 				}
 			
 				$total = $Main = $Affiliate = $Hidden = 0;
