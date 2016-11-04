@@ -1,4 +1,8 @@
 <?php
+
+require_once('functions.php');
+$queryAPI = queryAPI_closure();
+
 // Connect to DB
 if( sizeof($argv) < 3){
 	echo "Correct usage: php " . $argv[0] . " <db username> <db password>\n";
@@ -20,12 +24,10 @@ while($row = $result->fetch_assoc()){
 	$scrape = $row['scrape'];
 	if($scrape > 0){
 		echo "checking SID = $SID\n";
-		$lines = file_get_contents("http://sc-api.com/?api_source=live&system=organizations&action=single_organization&target_id=$SID&expedite=0&format=pretty_json");
-		usleep(450000);//0.45 seconds
-		if(!$lines)continue;//we'll try again another day
-		$data_array = json_decode($lines, true);
-		if(!$data_array)continue;
-		if($data_array['data'] != null)echo "SID == $SID exists but has old data\n";
+		$queryString = "api_source=live&system=organizations&action=single_organization&target_id=$SID&expedite=0&format=pretty_json";
+		$dataArray = $queryAPI($queryString);
+		if($dataArray === -1)continue;
+		if($dataArray['data'] != null)echo "SID == $SID exists but has old data\n";
 		else $to_delete[] = $SID;
 		if( count($to_delete) > 300 ){
 			echo "Limit of 301 reached.\n";
