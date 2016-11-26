@@ -1,5 +1,4 @@
 User-Agent: *
-Disallow: /backEnd
 Disallow: /old
 Disallow: /joom
 Disallow: /new

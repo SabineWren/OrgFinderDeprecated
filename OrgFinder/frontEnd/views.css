@@ -1,0 +1,290 @@
+/*
+	@license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt
+	
+	Copyright (C) 2016 SabineWren
+	
+	GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
+	https://www.gnu.org/licenses/agpl-3.0.html
+	
+	@license-end
+*/
+
+/*@media only screen and (max-width: 950px) {
+	#commitment-language, #SID-archetype {
+		display: block !important;
+	}
+}*/
+
+@font-face{
+	font-family: serif-font;
+	src: url("images/Neuton-Regular.ttf");
+}
+@font-face{
+	font-family: serif-bold;
+	src: url("images/Neuton-Extrabold.ttf");
+}
+
+
+.view-controller {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	margin: 0;
+	padding: 0;
+}
+
+/* List View */
+
+.list-view {
+	width: 100%;
+}
+
+#list-view-results {
+	margin-left: 10px;
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+table {
+	background-color: rgba(0, 77, 102, 0.6);
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #00394d;
+}
+
+thead th {
+	line-height: 20px;
+	/*font-family: exo2 !important;*/
+	font-weight: bold;
+}
+
+th {
+	text-align: center;
+	border-bottom: 1px dashed gray;
+	margin-bottom: 0;
+}
+
+.alternate {
+	color: orange;
+}
+
+tr {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+tr:hover {
+	background-color: #333333;
+}
+
+.highlighted {
+	background-color: rgba(0, 153, 204, 0.7) !important;
+	
+}
+
+#first {
+	background-color: transparent;
+}
+
+.arrows {
+	color: #FF4400;
+	font-weight: bold;
+	font-size: 25px;
+	line-height: 15px;
+}
+
+td {
+	height: 100%;
+	text-align: center;
+}
+
+td > div {
+	margin: 0 !important;
+	padding: 0 !important;
+	height: 50px !important;
+}
+
+.icon {
+	width:  50px !important;
+	height: 50px !important;
+}
+
+td a {
+	display: table;
+	position: relative;
+	text-decoration: none; 
+	color: #DDDDDD;
+	width:  100%;
+	height: 100%;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+#size-main {
+	width: 50px;
+}
+#size-main-number {
+	font-size: 18px;
+	font-weight: bold;
+	text-align: left;
+}
+
+#growth {
+	width: 65px;
+}
+#growth-number {
+	font-size: 18px;
+	font-weight: bold;
+	text-align: left;
+}
+
+#Name {
+	width: 175px;
+	overflow-x: visible;
+	white-space: normal;
+	word-wrap: break-word;
+}
+tr #Name {
+	font-family: serif-font;
+	font-size: 18px;
+}
+
+#focuses {
+	width: 120px;
+	text-align: left;
+}
+tr td #focuses {
+	font-family: serif-font;
+	font-size: 18px;
+}
+
+#SID-archetype {
+	width: 100px;
+	text-align: left;
+}
+tr td #SID-archetype {
+	font-family: serif-font;
+}
+
+#commitment-language {
+	text-align: left;
+}
+tr td #commitment-language {
+	font-family: serif-font;
+	font-size: 18px;
+}
+
+#recruiting-roleplay {
+	width: 55px;
+}
+tr td #recruiting-roleplay {
+	font-family: serif-font;
+	font-size: 18px;
+}
+
+/* Grid View */
+
+#grid-view-results {
+	display: inline-block;
+	position: relative;
+	margin-left: 10px;
+	vertical-align: top;
+	flex-wrap: wrap;
+	white-space: normal;
+	height: 50%;
+	width: 1200px;
+}
+
+@media only screen and (max-width: 1600px){
+	#gridViewResults{
+		width: 1100px;
+	}
+}
+@media only screen and (max-width: 1400px){
+	#gridViewResults{
+		width: 900px;
+	}
+}
+@media only screen and (max-width: 1200px){
+	#gridViewResults{
+		width: 700px;
+	}
+}
+
+.cell:before {
+	display: inline-block;
+	padding-top: 290px;
+	content:'';
+}
+
+.cell {
+	display: inline-block;
+	position: relative;
+	width: 250px;
+	border-style: ridge;
+	border-width: 5px;
+	border-color: black;
+	text-align: center;
+	background-color: rgba(0, 77, 102, 0.6);
+	border-radius: 10px;
+	border-color: #00394d;
+	margin: 3px;
+}
+#cellWidthJS{width:250px;}
+
+.cell-contents {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	white-space: nowrap;
+	line-height: 21px;
+	font-size: 17px;
+}
+
+.cell:hover{
+	background-color: rgba(95, 116, 131, 0.7);
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 10px;
+	border-color: #4b5c68;
+}
+
+.gridIcon{
+	border-radius: 10px;
+	height: 75%;
+	width: 100%;
+}
+
+.lowerBlock {
+	position: absolute;
+	line-height: 12px;
+	margin-left: 750px;
+	width: 300px;
+}
+
+.loadButton {
+	display: block;
+	font-size: 22px;
+	margin: auto;
+	width: 300px;
+	z-index: 50;
+}
+
+
+#grid-view-results .loadButton {
+	position: relative;
+	clear: left;
+}
+
+.list-view .loadButton {
+    position: absolute;
+    right: 260px;
+}
+
+

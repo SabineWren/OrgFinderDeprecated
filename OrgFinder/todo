@@ -1,0 +1,10 @@
+
+Images:
+	***use RSI URL on grid view for higher quality images
+
+Misc:
+	the SC-API does not scrape exclusive status (need workaround)
+	
+Front End:
+	add WebGL effects
+
