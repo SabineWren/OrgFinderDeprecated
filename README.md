@@ -65,7 +65,7 @@ apt-get install php5-cli
 php -S localhost:8000
 ```
 
-navigate to localhost:8000/frontEnd.html
+navigate to localhost:8000/index.html
 
 To scrape org icons, run /dbPop/populate_icons.php. The front end assumes you save to /org_icons, so provide an Apache alias if necessary under 000-default.conf. Icons are stored locally and separately from the database.
 
