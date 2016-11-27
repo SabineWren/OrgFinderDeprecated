@@ -8,20 +8,15 @@
 	
 	@license-end
 */
-
 FrontEndApp.directive('printCheckbox', function() {
-
 	return { 
 		restrict: 'E',
 		scope: true,
 		controller: ['$scope', function($scope){
-		
 			$scope.callCheckChanged = function(box) {
-				
 				for (var i=0; i < $scope.$parent.checkboxModels.length; i++) {
 					if($scope.$parent.checkboxModels[i].category === $scope.checkboxModel.category) break;
 				}
-			
 				if(box.isSelected){
 					$scope.$parent.checkboxModels[i].appliedFilter.push(box.name);
 				}
@@ -31,6 +26,7 @@ FrontEndApp.directive('printCheckbox', function() {
 				}
 			};
 		}],
-		templateUrl: 'frontEnd/js/directives/printCheckbox.html'
+		templateUrl: './printCheckbox.html'
 	}; 
 });
+

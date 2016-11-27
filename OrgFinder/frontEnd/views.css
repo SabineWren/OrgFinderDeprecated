@@ -8,23 +8,6 @@
 	
 	@license-end
 */
-
-/*@media only screen and (max-width: 950px) {
-	#commitment-language, #SID-archetype {
-		display: block !important;
-	}
-}*/
-
-@font-face{
-	font-family: serif-font;
-	src: url("images/Neuton-Regular.ttf");
-}
-@font-face{
-	font-family: serif-bold;
-	src: url("images/Neuton-Extrabold.ttf");
-}
-
-
 .view-controller {
 	position: relative;
 	display: inline-block;
@@ -57,7 +40,7 @@ table {
 thead th {
 	line-height: 20px;
 	/*font-family: exo2 !important;*/
-	font-weight: bold;
+	font-weight: neuton-serif-bold;
 }
 
 th {
@@ -147,7 +130,7 @@ td a {
 	word-wrap: break-word;
 }
 tr #Name {
-	font-family: serif-font;
+	font-family: neuton-serif;
 	font-size: 18px;
 }
 
@@ -156,7 +139,7 @@ tr #Name {
 	text-align: left;
 }
 tr td #focuses {
-	font-family: serif-font;
+	font-family: neuton-serif;
 	font-size: 18px;
 }
 
@@ -165,14 +148,14 @@ tr td #focuses {
 	text-align: left;
 }
 tr td #SID-archetype {
-	font-family: serif-font;
+	font-family: neuton-serif;
 }
 
 #commitment-language {
 	text-align: left;
 }
 tr td #commitment-language {
-	font-family: serif-font;
+	font-family: neuton-serif;
 	font-size: 18px;
 }
 
@@ -180,7 +163,7 @@ tr td #commitment-language {
 	width: 55px;
 }
 tr td #recruiting-roleplay {
-	font-family: serif-font;
+	font-family: neuton-serif;
 	font-size: 18px;
 }
 
