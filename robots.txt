@@ -10,4 +10,10 @@ Disallow: /blog
 Disallow: /wordpress
 Disallow: /images
 Disallow: favicon.ico
+Disallow: apple-touch-icon.png
+Disallow: wp-login.php
+Disallow: /administrator
+Disallow: admin.php
+Disallow: /admin
+Disallow: /wp-admin
 

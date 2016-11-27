@@ -14,8 +14,7 @@ FrontEndApp.directive('printCheckbox', function() {
 	return { 
 		restrict: 'E',
 		scope: true,
-	
-		controller: function($scope){
+		controller: ['$scope', function($scope){
 		
 			$scope.callCheckChanged = function(box) {
 				
@@ -31,7 +30,7 @@ FrontEndApp.directive('printCheckbox', function() {
 					$scope.$parent.checkboxModels[i].appliedFilter.splice(index, 1)
 				}
 			};
-		},
-    templateUrl: 'frontEnd/js/directives/printCheckbox.html'
-  }; 
+		}],
+		templateUrl: 'frontEnd/js/directives/printCheckbox.html'
+	}; 
 });

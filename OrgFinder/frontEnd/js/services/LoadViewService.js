@@ -1,3 +1,4 @@
+"use strict";
 /*
 	@license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt
 	
@@ -10,15 +11,6 @@
 */
 
 FrontEndApp.factory('LoadViewService', function(){
-	
-	var orgData = function(SID, Name, Size, Main, Icon, URL){
-		this.SID  = SID;
-		this.Name = Name;
-		this.Size = Size;
-		this.Main = Main;
-		this.Icon = Icon;
-		this.URL  = "https://robertsspaceindustries.com/orgs/" + SID;
-	};
 	
 	var orgResults = {
 		results: [],
@@ -65,7 +57,7 @@ FrontEndApp.factory('LoadViewService', function(){
 		growthDouble    : false,
 		growthAscending : false,
 		growthDescending: true
-	}
+	};
 	
 	function clearSorting(){
 		sortStatus.nameDouble      = true;
@@ -99,44 +91,40 @@ FrontEndApp.factory('LoadViewService', function(){
 			console.log("No more orgs found!\n");
 			alert("No more orgs found!\n");
 		}
-		else for(obj in data){
+		else{
 			var icon = "";
-			if( data[obj]["CustomIcon"] === 1 )icon = "/org_icons/" + data[obj]["SID"];
-			else icon = "frontEnd/org_icons_default/" + data[obj]["Archetype"] + ".jpg";
-			
-			var field = new orgData(
-				data[obj]["SID"],
-				data[obj]["Name"],
-				data[obj]["Size"],
-				data[obj]["Main"],
-				icon
-			);
-			
-			//temporary code to handle database errors; only the 'else' part is needed once the DB works properly
-			if( typeof data[obj]["GrowthRate"] === 'undefined' || data[obj]["GrowthRate"] === null )field.GrowthRate = "NA";
-			else field.GrowthRate = data[obj]["GrowthRate"].toFixed(1);
-			
-			field.Commitment     = data[obj]["Commitment"];
-			
-			field.Recruiting     = data[obj]["Recruiting"];
-			
-			field.Language       = data[obj]["Language"];
-			
-			field.Roleplay       = data[obj]["Roleplay"];
-			
-			field.Archetype      = data[obj]["Archetype"];
-			
-			field.PrimaryFocus   = data[obj]["PrimaryFocus"];
-			field.SecondaryFocus = data[obj]["SecondaryFocus"];
-			field.PrimaryIcon    = icons.icons[  data[obj]["PrimaryFocus"]  ];
-			field.SecondaryIcon  = icons.icons[  data[obj]["SecondaryFocus"]  ];
-			
-			orgResults.results.push(field);
+			Object.keys(data).forEach(function(obj){
+				if( data[obj].CustomIcon === 1 ){
+					icon = "/org_icons/" + data[obj].SID;
+				}
+				else{
+					icon = "frontEnd/org_icons_default/" + data[obj].Archetype + ".jpg";
+				}
+				
+				orgResults.results.push({
+					SID  : data[obj].SID,
+					Name : data[obj].Name,
+					Size : data[obj].Size,
+					Main : data[obj].Main,
+					Icon : icon,
+					URL  : "https://robertsspaceindustries.com/orgs/" + data[obj].SID,
+					GrowthRate     : data[obj].GrowthRate.toFixed(1),
+					Commitment     : data[obj].Commitment,
+					Recruiting     : data[obj].Recruiting,
+					Language       : data[obj].Language,
+					Roleplay       : data[obj].Roleplay,
+					Archetype      : data[obj].Archetype,
+					PrimaryFocus   : data[obj].PrimaryFocus,
+					SecondaryFocus : data[obj].SecondaryFocus,
+					PrimaryIcon    : icons.icons[ data[obj].PrimaryFocus ],
+					SecondaryIcon  : icons.icons[ data[obj].SecondaryFocus ]
+				});
+			});
 		}
 		loadStatus.isLoading = false;
-	};
+	}
 	
-	return{
+	return {
 		callbackParseSelection,
 		orgResults,
 		loadStatus,
