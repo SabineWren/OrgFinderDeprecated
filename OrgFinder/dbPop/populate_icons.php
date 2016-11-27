@@ -43,7 +43,7 @@
 		$get_url->fetch();
 		
 		//download image
-		if(  !file_exists( __dir__ . '/../org_icons_fullsize/' . $SID )  ){
+		if(  !file_exists( __dir__ . '/../../org_icons_fullsize/' . $SID )  ){
 			$image = file_get_contents($IconURL);
 			if($image === FALSE){
 				//Possibly a dead URL
@@ -53,7 +53,7 @@
 				//example of dead link:
 				//http://robertsspaceindustries.com/media/t713kgg9mniiar/logo/PHG-Logo.jpg
 
-			$fp = fopen( ( __dir__ . '/../org_icons_new/' . $SID ), 'w' );
+			$fp = fopen( ( __dir__ . '/../../org_icons_new/' . $SID ), 'w' );
 			fwrite($fp, $image);
 			echo "saved icon for SID = $SID\n";
 			fclose($fp);
