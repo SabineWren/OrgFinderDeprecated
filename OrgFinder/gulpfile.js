@@ -5,7 +5,10 @@ var eventStream = require('event-stream');
 var order       = require("gulp-order");
 var minifyCSS   = require('gulp-minify-css');
 var uglify      = require('gulp-uglify');
+
 var embedTemplates = require('gulp-angular-embed-templates');
+
+var smoosher       = require('gulp-smoosher');
 
 gulp.task('scripts', function () {
 	var directory = "frontEnd/js/";
@@ -46,5 +49,12 @@ gulp.task('css', ['stylesheet'],function() {
 	.pipe(concat('styles.min.css'))
 	.pipe(gulp.dest('frontEnd/build'));
 
+});
+
+gulp.task('inlineSourceIndex', ['css'], function () {
+	return gulp.src('./OrgFinder-dev.html')
+	.pipe(smoosher())
+	.pipe(concat('OrgFinder.html'))
+	.pipe(gulp.dest('./'));
 });
 

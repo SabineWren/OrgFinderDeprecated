@@ -8,21 +8,22 @@
 	
 	@license-end
 */
+/* FONT PATHS ARE RELATIVE TO THE CSS FILE; SINCE THESE GET INLINED DURING BUILD, THEY ARE RELATIVE TO THE HTML FILE */
 @font-face{
 	font-family: exo2;
-	src: url("../fonts/Exo2.otf");
+	src: url("./frontEnd/fonts/Exo2.otf");
 }
 @font-face{
 	font-family: exo2-bold;
-	src: url("../fonts/Exo2-Bold.otf");
+	src: url("./frontEnd/fonts/Exo2-Bold.otf");
 }
 @font-face{
 	font-family: neuton-serif;
-	src: url("../fonts/Neuton-Regular.ttf");
+	src: url("./frontEnd/fonts/Neuton-Regular.ttf");
 }
 /*@font-face{
 	font-family: neuton-serif-bold;
-	src: url("../fonts/Neuton-Extrabold.ttf");
+	src: url("./frontEnd/fonts/Neuton-Extrabold.ttf");
 }*/
 /* This is the base width for left-block-details!
  * ViewController.js reads this to calculate the correct width.
