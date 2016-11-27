@@ -22,23 +22,28 @@ gulp.task('scripts', function () {
 	.pipe(gulp.dest('frontEnd/build'));
 });
 
-gulp.task('css', function() {
+gulp.task('stylesheet', function() {
+	return gulp.src('frontEnd/css/stylesheet.css')
+	.pipe(minifyCSS())
+	.pipe(concat('stylesheet.min.css'))
+	.pipe(gulp.dest('frontEnd/build'));
+});
+
+gulp.task('css', ['stylesheet'],function() {
 	var slider = gulp.src('AngularJS/angularjs-slider/dist/rzslider.css');
 	var controls = gulp.src('frontEnd/css/userControls.css');
 	var view     = gulp.src('frontEnd/css/views.css');
 	var details  = gulp.src('frontEnd/css/details.css');
-	var style    = gulp.src('frontEnd/css/stylesheet.css');
 	
-	return eventStream.merge(slider, controls, view, details, style)
+	return eventStream.merge(slider, controls, view, details)
 	.pipe(order([
 		'AngularJS/angularjs-slider/dist/rzslider.css',
 		'frontEnd/css/userControls.css',
 		'frontEnd/css/views.css',
-		'frontEnd/css/details.css',
-		'frontEnd/css/stylesheet.css'
+		'frontEnd/css/details.css'
 	], { base: process.cwd() }))
 	.pipe(minifyCSS())
-	.pipe(concat('style.min.css'))
+	.pipe(concat('styles.min.css'))
 	.pipe(gulp.dest('frontEnd/build'));
 
 });
