@@ -8,22 +8,6 @@
 	
 	@license-end
 */
-@font-face{
-	font-family: exo2;
-	src: url("images/Exo2.otf");
-}
-@font-face{
-	font-family: exo2-bold;
-	src: url("images/Exo2-Bold.otf");
-}
-@font-face{
-	font-family: neuton-serif;
-	src: url("images/Neuton-Regular.ttf");
-}
-/*@font-face{
-	font-family: neuton-serif-bold;
-	src: url("images/Neuton-Extrabold.ttf");
-}*/
 body {
 	/*background-image: url("images/bg_small.png");*/
 	background-image: url("http://i.imgur.com/eiifUOm.png");

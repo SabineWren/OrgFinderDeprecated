@@ -1,9 +1,10 @@
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var concat = require('gulp-concat');
+var gulp        = require('gulp');
+var babel       = require('gulp-babel');
+var concat      = require('gulp-concat');
 var eventStream = require('event-stream');
-var minifyCSS = require('gulp-minify-css');
-var uglify = require('gulp-uglify');
+var order       = require("gulp-order");
+var minifyCSS   = require('gulp-minify-css');
+var uglify      = require('gulp-uglify');
 var embedTemplates = require('gulp-angular-embed-templates');
 
 gulp.task('scripts', function () {
@@ -21,17 +22,24 @@ gulp.task('scripts', function () {
 	.pipe(gulp.dest('frontEnd/build'));
 });
 
-//still figuring out how to combine css files; currently just changing the name of the file changes font types
 gulp.task('css', function() {
 	var slider = gulp.src('AngularJS/angularjs-slider/dist/rzslider.css');
-	var local  = gulp.src('frontEnd/*.css');
+	var controls = gulp.src('frontEnd/css/userControls.css');
+	var view     = gulp.src('frontEnd/css/views.css');
+	var details  = gulp.src('frontEnd/css/details.css');
+	var style    = gulp.src('frontEnd/css/stylesheet.css');
 	
-	var style  = gulp.src('frontEnd/stylesheet.css');
-	var view  = gulp.src('frontEnd/view.css');
-	
-	return eventStream.merge(style)
-	//.pipe(minifyCSS())
+	return eventStream.merge(slider, controls, view, details, style)
+	.pipe(order([
+		'AngularJS/angularjs-slider/dist/rzslider.css',
+		'frontEnd/css/userControls.css',
+		'frontEnd/css/views.css',
+		'frontEnd/css/details.css',
+		'frontEnd/css/stylesheet.css'
+	], { base: process.cwd() }))
+	.pipe(minifyCSS())
 	.pipe(concat('style.min.css'))
 	.pipe(gulp.dest('frontEnd/build'));
+
 });
 
