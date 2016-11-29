@@ -124,7 +124,7 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 			lastDay: history_json[0].DaysAgo
 		}
 		//replace chart data
-		for(date in history_json){
+		for(var date in history_json){
 			var days = history_json[date].DaysAgo;//when this data entry was scraped
 			
 			//linearly interpolate missing data entries
@@ -173,13 +173,13 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		
 		rowData.result = currentRow;
 		
-		$http.get('/backEnd/org_history.php', { 
+		$http.get('/OrgFinder/backEnd/org_history.php', { 
 			params:{
 				SID: currentRow.SID
 			}
 		} ).success(parseHistory);
 		
-		$http.get('/backEnd/org_description.php', { 
+		$http.get('/OrgFinder/backEnd/org_description.php', { 
 			params:{
 				SID: currentRow.SID
 			}
