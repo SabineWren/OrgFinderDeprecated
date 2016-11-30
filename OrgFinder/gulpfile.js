@@ -51,7 +51,7 @@ gulp.task('css', ['stylesheet'],function() {
 
 });
 
-gulp.task('inlineSourceIndex', ['css', 'scripts'], function () {
+gulp.task('make', ['css', 'scripts'], function () {
 	return gulp.src('./OrgFinder-dev.html')
 	.pipe(smoosher())
 	.pipe(concat('OrgFinder.html'))

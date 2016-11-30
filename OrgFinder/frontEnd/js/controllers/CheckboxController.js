@@ -102,9 +102,9 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 	
 	//this needs to be rebuilt more readably
 	$scope.resetFilters = function(){
-		for( checkboxModel in $scope.checkboxModels){
+		for( var checkboxModel in $scope.checkboxModels){
 			$scope.checkboxModels[checkboxModel].appliedFilter.length = 0;
-			for(checkboxLabel in $scope.checkboxModels[checkboxModel].data){
+			for(var checkboxLabel in $scope.checkboxModels[checkboxModel].data){
 				$scope.checkboxModels[checkboxModel].data[ checkboxLabel ].isSelected = false;
 			}
 		}
