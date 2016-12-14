@@ -31,7 +31,7 @@
 	//Long term we should purify it ourselves and allow whitelisted URLs.
 	$AllowedTags = '<a><br><p><h2><h3><h4><h5><span>';
 	$LotsOfNewlines = "/\n\n\n+/";
-	$ChopLongDashes = "/(-|—){10,}/";
+	$ChopLongDashes = "/(-|—|_){10,}/";
 	
 	function getOrgSize(&$SID, &$connection){
 //THIS IS A POSSIBLE SECURITY VULNERABILITY (SQL injection)

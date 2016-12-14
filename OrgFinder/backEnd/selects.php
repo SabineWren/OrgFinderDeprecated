@@ -218,26 +218,26 @@ LEFT JOIN tbl_ExclusiveOrgs  ExclOrgs  ON derived_orgs.SID = ExclOrgs.Organizati
 	//apply sorting
 	if( isset($_GET['Growth']) ){
 		$growthDir = $_GET['Growth'];
-		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC";
-		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC";
+		if($growthDir == 'down')    $sql .= " ORDER BY GrowthRate DESC, SID";
+		else if($growthDir == 'up') $sql .= " ORDER BY GrowthRate ASC, SID";
 		unset($growthDir);
 	}
 	else if( isset($_GET['nameDir']) ){
 		$nameDir = $_GET['nameDir'];
-		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC";
-		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC";
+		if($nameDir == 'down')    $sql .= " ORDER BY Name DESC, SID";
+		else if($nameDir == 'up') $sql .= " ORDER BY Name ASC, SID";
 		unset($nameDir);
 	}
 	else if( isset($_GET['sizeDir']) ){
 		$sizeDir = $_GET['sizeDir'];
-		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC";
-		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC";
+		if($sizeDir == 'down')    $sql .= " ORDER BY Size DESC, SID";
+		else if($sizeDir == 'up') $sql .= " ORDER BY Size ASC, SID";
 		unset($sizeDir);
 	}
 	else if( isset($_GET['mainDir']) ){
 		$mainDir = $_GET['mainDir'];
-		if($mainDir == 'down')    $sql .= " ORDER BY Main DESC";
-		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC";
+		if($mainDir == 'down')    $sql .= " ORDER BY Main DESC, SID";
+		else if($mainDir == 'up') $sql .= " ORDER BY Main ASC, SID";
 		unset($mainDir);
 	}
 	
