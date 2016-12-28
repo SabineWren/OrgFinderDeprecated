@@ -26,13 +26,17 @@ while($row = $result->fetch_assoc()){
 		echo "checking SID = $SID\n";
 		$queryString = "api_source=live&system=organizations&action=single_organization&target_id=$SID&expedite=0&format=pretty_json";
 		$dataArray = $queryAPI($queryString);
-		if($dataArray === -1)continue;
-		if($dataArray['data'] != null)echo "SID == $SID exists but has old data\n";
-		else $to_delete[] = $SID;
-		if( count($to_delete) > 300 ){
-			echo "Limit of 301 reached.\n";
-			break;
+		if($dataArray === -1){
+			continue;
 		}
+		if($dataArray ===  0){
+			$to_delete[] = $SID;
+			if( count($to_delete) > 4 ){
+				echo "Limit of 5 reached.\n";
+				break;
+			}
+		}
+		else echo "SID == $SID exists but has old data\n";
 	}
 	++$x;
 	if($x % 1024 === 0)echo "looped $x times \n";

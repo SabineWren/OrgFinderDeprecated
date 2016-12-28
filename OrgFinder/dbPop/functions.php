@@ -34,7 +34,9 @@ function queryAPI_closure(){
 			break;
 		}
 		if($failCounter >= 4)return -1;
-		if($dataArray['data'] === null)return -1;
+		if($dataArray['data'] === null){
+			return 0;
+		}
 		return $dataArray;
 	};
 }

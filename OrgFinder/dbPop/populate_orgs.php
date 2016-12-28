@@ -150,7 +150,7 @@
 		$queryString .="&end_page=" . ($x+3) . "&items_per_page=1&sort_method=&sort_direction=ascending&expedite=0&format=raw";
 		$dataArray = $queryAPI($queryString);
 		unset($queryString);
-		if($dataArray === -1)break;
+		if($dataArray === -1 || $dataArray === 0)break;
 		
 		//4) Sub-query Org (more data)
 		foreach ($dataArray["data"] as $org){
@@ -169,7 +169,7 @@
 					$memberQueryString  = "api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
 					$memberDataArray = $queryAPI($memberQueryString);
-					if(!$memberDataArray){
+					if($memberDataArray === 0 || $memberDataArray === -1){
 						echo "FAILED to query members for SID == $SID; skipping org\n";
 						continue 2;
 					}
@@ -204,7 +204,7 @@
 				$subqueryString .= $org['sid'] . '&expedite=0&format=raw';
 				$orgArray = $queryAPI($subqueryString);
 				unset($subqueryString);
-				if($orgArray == -1){
+				if($orgArray === -1 || $orgArray === 0){
 					echo "\nWARNING -- unable to query org $SID; skipping\n\n";
 					continue;
 				}
