@@ -169,12 +169,12 @@
 					$memberQueryString  = "api_source=live&system=organizations&action=organization_members&target_id=$SID&start_page=";
 					$memberQueryString .= "$pageStart&end_page=" . ($pageStart + 9) . "&expedite=0&format=pretty_json";
 					$memberDataArray = $queryAPI($memberQueryString);
-					if($memberDataArray === 0 || $memberDataArray === -1){
+					if($memberDataArray === -1){
 						echo "FAILED to query members for SID == $SID; skipping org\n";
 						continue 2;
 					}
 					unset($memberQueryString);
-					if($memberDataArray["data"] == null)break;//done reading data
+					if($memberDataArray === 0)break;//done reading data
 					
 					foreach($memberDataArray["data"] as $member){
 						$membersArray[] = $member;

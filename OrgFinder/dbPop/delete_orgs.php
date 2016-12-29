@@ -31,8 +31,8 @@ while($row = $result->fetch_assoc()){
 		}
 		if($dataArray ===  0){
 			$to_delete[] = $SID;
-			if( count($to_delete) > 4 ){
-				echo "Limit of 5 reached.\n";
+			if( count($to_delete) > 399 ){
+				echo "Limit of 400 reached.\n";
 				break;
 			}
 		}
