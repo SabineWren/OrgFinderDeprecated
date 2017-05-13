@@ -4,7 +4,7 @@ Website Database for players to find organizations.
 
 The scraper was built from Siegen's sc-api.
 
-To host the app yousrelf, add and run dependencies. Debian-based GNU+Linux distributions provide easy installation:
+To host the app yourself, add and run dependencies. Debian-based GNU+Linux distributions provide easy installation:
 
 ``` javascript
 sudo bash
