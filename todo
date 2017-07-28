@@ -1,0 +1,13 @@
+DB:
+	ommit duplicate data in history (i.e. use delta updating) and change chart interpolation on details-view to match
+
+Images:
+	***use RSI URL on grid view for higher quality images
+	automatically update images when changed
+
+Front End:
+	delete or update libreJS compatibility
+
+Misc:
+	the SC-API does not scrape exclusive status (need workaround)
+
