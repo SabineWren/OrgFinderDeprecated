@@ -17,13 +17,7 @@ if( !$connection->set_charset("utf8") )echo "Error changing connection character
 
 //get list of orgs with their last scrape date
 $to_delete = array();
-$result = $connection->query("SELECT Organization as SID, DATEDIFF( curdate(), ScrapeDate ) as scrape FROM tbl_OrgMemberHistory GROUP BY SID HAVING MAX(ScrapeDate)");
-
-if($result->num_rows > 1000){
-	echo "Not deleting any orgs because " . $result->num_rows . " were listed for deletion (not a sane magnitude)\n";
-	$connection->close();
-	exit("ERROR: Excessive deletion count; see log\n");
-}
+$result = $connection->query("SELECT Organization as SID, DATEDIFF( curdate(), ScrapeDate ) as scrape FROM tbl_OrgMemberHistory GROUP BY SID HAVING MAX(ScrapeDate) AND scrape > 0");
 
 $x = 0;
 while($row = $result->fetch_assoc()){
@@ -38,8 +32,8 @@ while($row = $result->fetch_assoc()){
 		}
 		if($dataArray ===  0){
 			$to_delete[] = $SID;
-			if( count($to_delete) > 399 ){
-				echo "Limit of 400 reached.\n";
+			if( count($to_delete) > 799 ){
+				echo "Limit of 800 reached.\n";
 				break;
 			}
 		}
