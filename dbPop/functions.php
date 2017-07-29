@@ -16,7 +16,7 @@ function queryAPI_closure(){
 	
 	return function(&$queryString) use($path){
 		for($failCounter = 0; $failCounter < 4; ++$failCounter){
-			$lines = shell_exec("php5 $path '$queryString'");
+			$lines = shell_exec("php $path '$queryString'");
 			if(!$lines){
 				sleep(1);
 				continue;//try again
