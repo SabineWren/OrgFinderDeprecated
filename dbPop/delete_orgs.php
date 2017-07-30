@@ -19,6 +19,13 @@ if( !$connection->set_charset("utf8") )echo "Error changing connection character
 $to_delete = array();
 $result = $connection->query("SELECT Organization as SID, DATEDIFF( curdate(), ScrapeDate ) as scrape FROM tbl_OrgMemberHistory GROUP BY SID HAVING MAX(ScrapeDate) AND scrape > 0");
 
+//if no update occured, then we don't need to delete
+if($result->num_rows > 2000){
+	echo "Not deleting any orgs because " . $result->num_rows . " were listed for deletion (not a sane magnitude)\n";
+	$connection->close();
+	exit("ERROR: Excessive deletion count; see log\n");
+}
+
 $x = 0;
 while($row = $result->fetch_assoc()){
 	$SID    = $row['SID'];
