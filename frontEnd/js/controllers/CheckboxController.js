@@ -51,7 +51,7 @@ function($scope, $http, LoadViewService, GlobalStateUI){
 		var restrictToPrimary = 0;
 		if($scope.focusFilterType.restrictToPrimary)restrictToPrimary = 1;
 	
-		$http.get('/OrgFinder/backEnd/selects.php', { 
+		$http.get('backEnd/selects.php', { 
 			params:{
 				pagenum:    $scope.orgResults.nextPage,
 				primary:    restrictToPrimary,

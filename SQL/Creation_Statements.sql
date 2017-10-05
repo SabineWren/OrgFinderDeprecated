@@ -140,7 +140,7 @@ CREATE TABLE tbl_FilterFluencies(
 	FOREIGN KEY FK_Language(Language) REFERENCES tbl_Fluencies(Language),
 	FOREIGN KEY FK_Organization(Organization) REFERENCES tbl_Organizations(SID),
 	CONSTRAINT PK_FilterFluencies PRIMARY KEY(Language, Organization), -- Clustered Index
-	CONSTRAINT UNIQUE(Organization) -- only one language per og
+	CONSTRAINT UNIQUE(Organization) -- only one language per org
 );
 
 CREATE TABLE tbl_Archetypes(
@@ -181,7 +181,7 @@ CREATE TABLE tbl_OrgDescription(
 	SID VARCHAR(10) UNIQUE NOT NULL, -- Clustered Index
 	Headline VARCHAR(512) NOT NULL,
 	Manifesto VARCHAR(4096) NOT NULL,
-	FOREIGN KEY FK_GrowthRate(SID) REFERENCES tbl_Organizations(SID)
+	FOREIGN KEY FK_SID(SID) REFERENCES tbl_Organizations(SID)
 );
 
 

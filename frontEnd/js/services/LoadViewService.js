@@ -19,19 +19,19 @@ FrontEndApp.factory('LoadViewService', function(){
 	
 	var icons = {
 		icons: {
-			"Bounty Hunting":"\/OrgFinder\/frontEnd\/images\/activities\/Bounty_hunting.png",
-			"Engineering":"\/OrgFinder\/frontEnd\/images\/activities\/Engineering.png",
-			"Exploration":"\/OrgFinder\/frontEnd\/images\/activities\/Exploration.png",
-			"Freelancing":"\/OrgFinder\/frontEnd\/images\/activities\/Freelancing.png",
-			"Infiltration":"\/OrgFinder\/frontEnd\/images\/activities\/Infiltration.png",
-			"Piracy":"\/OrgFinder\/frontEnd\/images\/activities\/Piracy.png",
-			"Resources":"\/OrgFinder\/frontEnd\/images\/activities\/Resources.png",
-			"Scouting":"\/OrgFinder\/frontEnd\/images\/activities\/Scouting.png",
-			"Security":"\/OrgFinder\/frontEnd\/images\/activities\/Security.png",
-			"Smuggling":"\/OrgFinder\/frontEnd\/images\/activities\/Smuggling.png",
-			"Social":"\/OrgFinder\/frontEnd\/images\/activities\/Social.png",
-			"Trading":"\/OrgFinder\/frontEnd\/images\/activities\/Trade.png",
-			"Transport":"\/OrgFinder\/frontEnd\/images\/activities\/Transport.png"
+			"Bounty Hunting": "frontEnd\/images\/activities\/Bounty_hunting.png",
+			"Engineering":    "frontEnd\/images\/activities\/Engineering.png",
+			"Exploration":    "frontEnd\/images\/activities\/Exploration.png",
+			"Freelancing":    "frontEnd\/images\/activities\/Freelancing.png",
+			"Infiltration":   "frontEnd\/images\/activities\/Infiltration.png",
+			"Piracy":         "frontEnd\/images\/activities\/Piracy.png",
+			"Resources":      "frontEnd\/images\/activities\/Resources.png",
+			"Scouting":       "frontEnd\/images\/activities\/Scouting.png",
+			"Security":       "frontEnd\/images\/activities\/Security.png",
+			"Smuggling":      "frontEnd\/images\/activities\/Smuggling.png",
+			"Social":         "frontEnd\/images\/activities\/Social.png",
+			"Trading":        "frontEnd\/images\/activities\/Trade.png",
+			"Transport":      "frontEnd\/images\/activities\/Transport.png"
 		}
 	};
 	
@@ -95,10 +95,15 @@ FrontEndApp.factory('LoadViewService', function(){
 			var icon = "";
 			Object.keys(data).forEach(function(obj){
 				if( data[obj].CustomIcon === 1 ){
-					icon = "/org_icons/" + data[obj].SID;
+					icon = "../org_icons/" + data[obj].SID;
 				}
 				else{
 					icon = "frontEnd/org_icons_default/" + data[obj].Archetype + ".jpg";
+				}
+				
+				//if the insertion scripts broke and DB allowed null
+				if( data[obj].GrowthRate == null ){
+					data[obj].GrowthRate = 0.0
 				}
 				
 				orgResults.results.push({

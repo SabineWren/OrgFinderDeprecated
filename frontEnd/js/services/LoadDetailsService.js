@@ -173,13 +173,13 @@ FrontEndApp.factory('LoadDetailsService', ['$http', function($http){
 		
 		rowData.result = currentRow;
 		
-		$http.get('/OrgFinder/backEnd/org_history.php', { 
+		$http.get('backEnd/org_history.php', { 
 			params:{
 				SID: currentRow.SID
 			}
 		} ).success(parseHistory);
 		
-		$http.get('/OrgFinder/backEnd/org_description.php', { 
+		$http.get('backEnd/org_description.php', { 
 			params:{
 				SID: currentRow.SID
 			}
